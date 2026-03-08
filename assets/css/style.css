@@ -39,6 +39,8 @@
 }
 
 
+/* --- Admin Login Animations --- */
+
 @keyframes headerSlideDown {
     from {
         opacity: 0;
@@ -59,10 +61,6 @@
         opacity: 1;
         transform: translateY(0);
     }
-}
-
-.animate-header {
-    animation: headerSlideDown 1s ease-out forwards;
 }
 
 .animate-form-item {
