@@ -1,0 +1,33 @@
+    /* Login Page Styles  */
+
+/* input box */
+.pinkie-input {
+    border-radius: 25px !important;
+    font-size: 14px !important;
+    padding: 12px 20px !important;
+    border: 1px solid #ced4da;
+}
+
+.pinkie-input:focus {
+    border-color: #AA2A4E;
+    box-shadow: 0 0 0 0.2rem rgba(170, 42, 78, 0.25);
+}
+
+/* login button */
+.btn-pinkie {
+    background-color: #AA2A4E !important;
+    color: white !important;
+    transition: 0.3s ease;
+}
+
+.btn-pinkie:hover {
+    background-color: #8C1039 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(170, 42, 78, 0.3);
+}
+
+/* checkbox */
+.pinkie-checkbox:checked {
+    background-color: #AA2A4E;
+    border-color: #AA2A4E;
+}
