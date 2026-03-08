@@ -1,5 +1,10 @@
     /* Login Page Styles  */
 
+    .body-pink {
+	background-color: #ffcadf;
+	overflow-x: hidden;
+}
+
 /* input box */
 .pinkie-input {
     border-radius: 25px !important;
