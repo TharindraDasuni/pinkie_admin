@@ -18,6 +18,7 @@
     background-color: #ef80ac !important;
     color: white !important;
     transition: 0.3s ease;
+    height: 42px;
 }
 
 .btn-pinkie:hover {
@@ -28,6 +29,6 @@
 
 /* checkbox */
 .pinkie-checkbox:checked {
-    background-color: #AA2A4E;
+    background-color: #da5586;
     border-color: #AA2A4E;
 }
