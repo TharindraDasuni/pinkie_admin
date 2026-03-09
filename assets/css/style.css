@@ -197,9 +197,15 @@ body {
         position: fixed;
         height: 100vh;
         z-index: 1050;
+        transition: all 0.3s ease-in-out;
     }
     
     #wrapper.toggled .glass-sidebar {
+        margin-left: 0 !important;
+    }
+
+    /* Content එක Push වෙන්නේ නැති වෙන්න */
+    #wrapper.toggled #page-content-wrapper {
         margin-left: 0 !important;
     }
 
@@ -211,5 +217,42 @@ body {
     .container-fluid {
         padding-left: 10px !important;
         padding-right: 10px !important;
+    }
+}
+
+/* Mobile Sidebar Overlay (කළු පාට පසුබිම) */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+    display: none;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+}
+
+#wrapper.toggled .sidebar-overlay {
+    display: block;
+}
+
+/* Sidebar Close Button (Mobile Only) */
+.close-sidebar-btn {
+    display: none;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    color: #da5586;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .close-sidebar-btn {
+        display: block;
     }
 }
