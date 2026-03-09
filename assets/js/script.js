@@ -34,3 +34,42 @@ function signIn() {
         });
     }
 }
+
+
+
+async function loadComponent(elementId, filePath) {
+    try {
+        const response = await fetch(filePath);
+        if (response.ok) {
+            const html = await response.text();
+            document.getElementById(elementId).innerHTML = html;
+        } else {
+            console.error('Error loading component:', filePath);
+        }
+    } catch (error) {
+        console.error('Fetch error:', error);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", async function() {
+    
+    await loadComponent("sidebar-container", "components/sidebar.html");
+    await loadComponent("navbar-container", "components/navbar.html");
+    await loadComponent("footer-container", "components/footer.html");
+
+    const currentPage = window.location.pathname.split("/").pop(); 
+    
+    if(currentPage === "dashboard.html" || currentPage === "") {
+        document.querySelector('.nav-dashboard').classList.add('active-nav');
+        document.getElementById('page-title').innerText = "Overview";
+    } 
+    else if(currentPage === "products.html") {
+        document.querySelector('.nav-products').classList.add('active-nav');
+        document.getElementById('page-title').innerText = "Products Management";
+    }
+    else if(currentPage === "inventory.html") {
+        document.querySelector('.nav-inventory').classList.add('active-nav');
+        document.getElementById('page-title').innerText = "Inventory";
+    }
+
+});
