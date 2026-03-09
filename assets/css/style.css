@@ -1,8 +1,8 @@
-    /* Login Page Styles  */
+/*------------------------------------------------------------------------ Login Page Styles------------------------------------------------------------------------*/
 
-    .body-pink {
-	background-color: #ffcadf;
-	overflow-x: hidden;
+.body-pink {
+    background-color: #ffcadf;
+    overflow-x: hidden;
 }
 
 /* input box */
@@ -46,6 +46,7 @@
         opacity: 0;
         transform: translateY(-20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -57,6 +58,7 @@
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -64,7 +66,7 @@
 }
 
 .animate-form-item {
-    opacity: 0; 
+    opacity: 0;
     animation: slideUpFade 0.8s ease-out forwards;
 }
 
@@ -72,9 +74,11 @@
     0% {
         transform: scale(0.95);
     }
+
     50% {
         transform: scale(1);
     }
+
     100% {
         transform: scale(0.95);
     }
@@ -83,9 +87,12 @@
 .animate-logo-breathe {
     display: inline-block;
     animation: logoBreathe 3s ease-in-out infinite;
-    animation-delay: 1.2s; 
+    animation-delay: 1.2s;
 }
 
+
+
+/*------------------------------------------------------------------------Dashboard------------------------------------------------------------------------*/
 
 body {
     background-color: #f8f9fc;
