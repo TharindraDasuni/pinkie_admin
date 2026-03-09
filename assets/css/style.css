@@ -85,3 +85,70 @@
     animation: logoBreathe 3s ease-in-out infinite;
     animation-delay: 1.2s; 
 }
+
+
+#wrapper {
+    overflow-x: hidden;
+}
+
+#sidebar-wrapper {
+    min-height: 100vh;
+    width: 260px;
+    margin-left: 0;
+    transition: margin 0.25s ease-out;
+    border-right: 1px solid #ffcadf;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    margin-left: -260px;
+}
+
+.sidebar-link {
+    color: #555555;
+    border: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.sidebar-link:hover {
+    color: #da5586;
+    background-color: #ffcadf !important;
+}
+
+.active-nav {
+    background-color: #ef80ac !important;
+    color: white !important;
+    font-weight: bold;
+    border: none;
+}
+
+.dash-card {
+    transition: transform 0.3s ease;
+    border: 1px solid rgba(255, 202, 223, 0.4) !important;
+}
+
+.dash-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(239, 128, 172, 0.15) !important;
+}
+
+.bg-pink-light {
+    background-color: #ffcadf;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+}
+
+.btn-outline-pinkie {
+    color: #da5586;
+    border-color: #da5586;
+    transition: 0.3s;
+}
+
+.btn-outline-pinkie:hover {
+    background-color: #da5586;
+    color: white;
+}
