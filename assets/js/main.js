@@ -7,7 +7,8 @@ function signIn() {
             icon: 'warning',
             title: 'Oops...',
             text: 'Please enter both Email and Password!',
-            confirmButtonColor: '#AA2A4E'
+            confirmButtonColor: '#AA2A4E',
+            heightAuto: false
         });
         return;
     }
@@ -18,7 +19,8 @@ function signIn() {
             title: 'Welcome Back!',
             text: 'Logging into Admin Workspace...',
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
+            heightAuto: false
         }).then(() => {
             window.location.href = "dashboard.html";
         });
@@ -27,7 +29,8 @@ function signIn() {
             icon: 'error',
             title: 'Access Denied',
             text: 'Invalid Email or Password!',
-            confirmButtonColor: '#AA2A4E'
+            confirmButtonColor: '#AA2A4E',
+            heightAuto: false
         });
     }
 }
