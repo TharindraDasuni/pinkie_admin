@@ -99,6 +99,7 @@ body {
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
+/* Sidebar Layout */
 #wrapper {
     overflow-x: hidden;
 }
@@ -108,27 +109,37 @@ body {
     width: 250px;
     margin-left: 0;
     transition: margin 0.25s ease-out;
+    background-color: #da5586; /* අලුත් Sidebar පාට */
+    z-index: 1000;
 }
 
+/* Sidebar එක වහන (Close) Action එක */
+#wrapper.toggled #sidebar-wrapper {
+    margin-left: -250px;
+}
+
+/* Sidebar Links වල පාට (සුදු පාට) */
 .sidebar-link {
-    color: #6c757d;
+    color: rgba(255, 255, 255, 0.8) !important;
+    background-color: transparent !important;
     border: none;
     font-weight: 500;
     transition: all 0.3s ease;
 }
 
 .sidebar-link:hover {
-    color: #da5586;
+    color: #da5586 !important;
     background-color: #ffcadf !important;
 }
 
-/* Active Nav Button Styling like in the image */
+/* Active Nav Button Styling */
 .active-nav {
     background-color: #ffcadf !important;
     color: #da5586 !important;
     font-weight: bold;
     border: none;
 }
+
 
 /* Soft Box Shadows for Cards */
 .dash-card {
