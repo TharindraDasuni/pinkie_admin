@@ -51,21 +51,12 @@ async function loadComponent(elementId, filePath) {
     }
 }
 
-
 document.addEventListener("DOMContentLoaded", async function() {
     
     await loadComponent("sidebar-container", "components/sidebar.html");
     await loadComponent("navbar-container", "components/navbar.html");
     await loadComponent("footer-container", "components/footer.html");
 
-    const menuToggle = document.getElementById("menu-toggle");
-    if (menuToggle) {
-        menuToggle.addEventListener("click", function (e) {
-            e.preventDefault();
-            document.getElementById("wrapper").classList.toggle("toggled");
-        });
-    }
-    
     const currentPage = window.location.pathname.split("/").pop(); 
     
     if(currentPage === "dashboard.html" || currentPage === "") {
@@ -80,5 +71,31 @@ document.addEventListener("DOMContentLoaded", async function() {
         document.querySelector('.nav-inventory').classList.add('active-nav');
         document.getElementById('page-title').innerText = "Inventory";
     }
+
+    setTimeout(() => {
+        const menuToggle = document.getElementById("menu-toggle");
+        const wrapper = document.getElementById("wrapper");
+        const overlay = document.getElementById("sidebar-overlay");
+        const closeBtn = document.getElementById("close-sidebar");
+
+        if (menuToggle) {
+            menuToggle.addEventListener("click", function (e) {
+                e.preventDefault();
+                wrapper.classList.toggle("toggled");
+            });
+        }
+
+        if (overlay) {
+            overlay.addEventListener("click", function () {
+                wrapper.classList.remove("toggled");
+            });
+        }
+
+        if (closeBtn) {
+            closeBtn.addEventListener("click", function () {
+                wrapper.classList.remove("toggled");
+            });
+        }
+    }, 100);
 
 });
