@@ -51,13 +51,6 @@ async function loadComponent(elementId, filePath) {
     }
 }
 
-const menuToggle = document.getElementById("menu-toggle");
-    if (menuToggle) {
-        menuToggle.addEventListener("click", function (e) {
-            e.preventDefault();
-            document.getElementById("wrapper").classList.toggle("toggled");
-        });
-    }
 
 document.addEventListener("DOMContentLoaded", async function() {
     
@@ -65,6 +58,14 @@ document.addEventListener("DOMContentLoaded", async function() {
     await loadComponent("navbar-container", "components/navbar.html");
     await loadComponent("footer-container", "components/footer.html");
 
+    const menuToggle = document.getElementById("menu-toggle");
+    if (menuToggle) {
+        menuToggle.addEventListener("click", function (e) {
+            e.preventDefault();
+            document.getElementById("wrapper").classList.toggle("toggled");
+        });
+    }
+    
     const currentPage = window.location.pathname.split("/").pop(); 
     
     if(currentPage === "dashboard.html" || currentPage === "") {
