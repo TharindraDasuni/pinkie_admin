@@ -16,9 +16,9 @@
 
     <div class="d-flex" id="wrapper">
 
-        <div class="sidebar-wrapper shadow-sm" id="sidebar-wrapper">
+        <div class="sidebar-wrapper bg-white border-end" id="sidebar-wrapper">
             <div class="sidebar-heading text-center py-4 fs-4 fw-bold">
-                <img src="assets/images/logo_cover.png" alt="Pinkie Logo" style="width: 130px; filter: brightness(0) invert(1);">
+                <img src="assets/images/logo_cover.png" alt="Pinkie Logo" style="width: 130px;">
             </div>
             <div class="list-group list-group-flush mt-2 px-3">
                 <a href="dashboard.html" class="list-group-item list-group-item-action active-nav rounded mb-2 py-3">
@@ -42,11 +42,10 @@
             </div>
         </div>
 
-        <div id="page-content-wrapper" class="w-100 d-flex flex-column min-vh-100">
+        <div id="page-content-wrapper" class="w-100">
             
-            <nav class="navbar navbar-expand-lg bg-white py-3 px-4 mb-4 shadow-sm">
+            <nav class="navbar navbar-expand-lg bg-white py-3 px-4 mb-4 border-bottom">
                 <div class="d-flex align-items-center w-100">
-                    <i class="fas fa-bars fs-4 me-3 text-muted" id="menu-toggle" style="cursor: pointer; transition: 0.3s;"></i>
                     <h4 class="m-0 fw-bold text-dark">Overview</h4>
                     
                     <div class="input-group ms-5 d-none d-md-flex" style="max-width: 400px;">
@@ -61,13 +60,13 @@
                             <i class="fas fa-bell fs-5 text-muted"></i>
                             <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger rounded-circle"></span>
                         </div>
-                        <span class="me-3 fw-bold text-dark d-none d-md-block">Pinkie Admin</span>
+                        <span class="me-3 fw-bold text-dark">Pinkie Admin</span>
                         <img src="https://ui-avatars.com/api/?name=Pinkie+Admin&background=da5586&color=fff" class="rounded-circle" width="45">
                     </div>
                 </div>
             </nav>
 
-            <div class="container-fluid px-4 flex-grow-1">
+            <div class="container-fluid px-4">
                 
                 <div class="row g-4 mb-4">
                     <div class="col-xl-3 col-md-6">
@@ -85,25 +84,199 @@
                             <p class="mb-0" style="font-size: 13px;"><span class="text-success"><i class="fas fa-arrow-up"></i> 11%</span> <span class="text-muted">vs last month</span></p>
                         </div>
                     </div>
+
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card dash-card border-0 rounded-4 p-3">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <p class="text-muted mb-1 fs-6">Total Orders</p>
+                                    <p class="text-muted" style="font-size: 11px;">Last 30 days</p>
+                                </div>
+                                <div class="bg-pink-light rounded-circle d-flex align-items-center justify-content-center" style="width:45px; height:45px;">
+                                    <i class="fas fa-shopping-cart" style="color:#ef80ac;"></i>
+                                </div>
+                            </div>
+                            <h3 class="fw-bold text-dark mt-2 mb-2">1,645</h3>
+                            <p class="mb-0" style="font-size: 13px;"><span class="text-success"><i class="fas fa-arrow-up"></i> 5%</span> <span class="text-muted">vs last month</span></p>
+                        </div>
                     </div>
 
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card dash-card border-0 rounded-4 p-3">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <p class="text-muted mb-1 fs-6">Total Customers</p>
+                                    <p class="text-muted" style="font-size: 11px;">Last 30 days</p>
+                                </div>
+                                <div class="bg-pink-light rounded-circle d-flex align-items-center justify-content-center" style="width:45px; height:45px;">
+                                    <i class="fas fa-user" style="color:#ef80ac;"></i>
+                                </div>
+                            </div>
+                            <h3 class="fw-bold text-dark mt-2 mb-2">1,462</h3>
+                            <p class="mb-0" style="font-size: 13px;"><span class="text-danger"><i class="fas fa-arrow-down"></i> 2%</span> <span class="text-muted">vs last month</span></p>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card dash-card border-0 rounded-4 p-3">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <p class="text-muted mb-1 fs-6">Pending Orders</p>
+                                    <p class="text-muted" style="font-size: 11px;">Currently</p>
+                                </div>
+                                <div class="bg-pink-light rounded-circle d-flex align-items-center justify-content-center" style="width:45px; height:45px;">
+                                    <i class="fas fa-clock" style="color:#ef80ac;"></i>
+                                </div>
+                            </div>
+                            <h3 class="fw-bold text-dark mt-2 mb-2">115</h3>
+                            <p class="mb-0" style="font-size: 13px;"><span class="text-warning"><i class="fas fa-minus"></i> 0%</span> <span class="text-muted">vs yesterday</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card border-0 rounded-4 p-4 dash-card">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h5 class="fw-bold text-dark m-0">Sales Analytic</h5>
+                                <select class="form-select form-select-sm w-auto border-0 bg-light fw-bold text-muted">
+                                    <option>July 2023</option>
+                                    <option>August 2023</option>
+                                </select>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    <p class="text-muted mb-1" style="font-size:13px;">Income</p>
+                                    <h4 class="fw-bold text-dark">Rs. 23,262.00</h4>
+                                </div>
+                                <div class="col-md-3">
+                                    <p class="text-muted mb-1" style="font-size:13px;">Expenses</p>
+                                    <h4 class="fw-bold text-dark">Rs. 11,135.00</h4>
+                                </div>
+                                <div class="col-md-3">
+                                    <p class="text-muted mb-1" style="font-size:13px;">Balance</p>
+                                    <h4 class="fw-bold text-dark">Rs. 48,135.00</h4>
+                                </div>
+                            </div>
+                            <div style="height: 300px;">
+                                <canvas id="salesChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-5">
+                    <div class="col-12">
+                        <div class="card border-0 rounded-4 p-4 dash-card">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h5 class="fw-bold text-dark m-0">Top Selling Jewelry</h5>
+                                <a href="#" class="text-decoration-none" style="color: #da5586;">View All <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                            
+                            <div class="row g-4 text-center">
+                                <div class="col-md-2 col-6">
+                                    <div class="product-img-box bg-light rounded-4 mb-3 p-3">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/879/879793.png" class="img-fluid" style="height: 80px; opacity: 0.7;">
+                                    </div>
+                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">Rose Gold Ring</h6>
+                                    <p class="text-muted m-0" style="font-size: 12px;">752 Pcs</p>
+                                </div>
+                                <div class="col-md-2 col-6">
+                                    <div class="product-img-box bg-light rounded-4 mb-3 p-3">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/1155/1155093.png" class="img-fluid" style="height: 80px; opacity: 0.7;">
+                                    </div>
+                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">Diamond Necklace</h6>
+                                    <p class="text-muted m-0" style="font-size: 12px;">642 Pcs</p>
+                                </div>
+                                <div class="col-md-2 col-6">
+                                    <div class="product-img-box bg-light rounded-4 mb-3 p-3">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/834/834812.png" class="img-fluid" style="height: 80px; opacity: 0.7;">
+                                    </div>
+                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">Ruby Earrings</h6>
+                                    <p class="text-muted m-0" style="font-size: 12px;">510 Pcs</p>
+                                </div>
+                                <div class="col-md-2 col-6">
+                                    <div class="product-img-box bg-light rounded-4 mb-3 p-3">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/1004/1004389.png" class="img-fluid" style="height: 80px; opacity: 0.7;">
+                                    </div>
+                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">Silver Bracelet</h6>
+                                    <p class="text-muted m-0" style="font-size: 12px;">480 Pcs</p>
+                                </div>
+                                <div class="col-md-2 col-6">
+                                    <div class="product-img-box bg-light rounded-4 mb-3 p-3">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/3660/3660232.png" class="img-fluid" style="height: 80px; opacity: 0.7;">
+                                    </div>
+                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">Pearl Pendant</h6>
+                                    <p class="text-muted m-0" style="font-size: 12px;">395 Pcs</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-
-            <footer class="mt-auto py-3 bg-white border-top text-center text-muted" style="font-size: 13px;">
-                <strong>Pinkie</strong> Dashboard &copy; 2024. Developed by <span style="color: #da5586; font-weight: bold;">Sylvestra Software Solution</span>.
-            </footer>
-
         </div>
     </div>
 
     <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
     
     <script>
-        document.getElementById("menu-toggle").addEventListener("click", function(e) {
-            e.preventDefault();
-            document.getElementById("wrapper").classList.toggle("toggled");
+        document.addEventListener('DOMContentLoaded', function() {
+            var ctx = document.getElementById('salesChart').getContext('2d');
+            
+            // Create a Pink Gradient for the chart
+            var gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(239, 128, 172, 0.5)'); // #ef80ac with opacity
+            gradient.addColorStop(1, 'rgba(255, 255, 255, 0.1)'); // Fades to transparent
+
+            var salesChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['22 July', '23 July', '24 July', '25 July', '26 July', '27 July', '28 July', '29 July'],
+                    datasets: [{
+                        label: 'Income',
+                        data: [10000, 35000, 15000, 20000, 50000, 25000, 45000, 30000],
+                        borderColor: '#da5586', // Dark Pink Line
+                        backgroundColor: gradient, // Gradient fill
+                        borderWidth: 2,
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#da5586',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        fill: true,
+                        tension: 0.4 // Makes the line smooth/curved like the image
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false } // Hide legend to match design
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                borderDash: [5, 5],
+                                color: '#e9ecef'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value / 1000 + 'k'; // Formats 10000 to 10k
+                                },
+                                color: '#adb5bd'
+                            },
+                            border: { display: false }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#adb5bd' },
+                            border: { display: false }
+                        }
+                    }
+                }
+            });
         });
     </script>
-
 </body>
 </html>
