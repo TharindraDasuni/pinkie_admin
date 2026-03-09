@@ -95,30 +95,61 @@
 /*------------------------------------------------------------------------Dashboard------------------------------------------------------------------------*/
 
 body {
-    background-color: #ffcadf;
+    /* ඉතාමත් මෘදු රෝස පැහැති Gradient පසුබිමක් (මෙය Glass effect එක මතු කරයි) */
+    background: linear-gradient(135deg, #ffe5ec 0%, #ffcadf 50%, #fdfbfb 100%);
+    background-attachment: fixed;
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
-/* Sidebar Layout */
 #wrapper {
     overflow-x: hidden;
 }
 
-#sidebar-wrapper {
+/* --- Glassmorphism Core Classes --- */
+
+/* ප්‍රධාන Glass Panel එක (Cards, Navbar, Footer) */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.45) !important;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    box-shadow: 0 8px 32px 0 rgba(218, 85, 134, 0.1) !important;
+}
+
+/* Sidebar Glass Panel */
+.glass-sidebar {
     min-height: 100vh;
-    width: 250px;
+    width: 260px;
     margin-left: 0;
     transition: margin 0.25s ease-out;
-    background-color: #da5586; /* අලුත් Sidebar පාට */
+    background: rgba(255, 255, 255, 0.35) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-right: 1px solid rgba(255, 255, 255, 0.5) !important;
     z-index: 1000;
 }
 
-#wrapper.toggled #sidebar-wrapper {
-    margin-left: -250px;
+/* Input boxes සහ කුඩා Glass කොටස් */
+.glass-input {
+    background: rgba(255, 255, 255, 0.5) !important;
+    border: 1px solid rgba(255, 255, 255, 0.7) !important;
+    color: #495057 !important;
 }
 
-.sidebar-link {
-    color: rgba(255, 255, 255, 0.8) !important;
+.glass-icon-box {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 10px rgba(218, 85, 134, 0.1);
+}
+
+/* --- Sidebar Links & Interactions --- */
+
+#wrapper.toggled .glass-sidebar {
+    margin-left: -260px;
+}
+
+.sidebar-link, .glass-item {
+    color: #555555 !important;
     background-color: transparent !important;
     border: none;
     font-weight: 500;
@@ -127,39 +158,33 @@ body {
 
 .sidebar-link:hover {
     color: #da5586 !important;
-    background-color: #ffcadf !important;
+    background: rgba(255, 255, 255, 0.6) !important;
+    box-shadow: 0 4px 15px rgba(218, 85, 134, 0.05);
 }
 
-/* Active Nav Button Styling */
 .active-nav {
-    background-color: #ffcadf !important;
+    background: rgba(218, 85, 134, 0.15) !important;
+    border-left: 4px solid #da5586 !important;
     color: #da5586 !important;
     font-weight: bold;
-    border: none;
 }
 
-
-/* Soft Box Shadows for Cards */
+/* Cards Hover Effect */
 .dash-card {
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03) !important;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .dash-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(239, 128, 172, 0.1) !important;
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px 0 rgba(218, 85, 134, 0.15) !important;
 }
 
-.bg-pink-light {
-    background-color: #ffcadf;
-}
-
-/* Image background boxes */
 .product-img-box {
     transition: 0.3s ease;
 }
 
 .product-img-box:hover {
-    background-color: #ffcadf !important;
+    background: rgba(255, 255, 255, 0.8) !important;
+    transform: scale(1.05);
     cursor: pointer;
 }
