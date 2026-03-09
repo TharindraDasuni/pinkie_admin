@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pinkie Admin | Dashboard</title>
+
+    <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/vendor/fontawesome/all.min.css">
+    <link rel="stylesheet" href="assets/vendor/sweetalert2/sweetalert2.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body class="bg-light">
+
+    <div class="d-flex" id="wrapper">
+
+        <div class="sidebar-wrapper bg-white shadow-sm" id="sidebar-wrapper">
+            <div class="sidebar-heading text-center py-4 fs-4 fw-bold border-bottom">
+                <img src="assets/images/logo_cover.png" alt="Pinkie Logo" style="width: 120px;">
+            </div>
+            <div class="list-group list-group-flush my-3 px-2">
+                <a href="dashboard.html" class="list-group-item list-group-item-action active-nav rounded mb-2">
+                    <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                </a>
+                <a href="#" class="list-group-item list-group-item-action sidebar-link rounded mb-2">
+                    <i class="fas fa-gem me-2"></i> Manage Jewelry
+                </a>
+                <a href="#" class="list-group-item list-group-item-action sidebar-link rounded mb-2">
+                    <i class="fas fa-plus-circle me-2"></i> Add New Item
+                </a>
+                <a href="#" class="list-group-item list-group-item-action sidebar-link rounded mb-2">
+                    <i class="fas fa-shopping-bag me-2"></i> Orders
+                </a>
+                <a href="#" class="list-group-item list-group-item-action sidebar-link rounded mb-2">
+                    <i class="fas fa-users me-2"></i> Customers
+                </a>
+                <a href="index.html" class="list-group-item list-group-item-action text-danger rounded mt-4">
+                    <i class="fas fa-sign-out-alt me-2"></i> Logout
+                </a>
+            </div>
+        </div>
+
+        <div id="page-content-wrapper" class="w-100">
+            
+            <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 px-4 shadow-sm">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-bars fs-4 me-3 text-muted" id="menu-toggle" style="cursor: pointer;"></i>
+                    <h4 class="m-0 fw-bold" style="color: #da5586;">Overview</h4>
+                </div>
+                <div class="ms-auto d-flex align-items-center">
+                    <div class="position-relative me-4">
+                        <i class="fas fa-bell fs-5 text-muted"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">3</span>
+                    </div>
+                    <span class="me-3 fw-bold text-muted">Pinkie Admin</span>
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=da5586&color=fff" alt="Admin" class="rounded-circle shadow-sm" width="40">
+                </div>
+            </nav>
+
+            <div class="container-fluid px-4 pt-4">
+                
+                <div class="row g-4 mb-4">
+                    <div class="col-md-3">
+                        <div class="card border-0 shadow-sm rounded-4 dash-card">
+                            <div class="card-body d-flex justify-content-between align-items-center p-4">
+                                <div>
+                                    <p class="text-muted mb-1 fw-bold">Total Revenue</p>
+                                    <h3 class="fw-bold mb-0" style="color: #da5586;">Rs. 450K</h3>
+                                </div>
+                                <div class="icon-box bg-pink-light">
+                                    <i class="fas fa-wallet fs-3" style="color: #ef80ac;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="card border-0 shadow-sm rounded-4 dash-card">
+                            <div class="card-body d-flex justify-content-between align-items-center p-4">
+                                <div>
+                                    <p class="text-muted mb-1 fw-bold">New Orders</p>
+                                    <h3 class="fw-bold mb-0" style="color: #da5586;">24</h3>
+                                </div>
+                                <div class="icon-box bg-pink-light">
+                                    <i class="fas fa-shopping-cart fs-3"
