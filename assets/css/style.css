@@ -95,7 +95,7 @@
 /*------------------------------------------------------------------------Dashboard------------------------------------------------------------------------*/
 
 body {
-    background-color: #f8f9fc;
+    background-color: #ef80ac;
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
@@ -113,12 +113,10 @@ body {
     z-index: 1000;
 }
 
-/* Sidebar එක වහන (Close) Action එක */
 #wrapper.toggled #sidebar-wrapper {
     margin-left: -250px;
 }
 
-/* Sidebar Links වල පාට (සුදු පාට) */
 .sidebar-link {
     color: rgba(255, 255, 255, 0.8) !important;
     background-color: transparent !important;
