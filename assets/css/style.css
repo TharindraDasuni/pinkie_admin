@@ -189,3 +189,27 @@ body {
     transform: scale(1.05);
     cursor: pointer;
 }
+
+
+@media (max-width: 768px) {
+    .glass-sidebar {
+        margin-left: -260px;
+        position: fixed;
+        height: 100vh;
+        z-index: 1050;
+    }
+    
+    #wrapper.toggled .glass-sidebar {
+        margin-left: 0 !important;
+    }
+
+    .navbar {
+        margin: 10px !important;
+        padding: 15px !important;
+    }
+    
+    .container-fluid {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+}
