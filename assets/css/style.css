@@ -234,3 +234,13 @@ body {
     
 }
 
+#page-content-wrapper {
+    min-width: 0; 
+    width: 100%;
+}
+
+@media (min-width: 769px) {
+    .sidebar-overlay {
+        display: none !important;
+    }
+}
