@@ -233,21 +233,6 @@ body {
         display: block;
     }
 
-    .close-sidebar-btn {
-        display: block;
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        background: transparent;
-        border: none;
-        color: #da5586;
-        font-size: 24px;
-        cursor: pointer;
-    }
+    
 }
 
-@media (min-width: 769px) {
-    .sidebar-overlay, .close-sidebar-btn {
-        display: none !important;
-    }
-}
