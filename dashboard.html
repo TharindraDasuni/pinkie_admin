@@ -8,153 +8,208 @@
 
     <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="assets/vendor/fontawesome/all.min.css">
-    <link rel="stylesheet" href="assets/vendor/sweetalert2/sweetalert2.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
-<body class="bg-light">
+<body class="bg-light" style="background-color: #f8f9fa !important;">
 
     <div class="d-flex" id="wrapper">
 
-        <div class="sidebar-wrapper bg-white shadow-sm" id="sidebar-wrapper">
-            <div class="sidebar-heading text-center py-4 fs-4 fw-bold border-bottom">
-                <img src="assets/images/logo_cover.png" alt="Pinkie Logo" style="width: 120px;">
+        <div class="sidebar-wrapper bg-white border-end" id="sidebar-wrapper">
+            <div class="sidebar-heading text-center py-4 fs-4 fw-bold">
+                <img src="assets/images/logo_cover.png" alt="Pinkie Logo" style="width: 130px;">
             </div>
-            <div class="list-group list-group-flush my-3 px-2">
-                <a href="dashboard.html" class="list-group-item list-group-item-action active-nav rounded mb-2">
-                    <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+            <div class="list-group list-group-flush mt-2 px-3">
+                <a href="dashboard.html" class="list-group-item list-group-item-action active-nav rounded mb-2 py-3">
+                    <i class="fas fa-home me-3"></i> Dashboard
                 </a>
-                <a href="#" class="list-group-item list-group-item-action sidebar-link rounded mb-2">
-                    <i class="fas fa-gem me-2"></i> Manage Jewelry
+                <a href="#" class="list-group-item list-group-item-action sidebar-link rounded mb-2 py-3">
+                    <i class="fas fa-gem me-3"></i> Products
                 </a>
-                <a href="#" class="list-group-item list-group-item-action sidebar-link rounded mb-2">
-                    <i class="fas fa-plus-circle me-2"></i> Add New Item
+                <a href="#" class="list-group-item list-group-item-action sidebar-link rounded mb-2 py-3">
+                    <i class="fas fa-box me-3"></i> Inventory
                 </a>
-                <a href="#" class="list-group-item list-group-item-action sidebar-link rounded mb-2">
-                    <i class="fas fa-shopping-bag me-2"></i> Orders
+                <a href="#" class="list-group-item list-group-item-action sidebar-link rounded mb-2 py-3">
+                    <i class="fas fa-shopping-bag me-3"></i> Orders
                 </a>
-                <a href="#" class="list-group-item list-group-item-action sidebar-link rounded mb-2">
-                    <i class="fas fa-users me-2"></i> Customers
+                <a href="#" class="list-group-item list-group-item-action sidebar-link rounded mb-2 py-3">
+                    <i class="fas fa-chart-line me-3"></i> Sales
                 </a>
-                <a href="index.html" class="list-group-item list-group-item-action text-danger rounded mt-4">
-                    <i class="fas fa-sign-out-alt me-2"></i> Logout
+                <a href="#" class="list-group-item list-group-item-action sidebar-link rounded mb-2 py-3">
+                    <i class="fas fa-users me-3"></i> Customers
                 </a>
             </div>
         </div>
 
         <div id="page-content-wrapper" class="w-100">
             
-            <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 px-4 shadow-sm">
-                <div class="d-flex align-items-center">
-                    <i class="fas fa-bars fs-4 me-3 text-muted" id="menu-toggle" style="cursor: pointer;"></i>
-                    <h4 class="m-0 fw-bold" style="color: #da5586;">Overview</h4>
-                </div>
-                <div class="ms-auto d-flex align-items-center">
-                    <div class="position-relative me-4">
-                        <i class="fas fa-bell fs-5 text-muted"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">3</span>
+            <nav class="navbar navbar-expand-lg bg-white py-3 px-4 mb-4 border-bottom">
+                <div class="d-flex align-items-center w-100">
+                    <h4 class="m-0 fw-bold text-dark">Overview</h4>
+                    
+                    <div class="input-group ms-5 d-none d-md-flex" style="max-width: 400px;">
+                        <input type="text" class="form-control border-end-0 bg-light" placeholder="Search..." style="border-radius: 10px 0 0 10px;">
+                        <span class="input-group-text bg-light border-start-0" style="border-radius: 0 10px 10px 0;">
+                            <i class="fas fa-search text-muted"></i>
+                        </span>
                     </div>
-                    <span class="me-3 fw-bold text-muted">Pinkie Admin</span>
-                    <img src="https://ui-avatars.com/api/?name=Admin&background=da5586&color=fff" alt="Admin" class="rounded-circle shadow-sm" width="40">
+
+                    <div class="ms-auto d-flex align-items-center">
+                        <div class="position-relative me-4">
+                            <i class="fas fa-bell fs-5 text-muted"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger rounded-circle"></span>
+                        </div>
+                        <span class="me-3 fw-bold text-dark">Pinkie Admin</span>
+                        <img src="https://ui-avatars.com/api/?name=Pinkie+Admin&background=da5586&color=fff" class="rounded-circle" width="45">
+                    </div>
                 </div>
             </nav>
 
-            <div class="container-fluid px-4 pt-4">
+            <div class="container-fluid px-4">
                 
                 <div class="row g-4 mb-4">
-                    <div class="col-md-3">
-                        <div class="card border-0 shadow-sm rounded-4 dash-card">
-                            <div class="card-body d-flex justify-content-between align-items-center p-4">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card dash-card border-0 rounded-4 p-3">
+                            <div class="d-flex justify-content-between">
                                 <div>
-                                    <p class="text-muted mb-1 fw-bold">Total Revenue</p>
-                                    <h3 class="fw-bold mb-0" style="color: #da5586;">Rs. 450K</h3>
+                                    <p class="text-muted mb-1 fs-6">Total Revenue</p>
+                                    <p class="text-muted" style="font-size: 11px;">Last 30 days</p>
                                 </div>
-                                <div class="icon-box bg-pink-light">
-                                    <i class="fas fa-wallet fs-3" style="color: #ef80ac;"></i>
+                                <div class="bg-pink-light rounded-circle d-flex align-items-center justify-content-center" style="width:45px; height:45px;">
+                                    <i class="fas fa-coins" style="color:#ef80ac;"></i>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-3">
-                        <div class="card border-0 shadow-sm rounded-4 dash-card">
-                            <div class="card-body d-flex justify-content-between align-items-center p-4">
-                                <div>
-                                    <p class="text-muted mb-1 fw-bold">New Orders</p>
-                                    <h3 class="fw-bold mb-0" style="color: #da5586;">24</h3>
-                                </div>
-                                <div class="icon-box bg-pink-light">
-                                    <i class="fas fa-shopping-cart fs-3" style="color: #ef80ac;"></i>
-                                </div>
-                            </div>
+                            <h3 class="fw-bold text-dark mt-2 mb-2">Rs. 82,650</h3>
+                            <p class="mb-0" style="font-size: 13px;"><span class="text-success"><i class="fas fa-arrow-up"></i> 11%</span> <span class="text-muted">vs last month</span></p>
                         </div>
                     </div>
 
-                    <div class="col-md-3">
-                        <div class="card border-0 shadow-sm rounded-4 dash-card">
-                            <div class="card-body d-flex justify-content-between align-items-center p-4">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card dash-card border-0 rounded-4 p-3">
+                            <div class="d-flex justify-content-between">
                                 <div>
-                                    <p class="text-muted mb-1 fw-bold">Jewelry Items</p>
-                                    <h3 class="fw-bold mb-0" style="color: #da5586;">128</h3>
+                                    <p class="text-muted mb-1 fs-6">Total Orders</p>
+                                    <p class="text-muted" style="font-size: 11px;">Last 30 days</p>
                                 </div>
-                                <div class="icon-box bg-pink-light">
-                                    <i class="fas fa-ring fs-3" style="color: #ef80ac;"></i>
+                                <div class="bg-pink-light rounded-circle d-flex align-items-center justify-content-center" style="width:45px; height:45px;">
+                                    <i class="fas fa-shopping-cart" style="color:#ef80ac;"></i>
                                 </div>
                             </div>
+                            <h3 class="fw-bold text-dark mt-2 mb-2">1,645</h3>
+                            <p class="mb-0" style="font-size: 13px;"><span class="text-success"><i class="fas fa-arrow-up"></i> 5%</span> <span class="text-muted">vs last month</span></p>
                         </div>
                     </div>
 
-                    <div class="col-md-3">
-                        <div class="card border-0 shadow-sm rounded-4 dash-card">
-                            <div class="card-body d-flex justify-content-between align-items-center p-4">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card dash-card border-0 rounded-4 p-3">
+                            <div class="d-flex justify-content-between">
                                 <div>
-                                    <p class="text-muted mb-1 fw-bold">Customers</p>
-                                    <h3 class="fw-bold mb-0" style="color: #da5586;">850</h3>
+                                    <p class="text-muted mb-1 fs-6">Total Customers</p>
+                                    <p class="text-muted" style="font-size: 11px;">Last 30 days</p>
                                 </div>
-                                <div class="icon-box bg-pink-light">
-                                    <i class="fas fa-user-friends fs-3" style="color: #ef80ac;"></i>
+                                <div class="bg-pink-light rounded-circle d-flex align-items-center justify-content-center" style="width:45px; height:45px;">
+                                    <i class="fas fa-user" style="color:#ef80ac;"></i>
                                 </div>
+                            </div>
+                            <h3 class="fw-bold text-dark mt-2 mb-2">1,462</h3>
+                            <p class="mb-0" style="font-size: 13px;"><span class="text-danger"><i class="fas fa-arrow-down"></i> 2%</span> <span class="text-muted">vs last month</span></p>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card dash-card border-0 rounded-4 p-3">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <p class="text-muted mb-1 fs-6">Pending Orders</p>
+                                    <p class="text-muted" style="font-size: 11px;">Currently</p>
+                                </div>
+                                <div class="bg-pink-light rounded-circle d-flex align-items-center justify-content-center" style="width:45px; height:45px;">
+                                    <i class="fas fa-clock" style="color:#ef80ac;"></i>
+                                </div>
+                            </div>
+                            <h3 class="fw-bold text-dark mt-2 mb-2">115</h3>
+                            <p class="mb-0" style="font-size: 13px;"><span class="text-warning"><i class="fas fa-minus"></i> 0%</span> <span class="text-muted">vs yesterday</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card border-0 rounded-4 p-4 dash-card">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h5 class="fw-bold text-dark m-0">Sales Analytic</h5>
+                                <select class="form-select form-select-sm w-auto border-0 bg-light fw-bold text-muted">
+                                    <option>July 2023</option>
+                                    <option>August 2023</option>
+                                </select>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    <p class="text-muted mb-1" style="font-size:13px;">Income</p>
+                                    <h4 class="fw-bold text-dark">Rs. 23,262.00</h4>
+                                </div>
+                                <div class="col-md-3">
+                                    <p class="text-muted mb-1" style="font-size:13px;">Expenses</p>
+                                    <h4 class="fw-bold text-dark">Rs. 11,135.00</h4>
+                                </div>
+                                <div class="col-md-3">
+                                    <p class="text-muted mb-1" style="font-size:13px;">Balance</p>
+                                    <h4 class="fw-bold text-dark">Rs. 48,135.00</h4>
+                                </div>
+                            </div>
+                            <div style="height: 300px;">
+                                <canvas id="salesChart"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="card border-0 shadow-sm rounded-4 mb-5">
-                    <div class="card-header bg-white border-0 pt-4 pb-0 px-4">
-                        <h5 class="fw-bold" style="color: #da5586;">Recent Orders</h5>
-                    </div>
-                    <div class="card-body px-4">
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle">
-                                <thead>
-                                    <tr class="text-muted">
-                                        <th scope="col">Order ID</th>
-                                        <th scope="col">Customer</th>
-                                        <th scope="col">Item</th>
-                                        <th scope="col">Date</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="fw-bold">#PK-001</td>
-                                        <td>Nimali Perera</td>
-                                        <td>Rose Gold Necklace</td>
-                                        <td>Oct 24, 2023</td>
-                                        <td><span class="badge bg-warning text-dark rounded-pill px-3">Pending</span></td>
-                                        <td><button class="btn btn-sm btn-outline-pinkie rounded-pill">View</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fw-bold">#PK-002</td>
-                                        <td>Sanduni Silva</td>
-                                        <td>Diamond Engagement Ring</td>
-                                        <td>Oct 23, 2023</td>
-                                        <td><span class="badge bg-success rounded-pill px-3">Shipped</span></td>
-                                        <td><button class="btn btn-sm btn-outline-pinkie rounded-pill">View</button></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                <div class="row mb-5">
+                    <div class="col-12">
+                        <div class="card border-0 rounded-4 p-4 dash-card">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h5 class="fw-bold text-dark m-0">Top Selling Jewelry</h5>
+                                <a href="#" class="text-decoration-none" style="color: #da5586;">View All <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                            
+                            <div class="row g-4 text-center">
+                                <div class="col-md-2 col-6">
+                                    <div class="product-img-box bg-light rounded-4 mb-3 p-3">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/879/879793.png" class="img-fluid" style="height: 80px; opacity: 0.7;">
+                                    </div>
+                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">Rose Gold Ring</h6>
+                                    <p class="text-muted m-0" style="font-size: 12px;">752 Pcs</p>
+                                </div>
+                                <div class="col-md-2 col-6">
+                                    <div class="product-img-box bg-light rounded-4 mb-3 p-3">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/1155/1155093.png" class="img-fluid" style="height: 80px; opacity: 0.7;">
+                                    </div>
+                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">Diamond Necklace</h6>
+                                    <p class="text-muted m-0" style="font-size: 12px;">642 Pcs</p>
+                                </div>
+                                <div class="col-md-2 col-6">
+                                    <div class="product-img-box bg-light rounded-4 mb-3 p-3">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/834/834812.png" class="img-fluid" style="height: 80px; opacity: 0.7;">
+                                    </div>
+                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">Ruby Earrings</h6>
+                                    <p class="text-muted m-0" style="font-size: 12px;">510 Pcs</p>
+                                </div>
+                                <div class="col-md-2 col-6">
+                                    <div class="product-img-box bg-light rounded-4 mb-3 p-3">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/1004/1004389.png" class="img-fluid" style="height: 80px; opacity: 0.7;">
+                                    </div>
+                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">Silver Bracelet</h6>
+                                    <p class="text-muted m-0" style="font-size: 12px;">480 Pcs</p>
+                                </div>
+                                <div class="col-md-2 col-6">
+                                    <div class="product-img-box bg-light rounded-4 mb-3 p-3">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/3660/3660232.png" class="img-fluid" style="height: 80px; opacity: 0.7;">
+                                    </div>
+                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">Pearl Pendant</h6>
+                                    <p class="text-muted m-0" style="font-size: 12px;">395 Pcs</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -164,15 +219,64 @@
     </div>
 
     <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
-    <script src="assets/js/main.js"></script>
+    
     <script>
-        // Sidebar Toggle Script
-        document.getElementById("menu-toggle").addEventListener("click", function (e) {
-            e.preventDefault();
-            document.getElementById("wrapper").classList.toggle("toggled");
+        document.addEventListener('DOMContentLoaded', function() {
+            var ctx = document.getElementById('salesChart').getContext('2d');
+            
+            // Create a Pink Gradient for the chart
+            var gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(239, 128, 172, 0.5)'); // #ef80ac with opacity
+            gradient.addColorStop(1, 'rgba(255, 255, 255, 0.1)'); // Fades to transparent
+
+            var salesChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['22 July', '23 July', '24 July', '25 July', '26 July', '27 July', '28 July', '29 July'],
+                    datasets: [{
+                        label: 'Income',
+                        data: [10000, 35000, 15000, 20000, 50000, 25000, 45000, 30000],
+                        borderColor: '#da5586', // Dark Pink Line
+                        backgroundColor: gradient, // Gradient fill
+                        borderWidth: 2,
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#da5586',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        fill: true,
+                        tension: 0.4 // Makes the line smooth/curved like the image
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false } // Hide legend to match design
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                borderDash: [5, 5],
+                                color: '#e9ecef'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value / 1000 + 'k'; // Formats 10000 to 10k
+                                },
+                                color: '#adb5bd'
+                            },
+                            border: { display: false }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#adb5bd' },
+                            border: { display: false }
+                        }
+                    }
+                }
+            });
         });
     </script>
 </body>
-
 </html>
