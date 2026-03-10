@@ -277,3 +277,22 @@ body {
     background-color: #da5586;
     color: white;
 }
+
+
+/*------------------------------------------------------------------------Add product------------------------------------------------------------------------*/
+.glass-upload-box {
+    border: 2px dashed rgba(218, 85, 134, 0.4);
+    background: rgba(255, 255, 255, 0.4);
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.glass-upload-box:hover {
+    background: rgba(255, 255, 255, 0.6);
+    border-color: #da5586;
+    transform: translateY(-2px);
+}
+
+.text-pinkie {
+    color: #da5586 !important;
+}

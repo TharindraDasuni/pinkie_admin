@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pinkie Admin | Add Product</title>
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
+
+    <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/vendor/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="assets/vendor/sweetalert2/sweetalert2.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+    <div class="d-flex" id="wrapper">
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+        <div id="sidebar-container"></div>
+
+        <div id="page-content-wrapper" class="w-100 d-flex flex-column min-vh-100">
+            <div id="navbar-container"></div>
+
+            <div class="container-fluid px-4 flex-grow-1">
+                
+                <div class="d-flex align-items-center mb-4">
+                    <a href="products.html" class="btn btn-light rounded-circle shadow-sm me-3 text-muted d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <h5 class="fw-bold text-dark m-0">Add New Jewelry</h5>
+                </div>
+
+                <div class="card glass-panel rounded-4 p-4 border-0 mb-5">
+                    <form id="addProductForm">
+                        <div class="row g-4">
+                            
+                            <div class="col-lg-8">
+                                <h6 class="fw-bold text-dark mb-3">Basic Information</h6>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label text-muted fw-bold" style="font-size: 13px;">Product Name *</label>
+                                    <input type="text" class="form-control glass-input rounded-pill px-3 py-2" placeholder="e.g. Premium Rose Gold Ring" required>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted fw-bold" style="font-size: 13px;">SKU / Code *</label>
+                                        <input type="text" class="form-control glass-input rounded-pill px-3 py-2" placeholder="e.g. RNG-001" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted fw-bold" style="font-size: 13px;">Category *</label>
+                                        <select class="form-select glass-input rounded-pill px-3 py-2" required>
+                                            <option value="" selected disabled>Select Category</option>
+                                            <option value="1">Rings</option>
+                                            <option value="2">Necklaces</option>
+                                            <option value="3">Earrings</option>
+                                            <option value="4">Bracelets</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted fw-bold" style="font-size: 13px;">Price (Rs.) *</label>
+                                        <input type="number" class="form-control glass-input rounded-pill px-3 py-2" placeholder="0.00" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted fw-bold" style="font-size: 13px;">Stock Quantity *</label>
+                                        <input type="number" class="form-control glass-input rounded-pill px-3 py-2" placeholder="0" required>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label text-muted fw-bold" style="font-size: 13px;">Description</label>
+                                    <textarea class="form-control glass-input rounded-4 px-3 py-2" rows="4" placeholder="Enter product description..."></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <h6 class="fw-bold text-dark mb-3">Product Image</h6>
+                                
+                                <div class="glass-upload-box d-flex flex-column align-items-center justify-content-center text-center p-4 mb-4 rounded-4" onclick="document.getElementById('productImage').click()">
+                                    <div class="bg-white rounded-circle d-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 60px; height: 60px;">
+                                        <i class="fas fa-cloud-upload-alt fs-4 text-pinkie"></i>
+                                    </div>
+                                    <h6 class="fw-bold text-dark mb-1">Click to Upload</h6>
+                                    <p class="text-muted m-0" style="font-size: 12px;">PNG, JPG, JPEG up to 5MB</p>
+                                    <input type="file" class="d-none" id="productImage" accept="image/*">
+                                </div>
+
+                                <h6 class="fw-bold text-dark mb-3">Specifications</h6>
+                                <div class="mb-3">
+                                    <label class="form-label text-muted fw-bold" style="font-size: 13px;">Material</label>
+                                    <select class="form-select glass-input rounded-pill px-3 py-2">
+                                        <option selected disabled>Select Material</option>
+                                        <option value="1">Rose Gold (18K)</option>
+                                        <option value="2">Yellow Gold (22K)</option>
+                                        <option value="3">White Gold (18K)</option>
+                                        <option value="4">Sterling Silver</option>
+                                        <option value="5">Platinum</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label text-muted fw-bold" style="font-size: 13px;">Gemstone</label>
+                                    <input type="text" class="form-control glass-input rounded-pill px-3 py-2" placeholder="e.g. Diamond, Ruby, None">
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4" style="border-color: rgba(218, 85, 134, 0.2);">
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <a href="products.html" class="btn btn-outline-pinkie rounded-pill px-4 fw-bold">Cancel</a>
+                            <button type="button" class="btn btn-pinkie rounded-pill px-5 fw-bold" onclick="saveNewProduct()">Save Product</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+            <div id="footer-container"></div>
+        </div>
+    </div>
+
+    <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
+    <script src="assets/js/script.js"></script>
+    
+    <script>
+        function saveNewProduct() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Product Added!',
+                text: 'The new jewelry item has been successfully added to the store.',
+                confirmButtonColor: '#da5586',
+                timer: 2000,
+                showConfirmButton: false
+            }).then(() => {
+                window.location.href = "products.html";
+            });
+        }
+    </script>
+</body>
+
+</html>
