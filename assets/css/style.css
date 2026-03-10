@@ -250,8 +250,8 @@ body {
 
 .glass-table {
     --bs-table-bg: transparent;
-    --bs-table-hover-bg: rgba(255, 255, 255, 0.4);
-    --bs-table-border-color: rgba(218, 85, 134, 0.15);
+    --bs-table-hover-bg: rgba(100, 10, 10, 0.782);
+    /* --bs-table-border-color: rgba(218, 85, 134, 0.15); */
 }
 
 .glass-table th {
