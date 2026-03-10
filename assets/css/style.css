@@ -244,3 +244,36 @@ body {
         display: none !important;
     }
 }
+
+
+/*------------------------------------------------------------------------Products------------------------------------------------------------------------*/
+
+.glass-table {
+    --bs-table-bg: transparent;
+    --bs-table-hover-bg: rgba(255, 255, 255, 0.4);
+    --bs-table-border-color: rgba(218, 85, 134, 0.15);
+}
+
+.glass-table th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+}
+
+.glass-table td {
+    border-bottom: 1px solid rgba(218, 85, 134, 0.1);
+    vertical-align: middle;
+}
+
+.btn-outline-pinkie {
+    color: #da5586;
+    border-color: #da5586;
+    background: rgba(255, 255, 255, 0.5);
+    transition: 0.3s;
+}
+
+.btn-outline-pinkie:hover {
+    background-color: #da5586;
+    color: white;
+}
