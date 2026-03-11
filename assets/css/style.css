@@ -296,3 +296,13 @@ body {
 .text-pinkie {
     color: #da5586 !important;
 }
+
+.pinkie-switch:checked {
+    background-color: #da5586 !important;
+    border-color: #da5586 !important;
+}
+
+.pinkie-switch:focus {
+    box-shadow: 0 0 0 0.25rem rgba(218, 85, 134, 0.25) !important;
+    border-color: #da5586 !important;
+}
