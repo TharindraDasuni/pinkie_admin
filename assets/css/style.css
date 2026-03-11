@@ -146,7 +146,7 @@ body {
 
 /* Sidebar Links */
 .sidebar-link, .glass-item {
-    color: #000000b3 !important;
+    color: #000000d1 !important;
     background-color: transparent !important;
     border: none;
     font-weight: 500;
@@ -155,7 +155,7 @@ body {
 
 .sidebar-link:hover {
     color: #da5586 !important;
-    background: rgba(255, 255, 255, 0.6) !important;
+    background: rgba(255, 255, 255, 0.789) !important;
     box-shadow: 0 4px 15px rgba(218, 85, 134, 0.05);
 }
 
