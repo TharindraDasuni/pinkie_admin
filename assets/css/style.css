@@ -246,27 +246,91 @@ body {
 }
 
 /* Sidebar Height Fix */
+#wrapper {
+    display: flex;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+#sidebar-container {
+    width: 260px;
+    flex-shrink: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+.glass-sidebar {
+    width: 260px;
+    height: 100vh !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    overflow-y: auto;
+    transition: all 0.3s ease-in-out;
+}
+
+.glass-sidebar::-webkit-scrollbar {
+    display: none;
+}
+
+#page-content-wrapper {
+    min-width: 0;
+    width: 100%;
+    flex-grow: 1;
+    transition: all 0.3s ease-in-out;
+}
+
 @media (min-width: 769px) {
     .sidebar-overlay {
         display: none !important;
     }
 
+    #wrapper.toggled #sidebar-container {
+        margin-left: -260px;
+    }
+
+    #wrapper.toggled .glass-sidebar {
+        margin-left: -260px;
+    }
+}
+
+@media (max-width: 768px) {
     #sidebar-container {
-        width: 260px;
-        flex-shrink: 0;
+        display: none;
     }
 
     .glass-sidebar {
+        margin-left: -260px;
+        z-index: 1050;
+    }
+
+    #wrapper.toggled .glass-sidebar {
+        margin-left: 0 !important;
+    }
+
+    .sidebar-overlay {
         position: fixed;
         top: 0;
         left: 0;
-        height: 100vh !important;
-        width: 260px;
-        overflow-y: auto;
+        width: 100vw;
+        height: 100vh;
+        background: transparent;
+        z-index: 1040;
+        display: none;
+    }
+
+    #wrapper.toggled .sidebar-overlay {
+        display: block;
+    }
+
+    .navbar {
+        margin: 10px !important;
+        padding: 15px !important;
     }
     
-    .glass-sidebar::-webkit-scrollbar {
-        display: none;
+    .container-fluid {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
     }
 }
  
