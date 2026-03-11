@@ -247,16 +247,21 @@ body {
 
  /* Sidebar Height & Scrolling */
 @media (min-width: 769px) {
+    #wrapper {
+        min-height: 100vh;
+        display: flex;
+    }
+
     #sidebar-container {
+        flex-shrink: 0;
+    }
+
+    /* ඇතුලේ තියෙන Glass Sidebar එක Sticky කිරීම */
+    .glass-sidebar {
         position: sticky;
         top: 0;
-        height: 100vh; 
-        z-index: 1000;
-    }
-    
-    .glass-sidebar {
-        height: 100vh; 
-        overflow-y: auto; 
+        height: 100vh !important;
+        overflow-y: auto;
     }
     
     .glass-sidebar::-webkit-scrollbar {
