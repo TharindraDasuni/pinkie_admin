@@ -1,21 +1,21 @@
 // Image Upload Preview Logic
-        let uploadedImagesCount = 0;
-        const maxImages = 6;
+let uploadedImagesCount = 0;
+const maxImages = 6;
 
-        function previewImages() {
-            const fileInput = document.getElementById('productImage');
-            const container = document.getElementById('imagePreviewContainer');
-            const files = Array.from(fileInput.files);
+function previewImages() {
+    const fileInput = document.getElementById('productImage');
+    const container = document.getElementById('imagePreviewContainer');
+    const files = Array.from(fileInput.files);
 
-            files.forEach(file => {
-                if(uploadedImagesCount < maxImages) {
-                    uploadedImagesCount++;
-                    
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const div = document.createElement('div');
-                        div.className = 'col-4 position-relative mb-2';
-                        div.innerHTML = `
+    files.forEach(file => {
+        if (uploadedImagesCount < maxImages) {
+            uploadedImagesCount++;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const div = document.createElement('div');
+                div.className = 'col-4 position-relative mb-2';
+                div.innerHTML = `
                             <div class="glass-input rounded-3 overflow-hidden shadow-sm" style="height: 80px; border: 1px solid rgba(218,85,134,0.3);">
                                 <img src="${e.target.result}" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
@@ -23,36 +23,51 @@
                                 <i class="fas fa-times"></i>
                             </button>
                         `;
-                        container.appendChild(div);
-                    }
-                    reader.readAsDataURL(file);
-                } else {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Limit Reached!',
-                        text: 'You can only upload a maximum of 6 images.',
-                        confirmButtonColor: '#da5586'
-                    });
-                }
-            });
-            fileInput.value = ''; 
-        }
-        
-        function removeImage(btn) {
-            btn.parentElement.remove();
-            uploadedImagesCount--;
-        }
-
-        // Save Button Alert
-        function saveNewProduct() {
+                container.appendChild(div);
+            }
+            reader.readAsDataURL(file);
+        } else {
             Swal.fire({
-                icon: 'success',
-                title: 'Product Added!',
-                text: 'The new jewelry item has been successfully added.',
-                confirmButtonColor: '#da5586',
-                timer: 2000,
-                showConfirmButton: false
-            }).then(() => {
-                window.location.href = "products.html";
+                icon: 'warning',
+                title: 'Limit Reached!',
+                text: 'You can only upload a maximum of 6 images.',
+                confirmButtonColor: '#da5586'
             });
         }
+    });
+    fileInput.value = '';
+}
+
+function removeImage(btn) {
+    btn.parentElement.remove();
+    uploadedImagesCount--;
+}
+
+// Save Button Alert
+function saveNewProduct() {
+    Swal.fire({
+        icon: 'success',
+        title: 'Product Added!',
+        text: 'The new jewelry item has been successfully added.',
+        confirmButtonColor: '#da5586',
+        timer: 2000,
+        showConfirmButton: false
+    }).then(() => {
+        window.location.href = "products.html";
+    });
+}
+
+function updateCustomizationText() {
+    const toggle = document.getElementById('customizationSwitch');
+    const label = document.getElementById('customizationLabel');
+
+    if (toggle.checked) {
+        label.innerText = "Available";
+        label.classList.remove("text-muted");
+        label.classList.add("text-pinkie");
+    } else {
+        label.innerText = "Not Available";
+        label.classList.remove("text-pinkie");
+        label.classList.add("text-muted");
+    }
+}
