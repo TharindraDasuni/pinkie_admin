@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pinkie Admin | Inventory</title>
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
+
+    <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/vendor/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="assets/vendor/sweetalert2/sweetalert2.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+    <div class="d-flex" id="wrapper">
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+        <div id="sidebar-container"></div>
+
+        <div id="page-content-wrapper" class="w-100 d-flex flex-column min-vh-100">
+            <div id="navbar-container"></div>
+
+            <div class="container-fluid px-4 flex-grow-1">
+                
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="fw-bold text-dark m-0">Inventory & Stock</h5>
+                    <button class="btn btn-pinkie rounded-pill px-4 fw-bold">
+                        <i class="fas fa-file-export me-2"></i> Export Report
+                    </button>
+                </div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-4">
+                        <div class="card dash-card glass-panel rounded-4 p-3 border-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1 fw-bold" style="font-size: 13px;">Total Items in Stock</p>
+                                    <h3 class="fw-bold text-dark m-0">4,250</h3>
+                                </div>
+                                <div class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center" style="width:50px; height:50px;">
+                                    <i class="fas fa-boxes fs-4" style="color:#da5586;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card dash-card glass-panel rounded-4 p-3 border-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1 fw-bold" style="font-size: 13px;">Low Stock Alerts</p>
+                                    <h3 class="fw-bold text-warning m-0">12</h3>
+                                </div>
+                                <div class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center" style="width:50px; height:50px;">
+                                    <i class="fas fa-exclamation-triangle fs-4 text-warning"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card dash-card glass-panel rounded-4 p-3 border-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1 fw-bold" style="font-size: 13px;">Out of Stock</p>
+                                    <h3 class="fw-bold text-danger m-0">3</h3>
+                                </div>
+                                <div class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center" style="width:50px; height:50px;">
+                                    <i class="fas fa-times-circle fs-4 text-danger"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card glass-panel rounded-4 p-3 mb-4 border-0">
+                    <div class="row g-2">
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                <span class="input-group-text glass-input border-end-0 bg-transparent rounded-start-pill">
+                                    <i class="fas fa-search text-muted"></i>
+                                </span>
+                                <input type="text" class="form-control glass-input border-start-0 rounded-end-pill" placeholder="Search by SKU or Item Name...">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select glass-input rounded-pill">
+                                <option selected>All Categories</option>
+                                <option value="1">Rings</option>
+                                <option value="2">Necklaces</option>
+                                <option value="3">Earrings</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select class="form-select glass-input rounded-pill">
+                                <option selected>Stock Status</option>
+                                <option value="1">Low Stock</option>
+                                <option value="2">Out of Stock</option>
+                                <option value="3">In Stock</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-outline-pinkie rounded-pill w-100 fw-bold">
+                                <i class="fas fa-filter me-1"></i> Filter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card glass-panel rounded-4 p-4 border-0 mb-5">
+                    <div class="table-responsive">
+                        <table class="table table-hover glass-table align-middle mb-0">
+                            <thead>
+                                <tr class="text-muted">
+                                    <th scope="col" class="border-bottom-0 pb-3">Item Name</th>
+                                    <th scope="col" class="border-bottom-0 pb-3">SKU</th>
+                                    <th scope="col" class="border-bottom-0 pb-3">Category</th>
+                                    <th scope="col" class="border-bottom-0 pb-3 text-center">Current Qty</th>
+                                    <th scope="col" class="border-bottom-0 pb-3 text-center">Status</th>
+                                    <th scope="col" class="border-bottom-0 pb-3 text-center">Update Stock</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><h6 class="mb-0 fw-bold text-dark">Premium Rose Gold Ring</h6></td>
+                                    <td class="text-muted">RNG-001</td>
+                                    <td class="text-muted">Rings</td>
+                                    <td class="text-center fw-bold fs-5 text-dark">24</td>
+                                    <td class="text-center"><span class="badge bg-success bg-opacity-75 rounded-pill px-3 py-2">In Stock</span></td>
+                                    <td class="text-center">
+                                        <button class="btn btn-sm btn-light text-primary rounded-pill shadow-sm px-3 fw-bold" onclick="updateStock('RNG-001')"><i class="fas fa-sync-alt me-1"></i> Update</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><h6 class="mb-0 fw-bold text-dark">Diamond Shine Necklace</h6></td>
+                                    <td class="text-muted">NCK-042</td>
+                                    <td class="text-muted">Necklaces</td>
+                                    <td class="text-center fw-bold fs-5 text-warning">5</td>
+                                    <td class="text-center"><span class="badge bg-warning bg-opacity-75 text-dark rounded-pill px-3 py-2">Low Stock</span></td>
+                                    <td class="text-center">
+                                        <button class="btn btn-sm btn-light text-primary rounded-pill shadow-sm px-3 fw-bold" onclick="updateStock('NCK-042')"><i class="fas fa-sync-alt me-1"></i> Update</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><h6 class="mb-0 fw-bold text-dark">Ruby Drop Earrings</h6></td>
+                                    <td class="text-muted">ERG-018</td>
+                                    <td class="text-muted">Earrings</td>
+                                    <td class="text-center fw-bold fs-5 text-danger">0</td>
+                                    <td class="text-center"><span class="badge bg-danger bg-opacity-75 rounded-pill px-3 py-2">Out of Stock</span></td>
+                                    <td class="text-center">
+                                        <button class="btn btn-sm btn-light text-primary rounded-pill shadow-sm px-3 fw-bold" onclick="updateStock('ERG-018')"><i class="fas fa-sync-alt me-1"></i> Update</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><h6 class="mb-0 fw-bold text-dark">Silver Pearl Bracelet</h6></td>
+                                    <td class="text-muted">BRC-088</td>
+                                    <td class="text-muted">Bracelets</td>
+                                    <td class="text-center fw-bold fs-5 text-dark">45</td>
+                                    <td class="text-center"><span class="badge bg-success bg-opacity-75 rounded-pill px-3 py-2">In Stock</span></td>
+                                    <td class="text-center">
+                                        <button class="btn btn-sm btn-light text-primary rounded-pill shadow-sm px-3 fw-bold" onclick="updateStock('BRC-088')"><i class="fas fa-sync-alt me-1"></i> Update</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="footer-container"></div>
+        </div>
+    </div>
+
+    <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
+    <script src="assets/js/script.js"></script>
+
+    <script>
+        function updateStock(sku) {
+            Swal.fire({
+                title: 'Update Stock',
+                html: `<p class="text-muted mb-2">Enter new quantity for <strong>${sku}</strong></p>
+                       <input type="number" id="newQty" class="form-control glass-input rounded-pill px-3 py-2 text-center" placeholder="e.g. 50">`,
+                showCancelButton: true,
+                confirmButtonColor: '#da5586',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Save Changes',
+                customClass: {
+                    popup: 'glass-panel rounded-4'
+                },
+                preConfirm: () => {
+                    const qty = Swal.getPopup().querySelector('#newQty').value;
+                    if (!qty) {
+                        Swal.showValidationMessage(`Please enter a quantity`);
+                    }
+                    return { qty: qty }
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Stock Updated!',
+                        text: `The stock for ${sku} has been updated to ${result.value.qty}.`,
+                        confirmButtonColor: '#da5586',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
