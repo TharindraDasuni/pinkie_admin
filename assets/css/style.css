@@ -5,7 +5,6 @@
     overflow-x: hidden;
 }
 
-/* input box */
 .pinkie-input {
     border-radius: 25px !important;
     font-size: 14px !important;
@@ -18,7 +17,6 @@
     box-shadow: 0 0 0 0.2rem rgba(170, 42, 78, 0.25);
 }
 
-/* login button */
 .btn-pinkie {
     background-color: #ef80ac !important;
     color: white !important;
@@ -32,37 +30,21 @@
     box-shadow: 0 4px 10px rgba(170, 42, 78, 0.3);
 }
 
-/* checkbox */
 .pinkie-checkbox:checked {
     background-color: #da5586;
     border-color: #AA2A4E;
 }
 
-
 /* --- Admin Login Animations --- */
 
 @keyframes headerSlideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes slideUpFade {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .animate-form-item {
@@ -71,17 +53,9 @@
 }
 
 @keyframes logoBreathe {
-    0% {
-        transform: scale(0.95);
-    }
-
-    50% {
-        transform: scale(1);
-    }
-
-    100% {
-        transform: scale(0.95);
-    }
+    0% { transform: scale(0.95); }
+    50% { transform: scale(1); }
+    100% { transform: scale(0.95); }
 }
 
 .animate-logo-breathe {
@@ -90,41 +64,20 @@
     animation-delay: 1.2s;
 }
 
+/*------------------------------------------------------------------------Dashboard & General Components------------------------------------------------------------------------*/
 
-
-/*------------------------------------------------------------------------Dashboard------------------------------------------------------------------------*/
-
-/* Background Gradient */
 body {
     background: linear-gradient(135deg, #ffe5ec 0%, #ffcadf 50%, #fdfbfb 100%);
     background-attachment: fixed;
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
-#wrapper {
-    overflow-x: hidden;
-}
-
-/* Main Glass Panel */
 .glass-panel {
     background: rgba(255, 255, 255, 0.45) !important;
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.6) !important;
     box-shadow: 0 8px 32px 0 rgba(218, 85, 134, 0.1) !important;
-}
-
-/* Sidebar Glass Effect */
-.glass-sidebar {
-    min-height: 100vh;
-    width: 260px;
-    margin-left: 0;
-    transition: margin 0.25s ease-out;
-    background:  rgba(239, 128, 172, 0.41) !important;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-right: 1px solid rgba(255, 255, 255, 0.5) !important;
-    z-index: 1000;
 }
 
 .glass-input {
@@ -139,12 +92,6 @@ body {
     box-shadow: 0 4px 10px rgba(218, 85, 134, 0.1);
 }
 
-/* Sidebar Toggle */
-#wrapper.toggled .glass-sidebar {
-    margin-left: -260px;
-}
-
-/* Sidebar Links */
 .sidebar-link, .glass-item {
     color: #000000d1 !important;
     background-color: transparent !important;
@@ -159,7 +106,6 @@ body {
     box-shadow: 0 4px 15px rgba(218, 85, 134, 0.05);
 }
 
-/* Active Nav Item */
 .active-nav {
     background: rgba(244, 216, 226, 0.915) !important;
     border-left: 4px solid #da5586 !important;
@@ -167,7 +113,6 @@ body {
     font-weight: bold;
 }
 
-/* Card Hover Effects */
 .dash-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -177,7 +122,6 @@ body {
     box-shadow: 0 12px 40px 0 rgba(218, 85, 134, 0.15) !important;
 }
 
-/* Product Image Box */
 .product-img-box {
     transition: 0.3s ease;
 }
@@ -188,64 +132,8 @@ body {
     cursor: pointer;
 }
 
+/* --- Layout & Sidebar Responsive Magic --- */
 
-@media (max-width: 768px) {
-    .glass-sidebar {
-        margin-left: -260px;
-        position: fixed;
-        height: 100vh;
-        z-index: 1050;
-        transition: all 0.3s ease-in-out;
-    }
-    
-    #wrapper.toggled .glass-sidebar {
-        margin-left: 0 !important;
-    }
-
-    #wrapper.toggled #page-content-wrapper {
-        margin-left: 0 !important;
-    }
-
-    .navbar {
-        margin: 10px !important;
-        padding: 15px !important;
-    }
-    
-    .container-fluid {
-        padding-left: 10px !important;
-        padding-right: 10px !important;
-    }
-
-    .sidebar-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: transparent;
-        z-index: 1040;
-        display: none;
-    }
-
-    #wrapper.toggled .sidebar-overlay {
-        display: block;
-    }
-
-    
-}
-
-#page-content-wrapper {
-    min-width: 0; 
-    width: 100%;
-}
-
-@media (min-width: 769px) {
-    .sidebar-overlay {
-        display: none !important;
-    }
-}
-
-/* Sidebar Height Fix */
 #wrapper {
     display: flex;
     min-height: 100vh;
@@ -265,6 +153,10 @@ body {
     top: 0;
     left: 0;
     z-index: 1000;
+    background: rgba(239, 128, 172, 0.41) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-right: 1px solid rgba(255, 255, 255, 0.5) !important;
     overflow-y: auto;
     transition: all 0.3s ease-in-out;
 }
@@ -280,43 +172,48 @@ body {
     transition: all 0.3s ease-in-out;
 }
 
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: transparent;
+    z-index: 1040;
+    display: none;
+}
+
+/* Desktop Styles */
 @media (min-width: 769px) {
     .sidebar-overlay {
         display: none !important;
     }
-
     #wrapper.toggled #sidebar-container {
         margin-left: -260px;
     }
-
     #wrapper.toggled .glass-sidebar {
         margin-left: -260px;
     }
 }
 
+/* Mobile Styles */
 @media (max-width: 768px) {
     #sidebar-container {
-        display: none;
+        margin-left: -260px;
+        position: absolute; /* Flexbox එකෙන් ගලවලා Mobile එකේදී උඩින් පාවෙන්න හදන්නේ */
+        z-index: 1050;
     }
 
     .glass-sidebar {
         margin-left: -260px;
-        z-index: 1050;
+    }
+
+    #wrapper.toggled #sidebar-container {
+        margin-left: 0;
     }
 
     #wrapper.toggled .glass-sidebar {
-        margin-left: 0 !important;
-    }
-
-    .sidebar-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: transparent;
-        z-index: 1040;
-        display: none;
+        margin-left: 0;
     }
 
     #wrapper.toggled .sidebar-overlay {
@@ -333,13 +230,12 @@ body {
         padding-right: 10px !important;
     }
 }
- 
+
 /*------------------------------------------------------------------------Products------------------------------------------------------------------------*/
 
 .glass-table {
     --bs-table-bg: transparent;
     --bs-table-hover-bg: rgba(255, 255, 255, 0.716);
-    /* --bs-table-border-color: rgba(218, 85, 134, 0.15); */
 }
 
 .glass-table th {
@@ -366,9 +262,8 @@ body {
     color: white;
 }
 
-
-
 /*------------------------------------------------------------------------Add product------------------------------------------------------------------------*/
+
 .glass-upload-box {
     border: 2px dashed rgba(218, 85, 134, 0.4);
     background: rgba(255, 255, 255, 0.308);
@@ -398,7 +293,7 @@ body {
 
 .glass-input-product {
     background: rgba(255, 255, 255, 0.5) !important;
-    border: 1px solid rgba(218, 85, 134, 0.4) !important; /* ලා රෝස පාට Border එක */
+    border: 1px solid rgba(218, 85, 134, 0.4) !important;
     color: #495057 !important;
     transition: all 0.3s ease;
 }
