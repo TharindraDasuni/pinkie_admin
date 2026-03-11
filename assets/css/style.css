@@ -277,19 +277,18 @@ body {
     background-color: #da5586;
     color: white;
 }
-/* Sidebar Height Fix (Desktop) */
+
+/* Sidebar Height Fix */
 @media (min-width: 769px) {
     .sidebar-overlay {
         display: none !important;
     }
 
-    /* වම් පැත්තෙන් 260px ඉඩක් වෙන් කරලා තියනවා Sidebar එකට */
     #sidebar-container {
         width: 260px;
         flex-shrink: 0;
     }
 
-    /* Sidebar එක තිරයේ එකම තැනක රඳවනවා */
     .glass-sidebar {
         position: fixed;
         top: 0;
@@ -313,7 +312,7 @@ body {
 }
 
 .glass-upload-box:hover {
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.5);
     border-color: #da5586;
     transform: translateY(-2px);
 }
