@@ -245,6 +245,30 @@ body {
     }
 }
 
+/* Sidebar Height Fix */
+@media (min-width: 769px) {
+    .sidebar-overlay {
+        display: none !important;
+    }
+
+    #sidebar-container {
+        width: 260px;
+        flex-shrink: 0;
+    }
+
+    .glass-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh !important;
+        width: 260px;
+        overflow-y: auto;
+    }
+    
+    .glass-sidebar::-webkit-scrollbar {
+        display: none;
+    }
+}
  
 /*------------------------------------------------------------------------Products------------------------------------------------------------------------*/
 
@@ -278,30 +302,7 @@ body {
     color: white;
 }
 
-/* Sidebar Height Fix */
-@media (min-width: 769px) {
-    .sidebar-overlay {
-        display: none !important;
-    }
 
-    #sidebar-container {
-        width: 260px;
-        flex-shrink: 0;
-    }
-
-    .glass-sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100vh !important;
-        width: 260px;
-        overflow-y: auto;
-    }
-    
-    .glass-sidebar::-webkit-scrollbar {
-        display: none;
-    }
-}
 
 /*------------------------------------------------------------------------Add product------------------------------------------------------------------------*/
 .glass-upload-box {
