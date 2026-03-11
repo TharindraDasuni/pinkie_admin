@@ -245,29 +245,7 @@ body {
     }
 }
 
- /* Sidebar Height & Scrolling */
-@media (min-width: 769px) {
-    #wrapper {
-        min-height: 100vh;
-        display: flex;
-    }
-
-    #sidebar-container {
-        flex-shrink: 0;
-    }
-
-    /* ඇතුලේ තියෙන Glass Sidebar එක Sticky කිරීම */
-    .glass-sidebar {
-        position: sticky;
-        top: 0;
-        height: 100vh !important;
-        overflow-y: auto;
-    }
-    
-    .glass-sidebar::-webkit-scrollbar {
-        display: none;
-    }
-}
+ 
 /*------------------------------------------------------------------------Products------------------------------------------------------------------------*/
 
 .glass-table {
