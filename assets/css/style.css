@@ -230,6 +230,8 @@ body {
     #wrapper.toggled .sidebar-overlay {
         display: block;
     }
+
+    
 }
 
 #page-content-wrapper {
@@ -237,35 +239,13 @@ body {
     width: 100%;
 }
 
-
-/* Sidebar Height Fix (Desktop) */
 @media (min-width: 769px) {
     .sidebar-overlay {
         display: none !important;
     }
-
-    #wrapper {
-        min-height: 100vh;
-        display: flex;
-    }
-
-    #sidebar-container {
-        flex-shrink: 0;
-    }
-
-    .glass-sidebar {
-        position: sticky;
-        top: 0;
-        height: 100vh !important;
-        overflow-y: auto;
-    }
-    
-    .glass-sidebar::-webkit-scrollbar {
-        display: none;
-    }
 }
 
-
+ 
 /*------------------------------------------------------------------------Products------------------------------------------------------------------------*/
 
 .glass-table {
