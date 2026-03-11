@@ -155,13 +155,13 @@ body {
 
 .sidebar-link:hover {
     color: #da5586 !important;
-    background: rgba(255, 255, 255, 0.658) !important;
+    background: rgba(249, 210, 224, 0.844) !important;
     box-shadow: 0 4px 15px rgba(218, 85, 134, 0.05);
 }
 
 /* Active Nav Item */
 .active-nav {
-    background: rgba(218, 85, 134, 0.15) !important;
+    background: rgba(244, 216, 226, 0.915) !important;
     border-left: 4px solid #da5586 !important;
     color: #da5586 !important;
     font-weight: bold;
