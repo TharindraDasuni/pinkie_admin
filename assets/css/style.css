@@ -245,7 +245,24 @@ body {
     }
 }
 
-
+ /* Sidebar Height & Scrolling */
+@media (min-width: 769px) {
+    #sidebar-container {
+        position: sticky;
+        top: 0;
+        height: 100vh; 
+        z-index: 1000;
+    }
+    
+    .glass-sidebar {
+        height: 100vh; 
+        overflow-y: auto; 
+    }
+    
+    .glass-sidebar::-webkit-scrollbar {
+        display: none;
+    }
+}
 /*------------------------------------------------------------------------Products------------------------------------------------------------------------*/
 
 .glass-table {
