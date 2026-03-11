@@ -330,3 +330,16 @@ body {
     box-shadow: 0 0 0 0.25rem rgba(218, 85, 134, 0.25) !important;
     border-color: #da5586 !important;
 }
+
+.glass-input-product {
+    background: rgba(255, 255, 255, 0.5) !important;
+    border: 1px solid rgba(218, 85, 134, 0.4) !important; /* ලා රෝස පාට Border එක */
+    color: #495057 !important;
+    transition: all 0.3s ease;
+}
+
+.glass-input-product:focus {
+    border-color: #da5586 !important;
+    box-shadow: 0 0 0 0.25rem rgba(218, 85, 134, 0.25) !important;
+    outline: none;
+}
