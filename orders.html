@@ -276,26 +276,8 @@
     <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
     <script src="assets/js/script.js"></script>
+    <script src="assets/js/orders.js"></script>
 
-    <script>
-        // Update Order Alert
-        function saveOrderUpdate() {
-            // Modal එක close කරනවා
-            var myModalEl = document.getElementById('orderDetailsModal');
-            var modal = bootstrap.Modal.getInstance(myModalEl);
-            modal.hide();
-
-            // Success Alert එක පෙන්වනවා
-            Swal.fire({
-                icon: 'success',
-                title: 'Order Updated!',
-                text: 'Order status and tracking information have been saved successfully.',
-                confirmButtonColor: '#da5586',
-                timer: 2000,
-                showConfirmButton: false
-            });
-        }
-    </script>
 </body>
 
 </html>
