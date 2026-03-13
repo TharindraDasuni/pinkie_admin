@@ -71,6 +71,10 @@ document.addEventListener("DOMContentLoaded", async function() {
         document.querySelector('.nav-categories').classList.add('active-nav');
         document.getElementById('page-title').innerText = "Categories Management";
     }
+      else if(currentPage === "orders.html") {
+        document.querySelector('.nav-categories').classList.add('active-nav');
+        document.getElementById('page-title').innerText = "Categories Management";
+    }
     else if(currentPage === "inventory.html") {
         document.querySelector('.nav-inventory').classList.add('active-nav');
         document.getElementById('page-title').innerText = "Inventory";
