@@ -122,3 +122,35 @@ document.addEventListener("DOMContentLoaded", async function() {
     }, 100);
 
 });
+
+// Theme Toggle Logic
+function toggleTheme() {
+    const body = document.body;
+    const icon = document.getElementById('themeIcon');
+    
+    body.classList.toggle('dark-mode');
+    
+    if (body.classList.contains('dark-mode')) {
+        icon.classList.remove('fa-moon', 'text-dark');
+        icon.classList.add('fa-sun', 'text-warning');
+        localStorage.setItem('theme', 'dark'); // පස්සේ ආවත් මතක තියාගන්න
+    } else {
+        icon.classList.remove('fa-sun', 'text-warning');
+        icon.classList.add('fa-moon', 'text-dark');
+        localStorage.setItem('theme', 'light');
+    }
+}
+
+// Load Theme on Page Load
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme');
+    const icon = document.getElementById('themeIcon');
+    
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        if(icon) {
+            icon.classList.remove('fa-moon', 'text-dark');
+            icon.classList.add('fa-sun', 'text-warning');
+        }
+    }
+});
