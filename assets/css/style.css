@@ -313,7 +313,7 @@ body {
     height: calc(100vh - 30px) !important;
     width: 85px; /* සාමාන්‍ය වෙලාවට (පොඩි වෙලා තියෙද්දි) සයිස් එක */
     border-radius: 20px;
-    background: linear-gradient(135deg, #ef80ac 0%, #da5586 100%) !important; /* ලස්සන රෝස පාට පසුබිම */
+    background: linear-gradient(135deg, #ef80ac67 0%, #da55869e 100%) !important; /* ලස්සන රෝස පාට පසුබිම */
     box-shadow: 0 10px 30px rgba(218, 85, 134, 0.4);
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     z-index: 1050;
