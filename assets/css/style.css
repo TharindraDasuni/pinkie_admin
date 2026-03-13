@@ -227,7 +227,7 @@ body {
     outline: none;
 }
 
-/* --- Floating Hover Sidebar --- */
+/* --- Floating Hover Sidebar (Lighter & Modern) --- */
 .sidebar-wrapper {
     position: fixed;
     top: 15px;
@@ -236,10 +236,10 @@ body {
     height: calc(100vh - 30px) !important;
     width: 85px; 
     border-radius: 20px;
-    /* Sidebar එකේ Background එක ගොඩක් ලා පාට කළා */
-    background: rgba(255, 240, 246, 0.95) !important; 
-    border: 1px solid rgba(218, 85, 134, 0.15);
-    box-shadow: 0 10px 30px rgba(218, 85, 134, 0.1);
+    /* පසුබිම ඉතාමත් ලා රෝස/සුදු පාටක් කිරීම */
+    background: rgba(255, 240, 245, 0.85) !important; 
+    backdrop-filter: blur(20px);
+    box-shadow: 0 10px 30px rgba(218, 85, 134, 0.15);
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     z-index: 1050;
     overflow-x: hidden;
@@ -252,6 +252,15 @@ body {
 
 .sidebar-wrapper:hover {
     width: 260px;
+}
+
+/* Logo එක දිග ඇරෙද්දී ලොකු වීම (CSS වලින්ම) */
+#sidebarLogo {
+    width: 45px;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.sidebar-wrapper:hover #sidebarLogo {
+    width: 90px; /* ලොකු වෙන සයිස් එක */
 }
 
 .sidebar-link span, .sidebar-text-hide {
@@ -267,64 +276,55 @@ body {
     visibility: visible;
 }
 
-/* Icons සහ Text සාමාන්‍ය වෙලාවට Pink පාට කිරීම */
+/* සාමාන්‍ය ලින්ක් වල පාට රෝස පාට කිරීම */
+.sidebar-link {
+    color: #da5586 !important;
+}
+
 .sidebar-link i {
     min-width: 35px;
     font-size: 18px;
     text-align: center;
     margin-right: 15px !important;
-    color: #da5586 !important;
+    color: #da5586; /* අයිකන් එකත් රෝස පාටයි */
 }
 
-.sidebar-link {
-    color: #da5586 !important;
-    font-weight: 600;
-}
-
-/* Hover කරද්දී ලා රෝස පාට Background එකක් ඒම */
+/* Hover කරද්දී පසුබිම වෙනස් වීම */
 .sidebar-link:hover {
     background: rgba(218, 85, 134, 0.1) !important; 
     color: #da5586 !important;
 }
 
-/* Select වෙලා තියෙන (Active) ලින්ක් එක සුදු පාට සහ Background එක තද රෝස කිරීම */
-.sidebar-link.active-nav {
-    background: #da5586 !important;
+/* තෝරාගත් (Selected/Active) ලින්ක් එකේ පෙනුම */
+.active-nav {
+    background: rgba(218, 85, 134, 0.7) !important; /* විනිවිද පෙනෙන රෝස (Transparent Pink) */
     color: #ffffff !important;
-    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(218, 85, 134, 0.3);
+}
+.active-nav i, .active-nav span {
+    color: #ffffff !important; /* අකුරු සහ අයිකන් සුදු පාටයි */
 }
 
-.sidebar-link.active-nav i {
-    color: #ffffff !important;
+/* Content Area එක ඉතිරි මුළු ඉඩම ගැනීම */
+#page-content-wrapper {
+    min-width: 0;
+    width: calc(100% - 115px);
+    margin-left: 115px; 
+    min-height: 100vh;
+    transition: margin-left 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    padding-top: 15px;
 }
 
-/* --- Menu Button Visibility --- */
-#menu-toggle {
-    display: none; /* Desktop එකේදී Menu Button එක හංගනවා */
-}
-
-/* --- Dark Mode Styles For Sidebar --- */
-body.dark-mode .sidebar-wrapper {
-    background: rgba(30, 30, 30, 0.95) !important;
-    border-color: rgba(255,255,255,0.05);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
-body.dark-mode .sidebar-link i, body.dark-mode .sidebar-link {
-    color: #cccccc !important;
-}
-body.dark-mode .sidebar-link:hover {
-    background: rgba(218, 85, 134, 0.2) !important;
-    color: #da5586 !important;
-}
-body.dark-mode .sidebar-link:hover i {
-    color: #da5586 !important;
-}
-body.dark-mode .sidebar-link.active-nav {
-    background: #da5586 !important;
-    color: #ffffff !important;
-}
-body.dark-mode .sidebar-link.active-nav i {
-    color: #ffffff !important;
+@media (min-width: 769px) {
+    #wrapper:has(.sidebar-wrapper:hover) #page-content-wrapper {
+        margin-left: 290px !important;
+        width: calc(100% - 290px) !important;
+    }
+    
+    /* Desktop එකේදී Menu Button එක හංගනවා */
+    .mobile-menu-btn {
+        display: none !important;
+    }
 }
 
 /* --- Mobile Responsive Fixes --- */
@@ -344,22 +344,17 @@ body.dark-mode .sidebar-link.active-nav i {
         padding: 10px !important;
     }
 
-    /* ෆෝන් එකේදී Menu Button එක පෙන්වනවා */
-    #menu-toggle {
-        display: inline-block; 
-    }
-
-    /* Blur එක සහ කළු පාට Background එක අයින් කිරීම */
+    /* Blur නැති Overlay එක */
     .sidebar-overlay {
         position: fixed;
         top: 0; 
         left: 0; 
         width: 100vw; 
         height: 100vh;
-        background: transparent !important; /* කළු පාට අයින් කළා */
+        background: transparent !important; /* පසුබිම Clear කළා */
+        backdrop-filter: none !important; /* Blur එක අයින් කළා */
         z-index: 1040;
         display: none;
-        backdrop-filter: none !important; /* Blur එක අයින් කළා */
     }
 
     #wrapper.toggled .sidebar-overlay {
@@ -368,5 +363,15 @@ body.dark-mode .sidebar-link.active-nav i {
     
     .sidebar-wrapper:hover {
         width: 260px !important;
+    }
+
+    /* ෆෝන් එකේදී Menu Button එක පෙන්වනවා */
+    .mobile-menu-btn {
+        display: block !important;
+        background: transparent;
+        border: none;
+        color: #da5586;
+        font-size: 22px;
+        margin-right: 15px;
     }
 }
