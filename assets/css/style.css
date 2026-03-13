@@ -237,7 +237,7 @@ body {
     width: 85px; 
     border-radius: 20px;
     /* පසුබිම ඉතාමත් ලා රෝස/සුදු පාටක් කිරීම */
-    background: rgb(247, 194, 212);
+    background: rgb(250, 184, 210);
     backdrop-filter: blur(20px);
     box-shadow: 0 10px 30px rgba(218, 85, 134, 0.24);
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
