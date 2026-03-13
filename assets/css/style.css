@@ -144,10 +144,16 @@ body {
     width: calc(100% - 115px);
     margin-left: 115px; 
     min-height: 100vh;
-    transition: margin-left 0.4s ease, width 0.4s ease;
+    transition: margin-left 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     padding-top: 15px;
 }
 
+@media (min-width: 769px) {
+    #wrapper:has(.sidebar-wrapper:hover) #page-content-wrapper {
+        margin-left: 290px !important; /* 260px (Sidebar) + 30px (Gap) */
+        width: calc(100% - 290px) !important;
+    }
+}
 /*------------------------------------------------------------------------Products------------------------------------------------------------------------*/
 
 .glass-table {
