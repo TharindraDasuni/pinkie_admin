@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pinkie Admin | Orders</title>
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
+
+    <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/vendor/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="assets/vendor/sweetalert2/sweetalert2.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+    <div class="d-flex" id="wrapper">
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+        <div id="sidebar-container"></div>
+
+        <div id="page-content-wrapper" class="w-100 d-flex flex-column min-vh-100">
+            <div id="navbar-container"></div>
+
+            <div class="container-fluid px-4 flex-grow-1">
+                
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="fw-bold text-dark m-0">Orders Management</h5>
+                    <button class="btn btn-pinkie rounded-pill px-4 fw-bold">
+                        <i class="fas fa-file-export me-2"></i> Export CSV
+                    </button>
+                </div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-3">
+                        <div class="card dash-card glass-panel rounded-4 p-3 border-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1 fw-bold" style="font-size: 13px;">New Orders</p>
+                                    <h3 class="fw-bold text-primary m-0">12</h3>
+                                </div>
+                                <div class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center" style="width:50px; height:50px;">
+                                    <i class="fas fa-shopping-bag fs-4 text-primary"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="card dash-card glass-panel rounded-4 p-3 border-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1 fw-bold" style="font-size: 13px;">Processing</p>
+                                    <h3 class="fw-bold text-warning m-0">5</h3>
+                                </div>
+                                <div class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center" style="width:50px; height:50px;">
+                                    <i class="fas fa-clock fs-4 text-warning"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="card dash-card glass-panel rounded-4 p-3 border-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1 fw-bold" style="font-size: 13px;">Delivered</p>
+                                    <h3 class="fw-bold text-success m-0">128</h3>
+                                </div>
+                                <div class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center" style="width:50px; height:50px;">
+                                    <i class="fas fa-check-circle fs-4 text-success"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="card dash-card glass-panel rounded-4 p-3 border-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1 fw-bold" style="font-size: 13px;">Cancelled</p>
+                                    <h3 class="fw-bold text-danger m-0">2</h3>
+                                </div>
+                                <div class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center" style="width:50px; height:50px;">
+                                    <i class="fas fa-times-circle fs-4 text-danger"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card glass-panel rounded-4 p-3 mb-4 border-0">
+                    <div class="row g-2">
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-text glass-input border-end-0 bg-transparent rounded-start-pill">
+                                    <i class="fas fa-search text-muted"></i>
+                                </span>
+                                <input type="text" class="form-control glass-input border-start-0 rounded-end-pill" placeholder="Search Order ID or Customer...">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select glass-input rounded-pill">
+                                <option selected>Order Status</option>
+                                <option value="1">Pending</option>
+                                <option value="2">Processing</option>
+                                <option value="3">Shipped</option>
+                                <option value="4">Delivered</option>
+                                <option value="5">Cancelled</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="date" class="form-control glass-input rounded-pill text-muted">
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-outline-pinkie rounded-pill w-100 fw-bold">
+                                <i class="fas fa-filter me-1"></i> Filter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive mb-5">
+                    <table class="table table-hover glass-table align-middle mb-0" style="border-collapse: separate; border-spacing: 0 8px;">
+                        <thead class="pink-header">
+                            <tr>
+                                <th scope="col" class="ps-3">ORDER ID</th>
+                                <th scope="col">DATE</th>
+                                <th scope="col">CUSTOMER</th>
+                                <th scope="col">AMOUNT</th>
+                                <th scope="col" class="text-center">PAYMENT</th>
+                                <th scope="col" class="text-center">STATUS</th>
+                                <th scope="col" class="text-center pe-3">ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-white bg-opacity-50 shadow-sm" style="border-radius: 10px;">
+                                <td class="fw-bold text-dark ps-3">#ORD-5001</td>
+                                <td class="text-muted" style="font-size: 13px;">Oct 24, 2024<br><small>10:30 AM</small></td>
+                                <td>
+                                    <h6 class="mb-0 fw-bold text-dark" style="font-size: 14px;">Sanduni Perera</h6>
+                                    <small class="text-muted" style="font-size: 12px;">+94 77 123 4567</small>
+                                </td>
+                                <td class="text-pinkie fw-bold">Rs. 85,000</td>
+                                <td class="text-center"><span class="badge bg-success bg-opacity-10 text-success border border-success rounded-pill px-3 py-1">Paid</span></td>
+                                <td class="text-center"><span class="badge bg-primary bg-opacity-75 rounded-pill px-3 py-2">New Order</span></td>
+                                <td class="text-center pe-3">
+                                    <button class="btn btn-sm btn-light text-primary rounded-circle shadow-sm me-1" title="View Details" onclick="viewOrder('ORD-5001')"><i class="fas fa-eye"></i></button>
+                                    <button class="btn btn-sm btn-light text-pinkie rounded-circle shadow-sm" title="Print Invoice"><i class="fas fa-file-invoice"></i></button>
+                                </td>
+                            </tr>
+
+                            <tr class="bg-white bg-opacity-50 shadow-sm" style="border-radius: 10px;">
+                                <td class="fw-bold text-dark ps-3">#ORD-5002</td>
+                                <td class="text-muted" style="font-size: 13px;">Oct 23, 2024<br><small>02:15 PM</small></td>
+                                <td>
+                                    <h6 class="mb-0 fw-bold text-dark" style="font-size: 14px;">Kamal Silva</h6>
+                                    <small class="text-muted" style="font-size: 12px;">kamal@email.com</small>
+                                </td>
+                                <td class="text-pinkie fw-bold">Rs. 145,500</td>
+                                <td class="text-center"><span class="badge bg-danger bg-opacity-10 text-danger border border-danger rounded-pill px-3 py-1">Unpaid</span></td>
+                                <td class="text-center"><span class="badge bg-warning text-dark bg-opacity-75 rounded-pill px-3 py-2">Processing</span></td>
+                                <td class="text-center pe-3">
+                                    <button class="btn btn-sm btn-light text-primary rounded-circle shadow-sm me-1" title="View Details" onclick="viewOrder('ORD-5002')"><i class="fas fa-eye"></i></button>
+                                    <button class="btn btn-sm btn-light text-pinkie rounded-circle shadow-sm" title="Print Invoice"><i class="fas fa-file-invoice"></i></button>
+                                </td>
+                            </tr>
+
+                            <tr class="bg-white bg-opacity-50 shadow-sm" style="border-radius: 10px;">
+                                <td class="fw-bold text-dark ps-3">#ORD-5003</td>
+                                <td class="text-muted" style="font-size: 13px;">Oct 20, 2024<br><small>09:45 AM</small></td>
+                                <td>
+                                    <h6 class="mb-0 fw-bold text-dark" style="font-size: 14px;">Dilini Fernando</h6>
+                                    <small class="text-muted" style="font-size: 12px;">+94 71 987 6543</small>
+                                </td>
+                                <td class="text-pinkie fw-bold">Rs. 35,000</td>
+                                <td class="text-center"><span class="badge bg-success bg-opacity-10 text-success border border-success rounded-pill px-3 py-1">Paid</span></td>
+                                <td class="text-center"><span class="badge bg-success bg-opacity-75 rounded-pill px-3 py-2">Delivered</span></td>
+                                <td class="text-center pe-3">
+                                    <button class="btn btn-sm btn-light text-primary rounded-circle shadow-sm me-1" title="View Details" onclick="viewOrder('ORD-5003')"><i class="fas fa-eye"></i></button>
+                                    <button class="btn btn-sm btn-light text-pinkie rounded-circle shadow-sm" title="Print Invoice"><i class="fas fa-file-invoice"></i></button>
+                                </td>
+                            </tr>
+                            
+                            <tr class="bg-white bg-opacity-50 shadow-sm" style="border-radius: 10px;">
+                                <td class="fw-bold text-dark ps-3">#ORD-5004</td>
+                                <td class="text-muted" style="font-size: 13px;">Oct 18, 2024<br><small>11:20 AM</small></td>
+                                <td>
+                                    <h6 class="mb-0 fw-bold text-dark" style="font-size: 14px;">Naveen Bandara</h6>
+                                    <small class="text-muted" style="font-size: 12px;">+94 76 555 1234</small>
+                                </td>
+                                <td class="text-pinkie fw-bold">Rs. 12,500</td>
+                                <td class="text-center"><span class="badge bg-warning bg-opacity-10 text-warning border border-warning rounded-pill px-3 py-1">Refunded</span></td>
+                                <td class="text-center"><span class="badge bg-danger bg-opacity-75 rounded-pill px-3 py-2">Cancelled</span></td>
+                                <td class="text-center pe-3">
+                                    <button class="btn btn-sm btn-light text-primary rounded-circle shadow-sm me-1" title="View Details" onclick="viewOrder('ORD-5004')"><i class="fas fa-eye"></i></button>
+                                    <button class="btn btn-sm btn-light text-pinkie rounded-circle shadow-sm" title="Print Invoice"><i class="fas fa-file-invoice"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <div id="footer-container"></div>
+        </div>
+    </div>
+
+    <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
+    <script src="assets/js/script.js"></script>
+
+    <script>
+        function viewOrder(orderId) {
+            Swal.fire({
+                title: `Order #${orderId}`,
+                html: `
+                    <div class="text-start mt-3">
+                        <p class="mb-1"><strong>Status:</strong> Processing</p>
+                        <p class="mb-1"><strong>Customer:</strong> Sanduni Perera</p>
+                        <p class="mb-3"><strong>Shipping:</strong> No 15, Galle Road, Colombo 03</p>
+                        <hr class="my-2" style="border-color: rgba(218,85,134,0.3);">
+                        <p class="mb-1 fw-bold text-pinkie">Total Amount: Rs. 85,000</p>
+                    </div>
+                `,
+                confirmButtonColor: '#da5586',
+                confirmButtonText: 'Close',
+                customClass: {
+                    popup: 'glass-panel rounded-4'
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
