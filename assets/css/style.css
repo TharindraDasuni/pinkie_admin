@@ -236,8 +236,10 @@ body {
     height: calc(100vh - 30px) !important;
     width: 85px; 
     border-radius: 20px;
-    background: linear-gradient(135deg, #ef80ac67 0%, #da55869e 100%) !important; 
-    box-shadow: 0 10px 30px rgba(218, 85, 134, 0.4);
+    /* Sidebar එකේ Background එක ගොඩක් ලා පාට කළා */
+    background: rgba(255, 240, 246, 0.95) !important; 
+    border: 1px solid rgba(218, 85, 134, 0.15);
+    box-shadow: 0 10px 30px rgba(218, 85, 134, 0.1);
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     z-index: 1050;
     overflow-x: hidden;
@@ -265,26 +267,46 @@ body {
     visibility: visible;
 }
 
+/* Icons සහ Text සාමාන්‍ය වෙලාවට Pink පාට කිරීම */
 .sidebar-link i {
     min-width: 35px;
     font-size: 18px;
     text-align: center;
     margin-right: 15px !important;
-    color: #ffffff;
+    color: #da5586 !important;
 }
 
 .sidebar-link {
+    color: #da5586 !important;
+    font-weight: 600;
+}
+
+/* Hover කරද්දී ලා රෝස පාට Background එකක් ඒම */
+.sidebar-link:hover {
+    background: rgba(218, 85, 134, 0.1) !important; 
+    color: #da5586 !important;
+}
+
+/* Select වෙලා තියෙන (Active) ලින්ක් එක සුදු පාට සහ Background එක තද රෝස කිරීම */
+.sidebar-link.active-nav {
+    background: #da5586 !important;
+    color: #ffffff !important;
+    border-radius: 10px;
+}
+
+.sidebar-link.active-nav i {
     color: #ffffff !important;
 }
 
-.sidebar-link:hover {
-    background: rgba(255, 255, 255, 0.25) !important; 
-    color: #ffffff !important;
+/* --- Menu Button Visibility --- */
+#menu-toggle {
+    display: none; /* Desktop එකේදී Menu Button එක හංගනවා */
 }
 
 /* --- Dark Mode Styles For Sidebar --- */
 body.dark-mode .sidebar-wrapper {
     background: rgba(30, 30, 30, 0.95) !important;
+    border-color: rgba(255,255,255,0.05);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 body.dark-mode .sidebar-link i, body.dark-mode .sidebar-link {
@@ -297,8 +319,15 @@ body.dark-mode .sidebar-link:hover {
 body.dark-mode .sidebar-link:hover i {
     color: #da5586 !important;
 }
+body.dark-mode .sidebar-link.active-nav {
+    background: #da5586 !important;
+    color: #ffffff !important;
+}
+body.dark-mode .sidebar-link.active-nav i {
+    color: #ffffff !important;
+}
 
-/* --- Mobile Responsive Fixes (ෆෝන් එකේදී 100% Responsive කිරීම) --- */
+/* --- Mobile Responsive Fixes --- */
 @media (max-width: 768px) {
     .sidebar-wrapper {
         left: -300px; 
@@ -315,16 +344,22 @@ body.dark-mode .sidebar-link:hover i {
         padding: 10px !important;
     }
 
+    /* ෆෝන් එකේදී Menu Button එක පෙන්වනවා */
+    #menu-toggle {
+        display: inline-block; 
+    }
+
+    /* Blur එක සහ කළු පාට Background එක අයින් කිරීම */
     .sidebar-overlay {
         position: fixed;
         top: 0; 
         left: 0; 
         width: 100vw; 
         height: 100vh;
-        background: rgba(0, 0, 0, 0.4);
+        background: transparent !important; /* කළු පාට අයින් කළා */
         z-index: 1040;
         display: none;
-        backdrop-filter: blur(3px); 
+        backdrop-filter: none !important; /* Blur එක අයින් කළා */
     }
 
     #wrapper.toggled .sidebar-overlay {
