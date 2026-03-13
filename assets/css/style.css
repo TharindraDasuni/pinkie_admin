@@ -70,6 +70,7 @@ body {
     background: linear-gradient(135deg, #ffe5ec 0%, #ffcadf 50%, #fdfbfb 100%);
     background-attachment: fixed;
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    overflow-x: hidden;
 }
 
 .glass-panel {
@@ -132,103 +133,19 @@ body {
     cursor: pointer;
 }
 
-
-
 #wrapper {
-    display: flex;
+    display: block; 
     min-height: 100vh;
     overflow-x: hidden;
 }
 
-#sidebar-container {
-    width: 260px;
-    flex-shrink: 0;
-    transition: all 0.3s ease-in-out;
-}
-
-.glass-sidebar {
-    width: 260px;
-    height: 100vh !important;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    background: rgba(239, 128, 172, 0.41) !important;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-right: 1px solid rgba(255, 255, 255, 0.5) !important;
-    overflow-y: auto;
-    transition: all 0.3s ease-in-out;
-}
-
-.glass-sidebar::-webkit-scrollbar {
-    display: none;
-}
-
 #page-content-wrapper {
     min-width: 0;
-    width: 100%;
-    flex-grow: 1;
-    transition: all 0.3s ease-in-out;
-}
-
-.sidebar-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: transparent;
-    z-index: 1040;
-    display: none;
-}
-
-/* Desktop Styles */
-@media (min-width: 769px) {
-    .sidebar-overlay {
-        display: none !important;
-    }
-    #wrapper.toggled #sidebar-container {
-        margin-left: -260px;
-    }
-    #wrapper.toggled .glass-sidebar {
-        margin-left: -260px;
-    }
-}
-
-/* Mobile Styles */
-@media (max-width: 768px) {
-    #sidebar-container {
-        margin-left: -260px;
-        position: absolute; 
-        z-index: 1050;
-    }
-
-    .glass-sidebar {
-        margin-left: -260px;
-    }
-
-    #wrapper.toggled #sidebar-container {
-        margin-left: 0;
-    }
-
-    #wrapper.toggled .glass-sidebar {
-        margin-left: 0;
-    }
-
-    #wrapper.toggled .sidebar-overlay {
-        display: block;
-    }
-
-    .navbar {
-        margin: 10px !important;
-        padding: 15px !important;
-    }
-    
-    .container-fluid {
-        padding-left: 10px !important;
-        padding-right: 10px !important;
-    }
+    width: calc(100% - 115px);
+    margin-left: 115px; 
+    min-height: 100vh;
+    transition: margin-left 0.4s ease, width 0.4s ease;
+    padding-top: 15px;
 }
 
 /*------------------------------------------------------------------------Products------------------------------------------------------------------------*/
@@ -311,30 +228,24 @@ body {
     left: 15px;
     bottom: 15px;
     height: calc(100vh - 30px) !important;
-    width: 85px; /* සාමාන්‍ය වෙලාවට (පොඩි වෙලා තියෙද්දි) සයිස් එක */
+    width: 85px; 
     border-radius: 20px;
-    background: linear-gradient(135deg, #ef80ac67 0%, #da55869e 100%) !important; /* ලස්සන රෝස පාට පසුබිම */
+    background: linear-gradient(135deg, #ef80ac67 0%, #da55869e 100%) !important; 
     box-shadow: 0 10px 30px rgba(218, 85, 134, 0.4);
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     z-index: 1050;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
-/* Hover කරද්දී Sidebar එක දිග වීම */
+.sidebar-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
 .sidebar-wrapper:hover {
     width: 260px;
 }
 
-/* Content Area එක ඉතිරි මුළු ඉඩම ගැනීම */
-#page-content-wrapper {
-    margin-left: 115px; /* 85px + 30px Gap එක අයින් කරලා ඉතිරි ටික */
-    width: calc(100% - 115px);
-    min-height: 100vh;
-    transition: margin-left 0.4s ease, width 0.4s ease;
-    padding-top: 15px;
-}
-
-/* Sidebar එක ඇතුලේ අකුරු පෙනෙන/නොපෙනෙන කිරීම (Fade in Effect) */
 .sidebar-link span, .sidebar-text-hide {
     opacity: 0;
     visibility: hidden;
@@ -348,7 +259,6 @@ body {
     visibility: visible;
 }
 
-/* Icons Center කිරීම සහ සුදු පාට කිරීම */
 .sidebar-link i {
     min-width: 35px;
     font-size: 18px;
@@ -361,9 +271,8 @@ body {
     color: #ffffff !important;
 }
 
-/* Sidebar එකේ ලින්ක් වලට Mouse එක ගෙනිච්චම */
 .sidebar-link:hover {
-    background: rgba(255, 255, 255, 0.25) !important; /* සුදු පාට Hover Effect එක */
+    background: rgba(255, 255, 255, 0.25) !important; 
     color: #ffffff !important;
 }
 
@@ -385,25 +294,21 @@ body.dark-mode .sidebar-link:hover i {
 
 /* --- Mobile Responsive Fixes (ෆෝන් එකේදී 100% Responsive කිරීම) --- */
 @media (max-width: 768px) {
-    /* Sidebar එක ෆෝන් එකේදී වම් පැත්තට හංගනවා */
     .sidebar-wrapper {
-        left: -300px; /* තිරයෙන් එළියට දානවා */
-        width: 260px !important; /* Menu එක එබුවම දිග ඇරිලා පේන්න */
+        left: -300px; 
+        width: 260px !important; 
     }
 
-    /* Navbar එකේ Menu Button එක එබුවම Sidebar එක එළියට එන්න */
     #wrapper.toggled .sidebar-wrapper {
         left: 15px;
     }
 
-    /* Content Area එක ෆෝන් එකේදී Full Screen (100%) කරනවා */
     #page-content-wrapper {
         margin-left: 0 !important;
         width: 100% !important;
         padding: 10px !important;
     }
 
-    /* ෆෝන් එකේ Sidebar එක Open කරද්දී පස්සෙන් කළු පාට Background (Overlay) එකක් එන්න */
     .sidebar-overlay {
         position: fixed;
         top: 0; 
@@ -413,14 +318,13 @@ body.dark-mode .sidebar-link:hover i {
         background: rgba(0, 0, 0, 0.4);
         z-index: 1040;
         display: none;
-        backdrop-filter: blur(3px); /* පස්ස බොඳ වීම */
+        backdrop-filter: blur(3px); 
     }
 
     #wrapper.toggled .sidebar-overlay {
         display: block;
     }
     
-    /* ෆෝන් එකේදී Sidebar එක Hover කළාට ලොකු වෙන්න ඕනේ නෑ (කලින්ම ලොකු වෙලා එන්නේ) */
     .sidebar-wrapper:hover {
         width: 260px !important;
     }
