@@ -1,64 +1,70 @@
-<div class="sidebar-wrapper glass-sidebar d-flex flex-column" id="sidebar-wrapper">
-
-    <div class="sidebar-heading text-center py-4 position-relative">
-        <img src="assets/images/logo_without_bc.png" alt="Pinkie Logo" style="width: 100px; margin-bottom: 15px;">
-        <h6 class="fw-bold mb-0" style="color: #da5586; font-size: 16px;">Pinkie Jewelry Store</h6>
-        <span class="text-muted" style="font-size: 11px; letter-spacing: 1px;">STORE ADMINISTRATION</span>
+<div class="sidebar-wrapper" id="sidebar-wrapper">
+    <div class="sidebar-heading">
+        <img src="assets/images/logo_without_bc.png" alt="Pinkie Logo">
+        <h6>Pinkie Jewelry Store</h6>
+        <span>STORE ADMINISTRATION</span>
     </div>
 
-    <div class="list-group list-group-flush mt-2 px-3 flex-grow-1">
-        <a href="dashboard.html" class="list-group-item list-group-item-action rounded mb-1 py-2] glass-item nav-dashboard sidebar-link">
-            <i class="fas fa-home me-3"></i> Dashboard
+    <div class="list-group flex-grow-1">
+        <a href="dashboard.html" class="list-group-item sidebar-link nav-dashboard">
+            <i class="fas fa-home"></i>
+            <span>Dashboard</span>
         </a>
-        <a href="products.html" class="list-group-item list-group-item-action rounded mb-1 py-2 glass-item nav-products sidebar-link">
-            <i class="fas fa-gem me-3"></i> Products
+        <a href="products.html" class="list-group-item sidebar-link nav-products">
+            <i class="fas fa-gem"></i>
+            <span>Products</span>
         </a>
-         <a href="categories.html" class="list-group-item list-group-item-action rounded mb-1 py-2 glass-item nav-categories sidebar-link">
-            <i class="fas fa-tags me-3"></i> Categories
+        <a href="categories.html" class="list-group-item sidebar-link nav-categories">
+            <i class="fas fa-tags"></i>
+            <span>Categories</span>
         </a>
-        <a href="inventory.html" class="list-group-item list-group-item-action rounded mb-1 py-2 glass-item nav-inventory sidebar-link">
-            <i class="fas fa-box me-3"></i> Inventory
+        <a href="inventory.html" class="list-group-item sidebar-link nav-inventory">
+            <i class="fas fa-box"></i>
+            <span>Inventory</span>
         </a>
-        <a href="orders.html" class="list-group-item list-group-item-action sidebar-link rounded mb-1 py-2 glass-item nav-orders">
-            <i class="fas fa-shopping-bag me-3"></i> Orders
+        <a href="orders.html" class="list-group-item sidebar-link nav-orders">
+            <i class="fas fa-shopping-bag"></i>
+            <span>Orders</span>
         </a>
-        <a href="customers.html" class="list-group-item list-group-item-action sidebar-link rounded mb-1 py-2 glass-item nav-customers">
-            <i class="fas fa-users me-3"></i> Customers
+        <a href="customers.html" class="list-group-item sidebar-link nav-customers">
+            <i class="fas fa-users"></i>
+            <span>Customers</span>
         </a>
-         <a href="reports.html" class="list-group-item list-group-item-action sidebar-link rounded mb-1 py-2 glass-item nav-reports">
-            <i class="fas fa-chart-bar me-3"></i> Reports
-        </a>
-    </div>
-
-    <div class="list-group list-group-flush px-3 pb-4">
-        <hr style="border-color: rgba(218,85,134,0.3); margin-top: 0; margin-bottom: 15px;">
-        
-        <a href="settings.html" class="list-group-item list-group-item-action sidebar-link rounded mb-1 py-2 glass-item nav-settings">
-            <i class="fas fa-cog me-3"></i> Settings
-        </a>
-        
-        <a href="#" class="list-group-item list-group-item-action sidebar-link rounded py-2 glass-item text-danger fw-bold mt-1" onclick="logoutAdmin()">
-            <i class="fas fa-sign-out-alt me-3"></i> Logout
+        <a href="reports.html" class="list-group-item sidebar-link nav-reports">
+            <i class="fas fa-chart-bar"></i>
+            <span>Reports</span>
         </a>
     </div>
 
+    <div class="list-group mt-auto">
+        <hr>
+        <a href="settings.html" class="list-group-item sidebar-link nav-settings">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </a>
+        <a href="#" class="list-group-item sidebar-link" onclick="logoutAdmin()">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </a>
+    </div>
 </div>
 
 <script>
-    function logoutAdmin() {
-        Swal.fire({
-            title: 'Ready to Leave?',
-            text: 'You are about to logout from the admin panel.',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#da5586',
-            cancelButtonColor: '#6c757d',
-            confirmButtonText: 'Yes, Logout'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // මෙතනින් Login පිටුවට යවනවා
-                window.location.href = 'index.html'; // ඔයාගේ ලොගින් පිටුවේ නම දෙන්න (උදා: login.html)
-            }
-        });
-    }
+function logoutAdmin() {
+    Swal.fire({
+        title: 'Ready to Leave?',
+        text: 'You are about to logout from the admin panel.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#da5586',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Yes, Logout',
+        background: document.documentElement.getAttribute('data-theme') === 'dark' ? '#1a1a1c' : '#ffffff',
+        color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#f1f5f9' : '#1e293b'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = 'index.html';
+        }
+    });
+}
 </script>
