@@ -189,7 +189,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="assets/js/script.js"></script>
 
-    <script>
+   <script>
         function downloadReport() {
             Swal.fire({
                 icon: 'success',
@@ -203,6 +203,7 @@
 
         document.addEventListener("DOMContentLoaded", function () {
             
+            // 1. Bar Chart (Revenue Overview)
             const ctxSales = document.getElementById('salesChart').getContext('2d');
             new Chart(ctxSales, {
                 type: 'bar',
@@ -220,6 +221,7 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false, 
                     plugins: {
                         legend: { display: false }
                     },
@@ -230,6 +232,7 @@
                 }
             });
 
+            // 2. Doughnut Chart (Sales by Category)
             const ctxCategory = document.getElementById('categoryChart').getContext('2d');
             new Chart(ctxCategory, {
                 type: 'doughnut',
@@ -244,6 +247,7 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false, 
                     cutout: '75%',
                     plugins: {
                         legend: { position: 'bottom' }
