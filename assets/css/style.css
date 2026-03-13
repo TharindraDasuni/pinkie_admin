@@ -307,15 +307,14 @@ body {
 /* --- Floating Hover Sidebar --- */
 .sidebar-wrapper {
     position: fixed;
-    top: 15px; /* පාවෙන පෙනුම සඳහා උඩින් පරතරයක් */
+    top: 15px;
     left: 15px;
     bottom: 15px;
     height: calc(100vh - 30px) !important;
-    width: 80px; /* මුලින්ම Icons විතරක් පේන සයිස් එක */
-    border-radius: 20px; /* රවුම් පෙනුම */
-    background: rgba(255, 255, 255, 0.7) !important;
-    backdrop-filter: blur(20px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 85px; /* සාමාන්‍ය වෙලාවට (පොඩි වෙලා තියෙද්දි) සයිස් එක */
+    border-radius: 20px;
+    background: linear-gradient(135deg, #ef80ac 0%, #da5586 100%) !important; /* ලස්සන රෝස පාට පසුබිම */
+    box-shadow: 0 10px 30px rgba(218, 85, 134, 0.4);
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     z-index: 1050;
     overflow: hidden;
@@ -324,71 +323,62 @@ body {
 /* Hover කරද්දී Sidebar එක දිග වීම */
 .sidebar-wrapper:hover {
     width: 260px;
-    background: rgba(255, 255, 255, 0.9) !important;
 }
 
-/* Content Area එකට ඉඩ වෙන් කිරීම */
+/* Content Area එක ඉතිරි මුළු ඉඩම ගැනීම */
 #page-content-wrapper {
-    margin-left: 95px; /* Sidebar එකේ පොඩි සයිස් එකට හරියන්න */
-    transition: margin-left 0.4s ease;
+    margin-left: 115px; /* 85px + 30px Gap එක අයින් කරලා ඉතිරි ටික */
+    width: calc(100% - 115px);
+    min-height: 100vh;
+    transition: margin-left 0.4s ease, width 0.4s ease;
     padding-top: 15px;
 }
 
-/* Sidebar එක ඇතුලේ තියෙන Text ටික පෙනෙන/නොපෙනෙන කිරීම */
-.sidebar-link span, .sidebar-heading h6, .sidebar-heading span {
+/* Sidebar එක ඇතුලේ අකුරු පෙනෙන/නොපෙනෙන කිරීම (Fade in Effect) */
+.sidebar-link span, .sidebar-text-hide {
     opacity: 0;
-    transition: opacity 0.3s ease;
+    visibility: hidden;
+    transition: all 0.3s ease;
     white-space: nowrap;
-    display: inline-block;
-    vertical-align: middle;
 }
 
 .sidebar-wrapper:hover .sidebar-link span,
-.sidebar-wrapper:hover .sidebar-heading h6,
-.sidebar-wrapper:hover .sidebar-heading span {
+.sidebar-wrapper:hover .sidebar-text-hide {
     opacity: 1;
+    visibility: visible;
 }
 
-/* Icons සෙන්ටර් කිරීම (Collapse වෙලා තියෙද්දී) */
+/* Icons Center කිරීම සහ සුදු පාට කිරීම */
 .sidebar-link i {
-    min-width: 30px;
+    min-width: 35px;
+    font-size: 18px;
     text-align: center;
     margin-right: 15px !important;
-}
-
-/* --- Dark Mode Styles --- */
-body.dark-mode {
-    background: #121212;
     color: #ffffff;
 }
 
-body.dark-mode .glass-panel,
+.sidebar-link {
+    color: #ffffff !important;
+}
+
+/* Sidebar එකේ ලින්ක් වලට Mouse එක ගෙනිච්චම */
+.sidebar-link:hover {
+    background: rgba(255, 255, 255, 0.25) !important; /* සුදු පාට Hover Effect එක */
+    color: #ffffff !important;
+}
+
+/* --- Dark Mode Styles For Sidebar --- */
 body.dark-mode .sidebar-wrapper {
-    background: rgba(30, 30, 30, 0.8) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    color: #e0e0e0 !important;
+    background: rgba(30, 30, 30, 0.95) !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
-
-body.dark-mode .text-dark {
-    color: #ffffff !important;
-}
-
-body.dark-mode .text-muted {
-    color: #a0a0a0 !important;
-}
-
-body.dark-mode .glass-input {
-    background: rgba(50, 50, 50, 0.5) !important;
-    color: #ffffff !important;
-    border-color: rgba(255, 255, 255, 0.2) !important;
-}
-
-body.dark-mode .sidebar-link {
+body.dark-mode .sidebar-link i, body.dark-mode .sidebar-link {
     color: #cccccc !important;
 }
-
 body.dark-mode .sidebar-link:hover {
     background: rgba(218, 85, 134, 0.2) !important;
+    color: #da5586 !important;
+}
+body.dark-mode .sidebar-link:hover i {
     color: #da5586 !important;
 }
