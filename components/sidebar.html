@@ -1,146 +1,63 @@
 <div class="sidebar-wrapper glass-sidebar d-flex flex-column" id="sidebar-wrapper">
-    <!-- Logo & Brand - Pink Themed -->
+
     <div class="sidebar-heading text-center py-4 position-relative">
-        <img src="assets/images/logo_without_bc.png" alt="Pinkie Logo" style="width: 120px; margin-bottom: 15px;">
-        <h5 class="fw-bold mb-1">Pinkie Jewelry</h5>
-        <span class="text-muted small">ADMIN PORTAL</span>
+        <img src="assets/images/logo_without_bc.png" alt="Pinkie Logo" style="width: 100px; margin-bottom: 15px;">
+        <h6 class="fw-bold mb-0" style="color: #da5586; font-size: 16px;">Pinkie Jewelry Store</h6>
+        <span class="text-muted" style="font-size: 11px; letter-spacing: 1px;">STORE ADMINISTRATION</span>
     </div>
 
-    <!-- Theme Toggle Switch -->
-    <div class="theme-toggle-container">
-        <label class="theme-toggle-label">
-            <span class="theme-toggle-text">
-                <i class="fas fa-palette"></i>
-                <span id="themeText">Light Mode</span>
-            </span>
-            <label class="theme-switch">
-                <input type="checkbox" id="themeToggle">
-                <span class="theme-slider"></span>
-            </label>
-        </label>
-    </div>
-
-    <!-- Main Navigation -->
     <div class="list-group list-group-flush mt-2 px-3 flex-grow-1">
-        <a href="dashboard.html" class="list-group-item sidebar-link nav-dashboard">
+        <a href="dashboard.html" class="list-group-item list-group-item-action rounded mb-1 py-2] glass-item nav-dashboard sidebar-link">
             <i class="fas fa-home me-3"></i> Dashboard
         </a>
-        <a href="products.html" class="list-group-item sidebar-link nav-products">
+        <a href="products.html" class="list-group-item list-group-item-action rounded mb-1 py-2 glass-item nav-products sidebar-link">
             <i class="fas fa-gem me-3"></i> Products
         </a>
-        <a href="categories.html" class="list-group-item sidebar-link nav-categories">
+         <a href="categories.html" class="list-group-item list-group-item-action rounded mb-1 py-2 glass-item nav-categories sidebar-link">
             <i class="fas fa-tags me-3"></i> Categories
         </a>
-        <a href="inventory.html" class="list-group-item sidebar-link nav-inventory">
+        <a href="inventory.html" class="list-group-item list-group-item-action rounded mb-1 py-2 glass-item nav-inventory sidebar-link">
             <i class="fas fa-box me-3"></i> Inventory
         </a>
-        <a href="orders.html" class="list-group-item sidebar-link nav-orders">
+        <a href="orders.html" class="list-group-item list-group-item-action sidebar-link rounded mb-1 py-2 glass-item nav-orders">
             <i class="fas fa-shopping-bag me-3"></i> Orders
         </a>
-        <a href="customers.html" class="list-group-item sidebar-link nav-customers">
+        <a href="customers.html" class="list-group-item list-group-item-action sidebar-link rounded mb-1 py-2 glass-item nav-customers">
             <i class="fas fa-users me-3"></i> Customers
         </a>
-        <a href="reports.html" class="list-group-item sidebar-link nav-reports">
+         <a href="reports.html" class="list-group-item list-group-item-action sidebar-link rounded mb-1 py-2 glass-item nav-reports">
             <i class="fas fa-chart-bar me-3"></i> Reports
         </a>
     </div>
 
-    <!-- Footer Navigation -->
     <div class="list-group list-group-flush px-3 pb-4">
-        <hr class="sidebar-divider">
-        <a href="settings.html" class="list-group-item sidebar-link nav-settings">
+        <hr style="border-color: rgba(218,85,134,0.3); margin-top: 0; margin-bottom: 15px;">
+        
+        <a href="settings.html" class="list-group-item list-group-item-action sidebar-link rounded mb-1 py-2 glass-item nav-settings">
             <i class="fas fa-cog me-3"></i> Settings
         </a>
-        <a href="#" class="list-group-item sidebar-link text-danger fw-bold mt-1" onclick="logoutAdmin()">
+        
+        <a href="#" class="list-group-item list-group-item-action sidebar-link rounded py-2 glass-item text-danger fw-bold mt-1" onclick="logoutAdmin()">
             <i class="fas fa-sign-out-alt me-3"></i> Logout
         </a>
     </div>
+
 </div>
 
 <script>
-    // Theme Toggle Functionality
-    (function() {
-        // Check for saved theme preference
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        const themeToggle = document.getElementById('themeToggle');
-        const themeText = document.getElementById('themeText');
-        
-        // Apply saved theme
-        if (savedTheme === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            if (themeToggle) themeToggle.checked = true;
-            if (themeText) themeText.textContent = 'Dark Mode';
-        } else {
-            document.documentElement.setAttribute('data-theme', 'light');
-            if (themeToggle) themeToggle.checked = false;
-            if (themeText) themeText.textContent = 'Light Mode';
-        }
-        
-        // Theme toggle event listener
-        if (themeToggle) {
-            themeToggle.addEventListener('change', function() {
-                if (this.checked) {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                    localStorage.setItem('theme', 'dark');
-                    if (themeText) themeText.textContent = 'Dark Mode';
-                    
-                    // Optional: Show toast notification
-                    if (typeof Swal !== 'undefined') {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Dark Mode Activated',
-                            text: 'Theme has been changed successfully',
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 2000,
-                            background: 'rgba(40, 35, 37, 0.9)',
-                            color: '#fff'
-                        });
-                    }
-                } else {
-                    document.documentElement.setAttribute('data-theme', 'light');
-                    localStorage.setItem('theme', 'light');
-                    if (themeText) themeText.textContent = 'Light Mode';
-                    
-                    // Optional: Show toast notification
-                    if (typeof Swal !== 'undefined') {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Light Mode Activated',
-                            text: 'Theme has been changed successfully',
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 2000
-                        });
-                    }
-                }
-            });
-        }
-    })();
-
-    // Logout function with theme-aware styling
     function logoutAdmin() {
-        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-        
         Swal.fire({
             title: 'Ready to Leave?',
             text: 'You are about to logout from the admin panel.',
-            icon: 'question',
+            icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#da5586',
             cancelButtonColor: '#6c757d',
-            confirmButtonText: 'Yes, Logout',
-            background: currentTheme === 'dark' ? 'rgba(40, 35, 37, 0.95)' : 'rgba(255, 255, 255, 0.95)',
-            color: currentTheme === 'dark' ? '#fff' : '#2d3436',
-            backdrop: 'rgba(0,0,0,0.4)',
-            customClass: {
-                popup: 'glass-panel rounded-4'
-            }
+            confirmButtonText: 'Yes, Logout'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = 'index.html';
+                // මෙතනින් Login පිටුවට යවනවා
+                window.location.href = 'index.html'; // ඔයාගේ ලොගින් පිටුවේ නම දෙන්න (උදා: login.html)
             }
         });
     }
