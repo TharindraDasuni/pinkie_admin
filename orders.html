@@ -143,57 +143,9 @@
                                 </td>
                                 <td class="text-pinkie fw-bold">Rs. 85,000</td>
                                 <td class="text-center"><span class="badge bg-success bg-opacity-10 text-success border border-success rounded-pill px-3 py-1">Paid</span></td>
-                                <td class="text-center"><span class="badge bg-primary bg-opacity-75 rounded-pill px-3 py-2">New Order</span></td>
-                                <td class="text-center pe-3">
-                                    <button class="btn btn-sm btn-light text-primary rounded-circle shadow-sm me-1" title="View Details" onclick="viewOrder('ORD-5001')"><i class="fas fa-eye"></i></button>
-                                    <button class="btn btn-sm btn-light text-pinkie rounded-circle shadow-sm" title="Print Invoice"><i class="fas fa-file-invoice"></i></button>
-                                </td>
-                            </tr>
-
-                            <tr class="bg-white bg-opacity-50 shadow-sm" style="border-radius: 10px;">
-                                <td class="fw-bold text-dark ps-3">#ORD-5002</td>
-                                <td class="text-muted" style="font-size: 13px;">Oct 23, 2024<br><small>02:15 PM</small></td>
-                                <td>
-                                    <h6 class="mb-0 fw-bold text-dark" style="font-size: 14px;">Kamal Silva</h6>
-                                    <small class="text-muted" style="font-size: 12px;">kamal@email.com</small>
-                                </td>
-                                <td class="text-pinkie fw-bold">Rs. 145,500</td>
-                                <td class="text-center"><span class="badge bg-danger bg-opacity-10 text-danger border border-danger rounded-pill px-3 py-1">Unpaid</span></td>
                                 <td class="text-center"><span class="badge bg-warning text-dark bg-opacity-75 rounded-pill px-3 py-2">Processing</span></td>
                                 <td class="text-center pe-3">
-                                    <button class="btn btn-sm btn-light text-primary rounded-circle shadow-sm me-1" title="View Details" onclick="viewOrder('ORD-5002')"><i class="fas fa-eye"></i></button>
-                                    <button class="btn btn-sm btn-light text-pinkie rounded-circle shadow-sm" title="Print Invoice"><i class="fas fa-file-invoice"></i></button>
-                                </td>
-                            </tr>
-
-                            <tr class="bg-white bg-opacity-50 shadow-sm" style="border-radius: 10px;">
-                                <td class="fw-bold text-dark ps-3">#ORD-5003</td>
-                                <td class="text-muted" style="font-size: 13px;">Oct 20, 2024<br><small>09:45 AM</small></td>
-                                <td>
-                                    <h6 class="mb-0 fw-bold text-dark" style="font-size: 14px;">Dilini Fernando</h6>
-                                    <small class="text-muted" style="font-size: 12px;">+94 71 987 6543</small>
-                                </td>
-                                <td class="text-pinkie fw-bold">Rs. 35,000</td>
-                                <td class="text-center"><span class="badge bg-success bg-opacity-10 text-success border border-success rounded-pill px-3 py-1">Paid</span></td>
-                                <td class="text-center"><span class="badge bg-success bg-opacity-75 rounded-pill px-3 py-2">Delivered</span></td>
-                                <td class="text-center pe-3">
-                                    <button class="btn btn-sm btn-light text-primary rounded-circle shadow-sm me-1" title="View Details" onclick="viewOrder('ORD-5003')"><i class="fas fa-eye"></i></button>
-                                    <button class="btn btn-sm btn-light text-pinkie rounded-circle shadow-sm" title="Print Invoice"><i class="fas fa-file-invoice"></i></button>
-                                </td>
-                            </tr>
-                            
-                            <tr class="bg-white bg-opacity-50 shadow-sm" style="border-radius: 10px;">
-                                <td class="fw-bold text-dark ps-3">#ORD-5004</td>
-                                <td class="text-muted" style="font-size: 13px;">Oct 18, 2024<br><small>11:20 AM</small></td>
-                                <td>
-                                    <h6 class="mb-0 fw-bold text-dark" style="font-size: 14px;">Naveen Bandara</h6>
-                                    <small class="text-muted" style="font-size: 12px;">+94 76 555 1234</small>
-                                </td>
-                                <td class="text-pinkie fw-bold">Rs. 12,500</td>
-                                <td class="text-center"><span class="badge bg-warning bg-opacity-10 text-warning border border-warning rounded-pill px-3 py-1">Refunded</span></td>
-                                <td class="text-center"><span class="badge bg-danger bg-opacity-75 rounded-pill px-3 py-2">Cancelled</span></td>
-                                <td class="text-center pe-3">
-                                    <button class="btn btn-sm btn-light text-primary rounded-circle shadow-sm me-1" title="View Details" onclick="viewOrder('ORD-5004')"><i class="fas fa-eye"></i></button>
+                                    <button class="btn btn-sm btn-light text-primary rounded-circle shadow-sm me-1" title="Manage Order" data-bs-toggle="modal" data-bs-target="#orderDetailsModal"><i class="fas fa-eye"></i></button>
                                     <button class="btn btn-sm btn-light text-pinkie rounded-circle shadow-sm" title="Print Invoice"><i class="fas fa-file-invoice"></i></button>
                                 </td>
                             </tr>
@@ -207,28 +159,140 @@
         </div>
     </div>
 
+    <div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content glass-panel rounded-4 border-0 shadow-lg">
+                <div class="modal-header border-bottom-0 pb-0">
+                    <h5 class="modal-title fw-bold text-dark"><i class="fas fa-shopping-bag text-pinkie me-2"></i>Order #ORD-5001</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h6 class="fw-bold text-muted mb-2" style="font-size: 13px;">Customer Details</h6>
+                            <p class="mb-1 text-dark fw-bold">Sanduni Perera</p>
+                            <p class="mb-1 text-muted" style="font-size: 13px;"><i class="fas fa-phone-alt me-2"></i>+94 77 123 4567</p>
+                            <p class="mb-0 text-muted" style="font-size: 13px;"><i class="fas fa-envelope me-2"></i>sanduni@email.com</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="fw-bold text-muted mb-2" style="font-size: 13px;">Shipping Address</h6>
+                            <p class="mb-0 text-dark" style="font-size: 14px;">No 15, Galle Road,<br>Colombo 03,<br>Sri Lanka.</p>
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold text-muted mb-2" style="font-size: 13px;">Ordered Items</h6>
+                    <div class="table-responsive mb-4">
+                        <table class="table table-bordered mb-0" style="background: rgba(255,255,255,0.5); border-color: rgba(218,85,134,0.2);">
+                            <thead style="background: rgba(218,85,134,0.1);">
+                                <tr>
+                                    <th scope="col" class="text-muted" style="font-size: 12px;">Item</th>
+                                    <th scope="col" class="text-center text-muted" style="font-size: 12px;">Qty</th>
+                                    <th scope="col" class="text-end text-muted" style="font-size: 12px;">Total Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/879/879793.png" style="width: 40px; height: 40px;" class="me-3">
+                                            <div>
+                                                <h6 class="mb-0 text-dark fw-bold" style="font-size: 14px;">Premium Rose Gold Ring</h6>
+                                                <small class="text-muted">SKU: RNG-001</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center align-middle fw-bold">1</td>
+                                    <td class="text-end align-middle fw-bold text-pinkie">Rs. 45,000</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/1155/1155093.png" style="width: 40px; height: 40px;" class="me-3">
+                                            <div>
+                                                <h6 class="mb-0 text-dark fw-bold" style="font-size: 14px;">Diamond Shine Necklace</h6>
+                                                <small class="text-muted">SKU: NCK-042</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center align-middle fw-bold">1</td>
+                                    <td class="text-end align-middle fw-bold text-pinkie">Rs. 40,000</td>
+                                </tr>
+                            </tbody>
+                            <tfoot style="background: rgba(255,255,255,0.8);">
+                                <tr>
+                                    <td colspan="2" class="text-end fw-bold text-dark">Sub Total:</td>
+                                    <td class="text-end fw-bold text-dark">Rs. 85,000</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="text-end fw-bold text-dark">Shipping:</td>
+                                    <td class="text-end fw-bold text-dark">Free</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="text-end fw-bold text-pinkie fs-6">Grand Total:</td>
+                                    <td class="text-end fw-bold text-pinkie fs-6">Rs. 85,000</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <h6 class="fw-bold text-muted mb-3" style="font-size: 13px;">Update Order</h6>
+                    <div class="row g-3 bg-white bg-opacity-50 p-3 rounded-4 border" style="border-color: rgba(218,85,134,0.2) !important;">
+                        <div class="col-md-4">
+                            <label class="form-label text-dark fw-bold" style="font-size: 13px;">Order Status</label>
+                            <select class="form-select glass-input rounded-pill px-3 py-2">
+                                <option value="Pending">Pending</option>
+                                <option value="Processing" selected>Processing</option>
+                                <option value="Shipped">Shipped</option>
+                                <option value="Delivered">Delivered</option>
+                                <option value="Cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label text-dark fw-bold" style="font-size: 13px;">Courier Service</label>
+                            <select class="form-select glass-input rounded-pill px-3 py-2">
+                                <option value="" selected disabled>Select Courier...</option>
+                                <option value="Domex">Domex</option>
+                                <option value="PromptX">PromptX</option>
+                                <option value="Certis">Certis</option>
+                                <option value="Pronto">Pronto</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label text-dark fw-bold" style="font-size: 13px;">Tracking Number</label>
+                            <input type="text" class="form-control glass-input rounded-pill px-3 py-2" placeholder="e.g. DMX12345678">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer border-top-0 pt-0">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4 fw-bold" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-pinkie rounded-pill px-4 fw-bold" onclick="saveOrderUpdate()">Update Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
     <script src="assets/js/script.js"></script>
 
     <script>
-        function viewOrder(orderId) {
+        // Update Order Alert
+        function saveOrderUpdate() {
+            // Modal එක close කරනවා
+            var myModalEl = document.getElementById('orderDetailsModal');
+            var modal = bootstrap.Modal.getInstance(myModalEl);
+            modal.hide();
+
+            // Success Alert එක පෙන්වනවා
             Swal.fire({
-                title: `Order #${orderId}`,
-                html: `
-                    <div class="text-start mt-3">
-                        <p class="mb-1"><strong>Status:</strong> Processing</p>
-                        <p class="mb-1"><strong>Customer:</strong> Sanduni Perera</p>
-                        <p class="mb-3"><strong>Shipping:</strong> No 15, Galle Road, Colombo 03</p>
-                        <hr class="my-2" style="border-color: rgba(218,85,134,0.3);">
-                        <p class="mb-1 fw-bold text-pinkie">Total Amount: Rs. 85,000</p>
-                    </div>
-                `,
+                icon: 'success',
+                title: 'Order Updated!',
+                text: 'Order status and tracking information have been saved successfully.',
                 confirmButtonColor: '#da5586',
-                confirmButtonText: 'Close',
-                customClass: {
-                    popup: 'glass-panel rounded-4'
-                }
+                timer: 2000,
+                showConfirmButton: false
             });
         }
     </script>
