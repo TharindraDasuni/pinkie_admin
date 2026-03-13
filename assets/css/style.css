@@ -382,3 +382,46 @@ body.dark-mode .sidebar-link:hover {
 body.dark-mode .sidebar-link:hover i {
     color: #da5586 !important;
 }
+
+/* --- Mobile Responsive Fixes (ෆෝන් එකේදී 100% Responsive කිරීම) --- */
+@media (max-width: 768px) {
+    /* Sidebar එක ෆෝන් එකේදී වම් පැත්තට හංගනවා */
+    .sidebar-wrapper {
+        left: -300px; /* තිරයෙන් එළියට දානවා */
+        width: 260px !important; /* Menu එක එබුවම දිග ඇරිලා පේන්න */
+    }
+
+    /* Navbar එකේ Menu Button එක එබුවම Sidebar එක එළියට එන්න */
+    #wrapper.toggled .sidebar-wrapper {
+        left: 15px;
+    }
+
+    /* Content Area එක ෆෝන් එකේදී Full Screen (100%) කරනවා */
+    #page-content-wrapper {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 10px !important;
+    }
+
+    /* ෆෝන් එකේ Sidebar එක Open කරද්දී පස්සෙන් කළු පාට Background (Overlay) එකක් එන්න */
+    .sidebar-overlay {
+        position: fixed;
+        top: 0; 
+        left: 0; 
+        width: 100vw; 
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 1040;
+        display: none;
+        backdrop-filter: blur(3px); /* පස්ස බොඳ වීම */
+    }
+
+    #wrapper.toggled .sidebar-overlay {
+        display: block;
+    }
+    
+    /* ෆෝන් එකේදී Sidebar එක Hover කළාට ලොකු වෙන්න ඕනේ නෑ (කලින්ම ලොකු වෙලා එන්නේ) */
+    .sidebar-wrapper:hover {
+        width: 260px !important;
+    }
+}
