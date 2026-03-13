@@ -1,9 +1,23 @@
 <div class="sidebar-wrapper glass-sidebar d-flex flex-column" id="sidebar-wrapper">
-    <!-- Logo & Brand -->
-    <div class="sidebar-heading text-center py-5">
-        <img src="assets/images/logo_without_bc.png" alt="Pinkie Logo" style="width: 120px; margin-bottom: 1rem;">
-        <h5 class="fw-bold mb-1" style="color: var(--pinkie-primary);">Pinkie Jewelry</h5>
-        <span class="text-muted" style="font-size: 0.7rem; letter-spacing: 1px;">ADMIN PORTAL</span>
+    <!-- Logo & Brand - Pink Themed -->
+    <div class="sidebar-heading text-center py-4 position-relative">
+        <img src="assets/images/logo_without_bc.png" alt="Pinkie Logo" style="width: 120px; margin-bottom: 15px;">
+        <h5 class="fw-bold mb-1">Pinkie Jewelry</h5>
+        <span class="text-muted small">ADMIN PORTAL</span>
+    </div>
+
+    <!-- Theme Toggle Switch -->
+    <div class="theme-toggle-container">
+        <label class="theme-toggle-label">
+            <span class="theme-toggle-text">
+                <i class="fas fa-palette"></i>
+                <span id="themeText">Light Mode</span>
+            </span>
+            <label class="theme-switch">
+                <input type="checkbox" id="themeToggle">
+                <span class="theme-slider"></span>
+            </label>
+        </label>
     </div>
 
     <!-- Main Navigation -->
@@ -33,7 +47,7 @@
 
     <!-- Footer Navigation -->
     <div class="list-group list-group-flush px-3 pb-4">
-        <hr class="my-3" style="border-color: var(--glass-border);">
+        <hr class="sidebar-divider">
         <a href="settings.html" class="list-group-item sidebar-link nav-settings">
             <i class="fas fa-cog me-3"></i> Settings
         </a>
@@ -44,7 +58,72 @@
 </div>
 
 <script>
+    // Theme Toggle Functionality
+    (function() {
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        const themeToggle = document.getElementById('themeToggle');
+        const themeText = document.getElementById('themeText');
+        
+        // Apply saved theme
+        if (savedTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            if (themeToggle) themeToggle.checked = true;
+            if (themeText) themeText.textContent = 'Dark Mode';
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            if (themeToggle) themeToggle.checked = false;
+            if (themeText) themeText.textContent = 'Light Mode';
+        }
+        
+        // Theme toggle event listener
+        if (themeToggle) {
+            themeToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                    if (themeText) themeText.textContent = 'Dark Mode';
+                    
+                    // Optional: Show toast notification
+                    if (typeof Swal !== 'undefined') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Dark Mode Activated',
+                            text: 'Theme has been changed successfully',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 2000,
+                            background: 'rgba(40, 35, 37, 0.9)',
+                            color: '#fff'
+                        });
+                    }
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                    if (themeText) themeText.textContent = 'Light Mode';
+                    
+                    // Optional: Show toast notification
+                    if (typeof Swal !== 'undefined') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Light Mode Activated',
+                            text: 'Theme has been changed successfully',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    }
+                }
+            });
+        }
+    })();
+
+    // Logout function with theme-aware styling
     function logoutAdmin() {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        
         Swal.fire({
             title: 'Ready to Leave?',
             text: 'You are about to logout from the admin panel.',
@@ -53,8 +132,9 @@
             confirmButtonColor: '#da5586',
             cancelButtonColor: '#6c757d',
             confirmButtonText: 'Yes, Logout',
-            background: 'rgba(255, 255, 255, 0.9)',
-            backdrop: 'rgba(0,0,0,0.2)',
+            background: currentTheme === 'dark' ? 'rgba(40, 35, 37, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+            color: currentTheme === 'dark' ? '#fff' : '#2d3436',
+            backdrop: 'rgba(0,0,0,0.4)',
             customClass: {
                 popup: 'glass-panel rounded-4'
             }
