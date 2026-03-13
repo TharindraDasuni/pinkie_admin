@@ -352,3 +352,264 @@ body {
 .rounded-5 {
     border-radius: 24px !important;
 }
+
+/*------------------------------------------------------------------------ Theme Toggle & Sidebar Pink Version ------------------------------------------------------------------------*/
+
+/* Theme Variables */
+:root {
+    --sidebar-bg: rgba(255, 240, 245, 0.85);
+    --sidebar-border: rgba(218, 85, 134, 0.2);
+    --sidebar-text: #4a4a4a;
+    --sidebar-hover: rgba(218, 85, 134, 0.15);
+    --sidebar-active: rgba(218, 85, 134, 0.25);
+    --sidebar-icon: #da5586;
+    --card-bg: rgba(255, 255, 255, 0.7);
+    --text-primary: #2d3436;
+    --text-secondary: #636e72;
+    --shadow-color: rgba(218, 85, 134, 0.1);
+}
+
+/* Dark Theme Variables */
+[data-theme="dark"] {
+    --sidebar-bg: rgba(30, 20, 25, 0.95);
+    --sidebar-border: rgba(218, 85, 134, 0.3);
+    --sidebar-text: #e0e0e0;
+    --sidebar-hover: rgba(218, 85, 134, 0.25);
+    --sidebar-active: rgba(218, 85, 134, 0.35);
+    --sidebar-icon: #ef80ac;
+    --card-bg: rgba(40, 35, 37, 0.9);
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --shadow-color: rgba(218, 85, 134, 0.2);
+    
+    /* Background for dark mode */
+    background: #1a1a1a;
+}
+
+[data-theme="dark"] body {
+    background: linear-gradient(145deg, #2d2d2d 0%, #1a1a1a 100%);
+}
+
+/* Updated Sidebar with Pink Theme */
+.glass-sidebar {
+    width: 280px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background: var(--sidebar-bg) !important;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-right: 2px solid var(--sidebar-border);
+    box-shadow: 5px 0 30px var(--shadow-color);
+    overflow-y: auto;
+    transition: all 0.3s ease-in-out;
+    padding: 0;
+}
+
+/* Sidebar Header with Pink Accent */
+.sidebar-heading {
+    background: linear-gradient(135deg, rgba(218, 85, 134, 0.1) 0%, rgba(239, 128, 172, 0.05) 100%);
+    border-bottom: 2px solid var(--sidebar-border);
+    padding: 2rem 1rem !important;
+}
+
+.sidebar-heading img {
+    filter: drop-shadow(0 4px 8px rgba(218, 85, 134, 0.3));
+    transition: transform 0.3s ease;
+}
+
+.sidebar-heading img:hover {
+    transform: scale(1.05);
+}
+
+.sidebar-heading h5 {
+    color: var(--pinkie-primary) !important;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 4px rgba(218, 85, 134, 0.2);
+}
+
+.sidebar-heading span {
+    color: var(--text-secondary) !important;
+    font-weight: 500;
+}
+
+/* Sidebar Navigation Links - Pink Themed */
+.sidebar-link {
+    color: var(--sidebar-text) !important;
+    padding: 14px 20px !important;
+    margin: 6px 12px !important;
+    border-radius: 16px !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: none !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.sidebar-link i {
+    width: 24px;
+    color: var(--sidebar-icon);
+    transition: all 0.3s ease;
+}
+
+/* Hover Effect with Pink Gradient */
+.sidebar-link:hover {
+    background: var(--sidebar-hover) !important;
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(218, 85, 134, 0.2);
+}
+
+.sidebar-link:hover i {
+    transform: scale(1.1);
+    color: #da5586;
+}
+
+/* Active Navigation - Bold Pink */
+.active-nav {
+    background: var(--sidebar-active) !important;
+    color: #da5586 !important;
+    font-weight: 700;
+    border-left: 4px solid #da5586 !important;
+    box-shadow: 0 4px 15px rgba(218, 85, 134, 0.3);
+}
+
+.active-nav i {
+    color: #da5586 !important;
+}
+
+/* Divider */
+.sidebar-divider {
+    border-color: var(--sidebar-border) !important;
+    margin: 15px 20px;
+    opacity: 0.5;
+}
+
+/* Theme Toggle Switch - Modern Design */
+.theme-toggle-container {
+    padding: 15px 20px;
+    margin: 10px 12px;
+    background: rgba(218, 85, 134, 0.1);
+    border-radius: 20px;
+    border: 1px solid var(--sidebar-border);
+}
+
+.theme-toggle-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.theme-toggle-text {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--sidebar-text);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.theme-toggle-text i {
+    color: var(--sidebar-icon);
+    font-size: 1.1rem;
+}
+
+/* Modern Toggle Switch */
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 56px;
+    height: 28px;
+}
+
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.theme-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #ffcadf 0%, #ef80ac 100%);
+    border-radius: 34px;
+    transition: 0.3s;
+    box-shadow: 0 2px 10px rgba(218, 85, 134, 0.3);
+}
+
+.theme-slider:before {
+    position: absolute;
+    content: "☀️";
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+    width: 24px;
+    left: 2px;
+    bottom: 2px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.3s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+input:checked + .theme-slider {
+    background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+}
+
+input:checked + .theme-slider:before {
+    content: "🌙";
+    transform: translateX(28px);
+    background: #f0f0f0;
+}
+
+/* Theme Toggle Hover Effect */
+.theme-toggle-container:hover {
+    background: rgba(218, 85, 134, 0.15);
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+
+/* Logout Button Special Style */
+.sidebar-link.text-danger {
+    color: #dc3545 !important;
+}
+
+.sidebar-link.text-danger i {
+    color: #dc3545 !important;
+}
+
+.sidebar-link.text-danger:hover {
+    background: rgba(220, 53, 69, 0.15) !important;
+}
+
+.sidebar-link.text-danger:hover i {
+    color: #dc3545 !important;
+}
+
+/* Scrollbar Styling - Pink Theme */
+.glass-sidebar::-webkit-scrollbar {
+    width: 5px;
+}
+
+.glass-sidebar::-webkit-scrollbar-track {
+    background: rgba(218, 85, 134, 0.05);
+}
+
+.glass-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(218, 85, 134, 0.3);
+    border-radius: 10px;
+}
+
+.glass-sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(218, 85, 134, 0.5);
+}
