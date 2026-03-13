@@ -364,7 +364,7 @@ body.dark-mode .active-nav i, body.dark-mode .active-nav span {
     .sidebar-wrapper {
         left: -300px; 
         width: 260px !important; 
-        background: rgba(250, 184, 210, 0.95) !important;
+    background: rgba(252, 235, 241, 0.182);
     }
     
     .sidebar-link span, .sidebar-text-hide {
