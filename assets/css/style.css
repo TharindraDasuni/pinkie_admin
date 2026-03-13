@@ -200,9 +200,9 @@ body {
     height: calc(100vh - 30px) !important;
     width: 260px; 
     border-radius: 20px;
-    background: rgba(255, 231, 239, 0.3);
+    background: rgba(252, 235, 241, 0.182);
     backdrop-filter: blur(20px);
-    box-shadow: 0 10px 30px rgba(218, 85, 134, 0.24);
+    box-shadow: 0 10px 30px rgba(218, 85, 134, 0.284);
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     z-index: 1050;
     overflow-x: hidden;
