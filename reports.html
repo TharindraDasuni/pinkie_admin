@@ -180,12 +180,12 @@
         </div>
     </div>
 
-    <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+   <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <script src="assets/js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="assets/js/script.js"></script>
 
     <script>
-        // PDF Download Alert
         function downloadReport() {
             Swal.fire({
                 icon: 'success',
@@ -197,26 +197,21 @@
             });
         }
 
-        // Charts Initialization
         document.addEventListener("DOMContentLoaded", function () {
-            // 1. Line Chart (Revenue Overview)
+            
             const ctxSales = document.getElementById('salesChart').getContext('2d');
             new Chart(ctxSales, {
-                type: 'line',
+                type: 'bar',
                 data: {
                     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
                     datasets: [{
                         label: 'Revenue (Rs.)',
                         data: [45000, 60000, 35000, 80000, 110000, 95000, 120000],
-                        borderColor: '#da5586',
-                        backgroundColor: 'rgba(218, 85, 134, 0.2)',
-                        borderWidth: 3,
-                        pointBackgroundColor: '#ffffff',
-                        pointBorderColor: '#da5586',
-                        pointBorderWidth: 2,
-                        pointRadius: 4,
-                        fill: true,
-                        tension: 0.4 // Smooth curve
+                        backgroundColor: 'rgba(218, 85, 134, 0.7)',
+                        hoverBackgroundColor: '#da5586',
+                        borderRadius: 6,
+                        borderSkipped: false,
+                        barPercentage: 0.6
                     }]
                 },
                 options: {
@@ -231,7 +226,6 @@
                 }
             });
 
-            // 2. Doughnut Chart (Sales by Category)
             const ctxCategory = document.getElementById('categoryChart').getContext('2d');
             new Chart(ctxCategory, {
                 type: 'doughnut',
@@ -246,14 +240,14 @@
                 },
                 options: {
                     responsive: true,
-                    cutout: '75%', // Glassy look
+                    cutout: '75%',
                     plugins: {
                         legend: { position: 'bottom' }
                     }
                 }
             });
+
         });
     </script>
 </body>
-
 </html>
