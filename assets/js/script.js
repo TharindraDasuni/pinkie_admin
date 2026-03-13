@@ -85,6 +85,11 @@ document.addEventListener("DOMContentLoaded", async function() {
         document.getElementById('page-title').innerText = "Customers Management";
     }
 
+       else if(currentPage === "settings.html") {
+        document.querySelector('.nav-settings').classList.add('active-nav');
+        document.getElementById('page-title').innerText = "Settings";
+    }
+
     setTimeout(() => {
         const menuToggle = document.getElementById("menu-toggle");
         const wrapper = document.getElementById("wrapper");

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pinkie Admin | Customers</title>
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
+
+    <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/vendor/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="assets/vendor/sweetalert2/sweetalert2.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+    <div class="d-flex" id="wrapper">
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+        <div id="sidebar-container"></div>
+
+        <div id="page-content-wrapper" class="w-100 d-flex flex-column min-vh-100">
+            <div id="navbar-container"></div>
+
+            <div class="container-fluid px-4 flex-grow-1">
+                
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="fw-bold text-dark m-0">Customers</h5>
+                    <button class="btn btn-pinkie rounded-pill px-4 fw-bold">
+                        <i class="fas fa-file-export me-2"></i> Export List
+                    </button>
+                </div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-4">
+                        <div class="card dash-card glass-panel rounded-4 p-3 border-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1 fw-bold" style="font-size: 13px;">Total Customers</p>
+                                    <h3 class="fw-bold text-dark m-0">1,245</h3>
+                                </div>
+                                <div class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center" style="width:50px; height:50px;">
+                                    <i class="fas fa-users fs-4 text-pinkie"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card dash-card glass-panel rounded-4 p-3 border-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1 fw-bold" style="font-size: 13px;">New This Month</p>
+                                    <h3 class="fw-bold text-success m-0">+84</h3>
+                                </div>
+                                <div class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center" style="width:50px; height:50px;">
+                                    <i class="fas fa-user-plus fs-4 text-success"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card dash-card glass-panel rounded-4 p-3 border-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1 fw-bold" style="font-size: 13px;">Active Members</p>
+                                    <h3 class="fw-bold text-primary m-0">890</h3>
+                                </div>
+                                <div class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center" style="width:50px; height:50px;">
+                                    <i class="fas fa-user-check fs-4 text-primary"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card glass-panel rounded-4 p-3 mb-4 border-0">
+                    <div class="row g-2">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-text glass-input border-end-0 bg-transparent rounded-start-pill">
+                                    <i class="fas fa-search text-muted"></i>
+                                </span>
+                                <input type="text" class="form-control glass-input border-start-0 rounded-end-pill" placeholder="Search by name, email or phone...">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-select glass-input rounded-pill">
+                                <option selected>Sort By</option>
+                                <option value="1">Newest First</option>
+                                <option value="2">Highest Spender</option>
+                                <option value="3">Most Orders</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-outline-pinkie rounded-pill w-100 fw-bold">
+                                <i class="fas fa-filter me-1"></i> Filter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive mb-5">
+                    <table class="table table-hover glass-table align-middle mb-0" style="border-collapse: separate; border-spacing: 0 8px;">
+                        <thead class="pink-header">
+                            <tr>
+                                <th scope="col" class="ps-3">#ID</th>
+                                <th scope="col">CUSTOMER INFO</th>
+                                <th scope="col">JOINED DATE</th>
+                                <th scope="col" class="text-center">TOTAL ORDERS</th>
+                                <th scope="col" class="text-center">TOTAL SPENT</th>
+                                <th scope="col" class="text-center">STATUS</th>
+                                <th scope="col" class="text-center pe-3">ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-white bg-opacity-50 shadow-sm" style="border-radius: 10px;">
+                                <td class="fw-bold text-muted ps-3">CUS-001</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-white rounded-circle d-flex align-items-center justify-content-center border shadow-sm me-3" style="width: 40px; height: 40px;">
+                                            <i class="fas fa-user text-pinkie"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0 fw-bold text-dark" style="font-size: 14px;">Sanduni Perera</h6>
+                                            <small class="text-muted" style="font-size: 12px;">sanduni@email.com | +94 77 123 4567</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-muted" style="font-size: 13px;">Jan 15, 2024</td>
+                                <td class="text-center fw-bold text-dark fs-6">12</td>
+                                <td class="text-center fw-bold text-pinkie fs-6">Rs. 450,000</td>
+                                <td class="text-center"><span class="badge bg-success bg-opacity-75 rounded-pill px-3 py-2">Active</span></td>
+                                <td class="text-center pe-3">
+                                    <button class="btn btn-sm btn-light text-primary rounded-circle shadow-sm me-1" title="View Profile" onclick="viewCustomer('Sanduni Perera')"><i class="fas fa-eye"></i></button>
+                                    <button class="btn btn-sm btn-light text-danger rounded-circle shadow-sm" title="Ban User"><i class="fas fa-ban"></i></button>
+                                </td>
+                            </tr>
+
+                            <tr class="bg-white bg-opacity-50 shadow-sm" style="border-radius: 10px;">
+                                <td class="fw-bold text-muted ps-3">CUS-002</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-white rounded-circle d-flex align-items-center justify-content-center border shadow-sm me-3" style="width: 40px; height: 40px;">
+                                            <i class="fas fa-user text-pinkie"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0 fw-bold text-dark" style="font-size: 14px;">Kamal Silva</h6>
+                                            <small class="text-muted" style="font-size: 12px;">kamal@email.com | +94 71 987 6543</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-muted" style="font-size: 13px;">Mar 02, 2024</td>
+                                <td class="text-center fw-bold text-dark fs-6">3</td>
+                                <td class="text-center fw-bold text-pinkie fs-6">Rs. 145,500</td>
+                                <td class="text-center"><span class="badge bg-success bg-opacity-75 rounded-pill px-3 py-2">Active</span></td>
+                                <td class="text-center pe-3">
+                                    <button class="btn btn-sm btn-light text-primary rounded-circle shadow-sm me-1" title="View Profile" onclick="viewCustomer('Kamal Silva')"><i class="fas fa-eye"></i></button>
+                                    <button class="btn btn-sm btn-light text-danger rounded-circle shadow-sm" title="Ban User"><i class="fas fa-ban"></i></button>
+                                </td>
+                            </tr>
+
+                            <tr class="bg-white bg-opacity-50 shadow-sm" style="border-radius: 10px;">
+                                <td class="fw-bold text-muted ps-3">CUS-003</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-white rounded-circle d-flex align-items-center justify-content-center border shadow-sm me-3" style="width: 40px; height: 40px;">
+                                            <i class="fas fa-user text-muted"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0 fw-bold text-dark" style="font-size: 14px;">Naveen Bandara</h6>
+                                            <small class="text-muted" style="font-size: 12px;">naveen@email.com | +94 76 555 1234</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-muted" style="font-size: 13px;">Oct 10, 2024</td>
+                                <td class="text-center fw-bold text-dark fs-6">0</td>
+                                <td class="text-center fw-bold text-pinkie fs-6">Rs. 0</td>
+                                <td class="text-center"><span class="badge bg-secondary bg-opacity-75 rounded-pill px-3 py-2">Inactive</span></td>
+                                <td class="text-center pe-3">
+                                    <button class="btn btn-sm btn-light text-primary rounded-circle shadow-sm me-1" title="View Profile" onclick="viewCustomer('Naveen Bandara')"><i class="fas fa-eye"></i></button>
+                                    <button class="btn btn-sm btn-light text-danger rounded-circle shadow-sm" title="Ban User"><i class="fas fa-ban"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <div id="footer-container"></div>
+        </div>
+    </div>
+
+    <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
+    <script src="assets/js/script.js"></script>
+
+    <script>
+        function viewCustomer(name) {
+            Swal.fire({
+                title: 'Customer Profile',
+                html: `<p class="text-muted mt-2">Viewing full profile and order history for <strong>${name}</strong>.</p><p style="font-size: 13px;">(Here you can link to a detailed customer profile page in the future).</p>`,
+                icon: 'info',
+                confirmButtonColor: '#da5586',
+                confirmButtonText: 'Close',
+                customClass: {
+                    popup: 'glass-panel rounded-4'
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
