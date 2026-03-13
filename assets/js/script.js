@@ -3,7 +3,6 @@ function initTheme() {
     const savedTheme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', savedTheme);
     
-    // Update theme icons if they exist
     const sunIcon = document.getElementById('sunIcon');
     const moonIcon = document.getElementById('moonIcon');
     
@@ -103,14 +102,47 @@ async function loadComponent(elementId, filePath) {
     }
 }
 
-// Sidebar Toggle
+// Sidebar Toggle for Mobile
 function toggleSidebar() {
     const wrapper = document.getElementById("wrapper");
     const overlay = document.getElementById("sidebar-overlay");
     
     if (wrapper && overlay) {
         wrapper.classList.toggle("toggled");
-        overlay.style.display = wrapper.classList.contains("toggled") ? "block" : "none";
+        
+        if (wrapper.classList.contains("toggled")) {
+            overlay.style.display = "block";
+            document.body.style.overflow = "hidden"; // Prevent background scrolling
+        } else {
+            overlay.style.display = "none";
+            document.body.style.overflow = "";
+        }
+    }
+}
+
+// Close sidebar when clicking on overlay (mobile)
+function closeSidebar() {
+    const wrapper = document.getElementById("wrapper");
+    const overlay = document.getElementById("sidebar-overlay");
+    
+    if (wrapper && overlay) {
+        wrapper.classList.remove("toggled");
+        overlay.style.display = "none";
+        document.body.style.overflow = "";
+    }
+}
+
+// Handle window resize - reset sidebar state on desktop
+function handleResize() {
+    const wrapper = document.getElementById("wrapper");
+    const overlay = document.getElementById("sidebar-overlay");
+    const isMobile = window.innerWidth <= 768;
+    
+    if (!isMobile && wrapper && overlay) {
+        // On desktop, remove mobile toggled state
+        wrapper.classList.remove("toggled");
+        overlay.style.display = "none";
+        document.body.style.overflow = "";
     }
 }
 
@@ -179,7 +211,7 @@ document.addEventListener("DOMContentLoaded", async function() {
         if(pageTitle) pageTitle.innerText = "Settings";
     }
 
-    // Setup sidebar toggle
+    // Setup sidebar toggle and event listeners
     setTimeout(() => {
         const menuToggle = document.getElementById("menu-toggle");
         const wrapper = document.getElementById("wrapper");
@@ -194,12 +226,15 @@ document.addEventListener("DOMContentLoaded", async function() {
         }
 
         if (overlay) {
-            overlay.addEventListener("click", toggleSidebar);
+            overlay.addEventListener("click", closeSidebar);
         }
 
         if (closeBtn) {
-            closeBtn.addEventListener("click", toggleSidebar);
+            closeBtn.addEventListener("click", closeSidebar);
         }
+        
+        // Handle window resize
+        window.addEventListener('resize', handleResize);
         
         // Setup theme toggle
         const themeToggle = document.getElementById("themeToggle");
