@@ -1,132 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pinkie Admin | Dashboard</title>
     <link rel="icon" type="image/png" href="assets/images/logo.png">
 
+    <!-- Google Font for Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="assets/vendor/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
 </head>
-
 <body>
     <div class="d-flex" id="wrapper">
         <div class="sidebar-overlay" id="sidebar-overlay"></div>
-
         <div id="sidebar-container"></div>
 
         <div id="page-content-wrapper" class="w-100 d-flex flex-column min-vh-100">
-
             <div id="navbar-container"></div>
 
             <div class="container-fluid px-4 flex-grow-1">
 
+                <!-- Metric Cards -->
                 <div class="row g-4 mb-4">
                     <div class="col-xl-3 col-md-6">
-                        <div class="card dash-card glass-panel rounded-4 p-3 border-0">
-                            <div class="d-flex justify-content-between">
+                        <div class="card dash-card glass-panel p-3 border-0">
+                            <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <p class="text-muted mb-1 fs-6">Total Revenue</p>
-                                    <p class="text-muted" style="font-size: 11px;">Last 30 days</p>
+                                    <p class="text-muted text-uppercase small fw-semibold mb-1">Total Revenue</p>
+                                    <h3 class="fw-bold mb-0">Rs. 82.6k</h3>
                                 </div>
-                                <div class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center"
-                                    style="width:45px; height:45px;">
-                                    <i class="fas fa-coins" style="color:#da5586;"></i>
+                                <div class="glass-icon-box">
+                                    <i class="fas fa-coins"></i>
                                 </div>
                             </div>
-                            <h3 class="fw-bold text-dark mt-2 mb-2">Rs. 82,650</h3>
-                            <p class="mb-0" style="font-size: 13px;"><span class="text-success fw-bold"><i
-                                        class="fas fa-arrow-up"></i> 11%</span> <span class="text-muted">vs last
-                                    month</span></p>
+                            <p class="mb-0 mt-3 small"><span class="text-success fw-semibold"><i class="fas fa-arrow-up"></i> 11%</span> <span class="text-muted">vs last month</span></p>
                         </div>
                     </div>
-
                     <div class="col-xl-3 col-md-6">
-                        <div class="card dash-card glass-panel rounded-4 p-3 border-0">
-                            <div class="d-flex justify-content-between">
+                        <div class="card dash-card glass-panel p-3 border-0">
+                            <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <p class="text-muted mb-1 fs-6">Total Orders</p>
-                                    <p class="text-muted" style="font-size: 11px;">Last 30 days</p>
+                                    <p class="text-muted text-uppercase small fw-semibold mb-1">Total Orders</p>
+                                    <h3 class="fw-bold mb-0">1,645</h3>
                                 </div>
-                                <div class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center"
-                                    style="width:45px; height:45px;">
-                                    <i class="fas fa-shopping-cart" style="color:#da5586;"></i>
+                                <div class="glass-icon-box">
+                                    <i class="fas fa-shopping-cart"></i>
                                 </div>
                             </div>
-                            <h3 class="fw-bold text-dark mt-2 mb-2">1,645</h3>
-                            <p class="mb-0" style="font-size: 13px;"><span class="text-success fw-bold"><i
-                                        class="fas fa-arrow-up"></i> 5%</span> <span class="text-muted">vs last
-                                    month</span></p>
+                            <p class="mb-0 mt-3 small"><span class="text-success fw-semibold"><i class="fas fa-arrow-up"></i> 5%</span> <span class="text-muted">vs last month</span></p>
                         </div>
                     </div>
-
                     <div class="col-xl-3 col-md-6">
-                        <div class="card dash-card glass-panel rounded-4 p-3 border-0">
-                            <div class="d-flex justify-content-between">
+                        <div class="card dash-card glass-panel p-3 border-0">
+                            <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <p class="text-muted mb-1 fs-6">Total Customers</p>
-                                    <p class="text-muted" style="font-size: 11px;">Last 30 days</p>
+                                    <p class="text-muted text-uppercase small fw-semibold mb-1">Customers</p>
+                                    <h3 class="fw-bold mb-0">1,462</h3>
                                 </div>
-                                <div class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center"
-                                    style="width:45px; height:45px;">
-                                    <i class="fas fa-user" style="color:#da5586;"></i>
+                                <div class="glass-icon-box">
+                                    <i class="fas fa-user"></i>
                                 </div>
                             </div>
-                            <h3 class="fw-bold text-dark mt-2 mb-2">1,462</h3>
-                            <p class="mb-0" style="font-size: 13px;"><span class="text-danger fw-bold"><i
-                                        class="fas fa-arrow-down"></i> 2%</span> <span class="text-muted">vs last
-                                    month</span></p>
+                            <p class="mb-0 mt-3 small"><span class="text-danger fw-semibold"><i class="fas fa-arrow-down"></i> 2%</span> <span class="text-muted">vs last month</span></p>
                         </div>
                     </div>
-
                     <div class="col-xl-3 col-md-6">
-                        <div class="card dash-card glass-panel rounded-4 p-3 border-0">
-                            <div class="d-flex justify-content-between">
+                        <div class="card dash-card glass-panel p-3 border-0">
+                            <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <p class="text-muted mb-1 fs-6">Pending Orders</p>
-                                    <p class="text-muted" style="font-size: 11px;">Currently</p>
+                                    <p class="text-muted text-uppercase small fw-semibold mb-1">Pending Orders</p>
+                                    <h3 class="fw-bold mb-0">115</h3>
                                 </div>
-                                <div class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center"
-                                    style="width:45px; height:45px;">
-                                    <i class="fas fa-clock" style="color:#da5586;"></i>
+                                <div class="glass-icon-box">
+                                    <i class="fas fa-clock"></i>
                                 </div>
                             </div>
-                            <h3 class="fw-bold text-dark mt-2 mb-2">115</h3>
-                            <p class="mb-0" style="font-size: 13px;"><span class="text-warning fw-bold"><i
-                                        class="fas fa-minus"></i> 0%</span> <span class="text-muted">vs yesterday</span>
-                            </p>
+                            <p class="mb-0 mt-3 small"><span class="text-warning fw-semibold"><i class="fas fa-minus"></i> 0%</span> <span class="text-muted">vs yesterday</span></p>
                         </div>
                     </div>
                 </div>
 
-                <div class="row mb-4">
+                <!-- Sales Chart & Summary -->
+                <div class="row mb-5">
                     <div class="col-12">
-                        <div class="card glass-panel rounded-4 p-4 dash-card border-0">
+                        <div class="card glass-panel p-4 border-0">
                             <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h5 class="fw-bold text-dark m-0">Sales Analytic</h5>
-                                <select class="form-select form-select-sm w-auto glass-input fw-bold text-dark">
+                                <h5 class="fw-bold mb-0">Sales Analytics</h5>
+                                <select class="form-select form-select-sm w-auto glass-input" style="border-radius: 12px;">
                                     <option>July 2026</option>
                                     <option>August 2026</option>
                                 </select>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-md-3">
-                                    <p class="text-muted mb-1" style="font-size:13px;">Income</p>
-                                    <h4 class="fw-bold text-dark">Rs. 23,262.00</h4>
-                                </div>
-                                <div class="col-md-3">
-                                    <p class="text-muted mb-1" style="font-size:13px;">Expenses</p>
-                                    <h4 class="fw-bold text-dark">Rs. 11,135.00</h4>
-                                </div>
-                                <div class="col-md-3">
-                                    <p class="text-muted mb-1" style="font-size:13px;">Balance</p>
-                                    <h4 class="fw-bold text-dark">Rs. 48,135.00</h4>
-                                </div>
                             </div>
                             <div style="height: 300px;">
                                 <canvas id="salesChart"></canvas>
@@ -135,65 +104,56 @@
                     </div>
                 </div>
 
+                <!-- Top Selling Products -->
                 <div class="row mb-5">
                     <div class="col-12">
-                        <div class="card glass-panel rounded-4 p-4 dash-card border-0">
+                        <div class="card glass-panel p-4 border-0">
                             <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h5 class="fw-bold text-dark m-0">Top Selling Jewelry</h5>
-                                <a href="#" class="text-decoration-none" style="color: #da5586; font-weight: bold;">View
-                                    All <i class="fas fa-arrow-right"></i></a>
+                                <h5 class="fw-bold mb-0">Top Selling Jewelry</h5>
+                                <a href="#" class="text-decoration-none small fw-semibold" style="color: var(--pinkie-primary);">View All <i class="fas fa-arrow-right ms-1"></i></a>
                             </div>
-
-                            <div class="row g-4 text-center">
-                                <div class="col-md-2 col-6">
-                                    <div class="product-img-box glass-input rounded-4 mb-3 p-3 border-0">
-                                        <img src="https://cdn-icons-png.flaticon.com/512/879/879793.png"
-                                            class="img-fluid" style="height: 80px; opacity: 0.8;">
+                            <div class="row g-4">
+                                <div class="col-md-2 col-6 text-center">
+                                    <div class="product-img-box mx-auto mb-2">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/879/879793.png" class="img-fluid">
                                     </div>
-                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">Rose Gold Ring</h6>
-                                    <p class="text-muted m-0" style="font-size: 12px;">752 Pcs</p>
+                                    <h6 class="small fw-bold mb-0">Rose Gold Ring</h6>
+                                    <small class="text-muted">752 Pcs</small>
                                 </div>
-                                <div class="col-md-2 col-6">
-                                    <div class="product-img-box glass-input rounded-4 mb-3 p-3 border-0">
-                                        <img src="https://cdn-icons-png.flaticon.com/512/1155/1155093.png"
-                                            class="img-fluid" style="height: 80px; opacity: 0.8;">
+                                <div class="col-md-2 col-6 text-center">
+                                    <div class="product-img-box mx-auto mb-2">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/1155/1155093.png" class="img-fluid">
                                     </div>
-                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">Diamond Necklace</h6>
-                                    <p class="text-muted m-0" style="font-size: 12px;">642 Pcs</p>
+                                    <h6 class="small fw-bold mb-0">Diamond Necklace</h6>
+                                    <small class="text-muted">642 Pcs</small>
                                 </div>
-                                <div class="col-md-2 col-6">
-                                    <div class="product-img-box glass-input rounded-4 mb-3 p-3 border-0">
-                                        <img src="https://cdn-icons-png.flaticon.com/512/834/834812.png"
-                                            class="img-fluid" style="height: 80px; opacity: 0.8;">
+                                <div class="col-md-2 col-6 text-center">
+                                    <div class="product-img-box mx-auto mb-2">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/834/834812.png" class="img-fluid">
                                     </div>
-                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">Ruby Earrings</h6>
-                                    <p class="text-muted m-0" style="font-size: 12px;">510 Pcs</p>
+                                    <h6 class="small fw-bold mb-0">Ruby Earrings</h6>
+                                    <small class="text-muted">510 Pcs</small>
                                 </div>
-                                <div class="col-md-2 col-6">
-                                    <div class="product-img-box glass-input rounded-4 mb-3 p-3 border-0">
-                                        <img src="https://cdn-icons-png.flaticon.com/512/1004/1004389.png"
-                                            class="img-fluid" style="height: 80px; opacity: 0.8;">
+                                <div class="col-md-2 col-6 text-center">
+                                    <div class="product-img-box mx-auto mb-2">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/1004/1004389.png" class="img-fluid">
                                     </div>
-                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">Silver Bracelet</h6>
-                                    <p class="text-muted m-0" style="font-size: 12px;">480 Pcs</p>
+                                    <h6 class="small fw-bold mb-0">Silver Bracelet</h6>
+                                    <small class="text-muted">480 Pcs</small>
                                 </div>
-                                <div class="col-md-2 col-6">
-                                    <div class="product-img-box glass-input rounded-4 mb-3 p-3 border-0">
-                                        <img src="https://cdn-icons-png.flaticon.com/512/3660/3660232.png"
-                                            class="img-fluid" style="height: 80px; opacity: 0.8;">
+                                <div class="col-md-2 col-6 text-center">
+                                    <div class="product-img-box mx-auto mb-2">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/3660/3660232.png" class="img-fluid">
                                     </div>
-                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">Pearl Pendant</h6>
-                                    <p class="text-muted m-0" style="font-size: 12px;">395 Pcs</p>
+                                    <h6 class="small fw-bold mb-0">Pearl Pendant</h6>
+                                    <small class="text-muted">395 Pcs</small>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-
             <div id="footer-container"></div>
-
         </div>
     </div>
 
@@ -201,5 +161,4 @@
     <script src="assets/js/script.js"></script>
     <script src="assets/js/dashboard.js"></script>
 </body>
-
 </html>
