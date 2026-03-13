@@ -200,7 +200,7 @@ body {
     height: calc(100vh - 30px) !important;
     width: 260px; 
     border-radius: 20px;
-    background: rgba(250, 184, 210, 0.95) !important; 
+    background: rgba(251, 188, 213, 0.95) !important; 
     backdrop-filter: blur(20px);
     box-shadow: 0 10px 30px rgba(218, 85, 134, 0.24);
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
