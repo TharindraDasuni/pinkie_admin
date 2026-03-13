@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,197 +8,233 @@
 
     <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="assets/vendor/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="assets/vendor/sweetalert2/sweetalert2.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-
 <body>
     <div class="d-flex" id="wrapper">
         <div class="sidebar-overlay" id="sidebar-overlay"></div>
-
         <div id="sidebar-container"></div>
 
-        <div id="page-content-wrapper" class="w-100 d-flex flex-column min-vh-100">
-
+        <div id="page-content-wrapper">
             <div id="navbar-container"></div>
 
-            <div class="container-fluid px-4 flex-grow-1">
-
-                <div class="row g-4 mb-4">
-                    <div class="col-xl-3 col-md-6">
-                        <div class="card dash-card glass-panel rounded-4 p-3 border-0">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <p class="text-muted mb-1 fs-6">Total Revenue</p>
-                                    <p class="text-muted" style="font-size: 11px;">Last 30 days</p>
-                                </div>
-                                <div class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center"
-                                    style="width:45px; height:45px;">
-                                    <i class="fas fa-coins" style="color:#da5586;"></i>
-                                </div>
+            <div class="main-content">
+                <!-- Stats Cards -->
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="title">Total Revenue</span>
+                            <div class="icon">
+                                <i class="fas fa-coins"></i>
                             </div>
-                            <h3 class="fw-bold text-dark mt-2 mb-2">Rs. 82,650</h3>
-                            <p class="mb-0" style="font-size: 13px;"><span class="text-success fw-bold"><i
-                                        class="fas fa-arrow-up"></i> 11%</span> <span class="text-muted">vs last
-                                    month</span></p>
+                        </div>
+                        <div class="value">Rs. 82,650</div>
+                        <div class="trend up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>11% vs last month</span>
                         </div>
                     </div>
 
-                    <div class="col-xl-3 col-md-6">
-                        <div class="card dash-card glass-panel rounded-4 p-3 border-0">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <p class="text-muted mb-1 fs-6">Total Orders</p>
-                                    <p class="text-muted" style="font-size: 11px;">Last 30 days</p>
-                                </div>
-                                <div class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center"
-                                    style="width:45px; height:45px;">
-                                    <i class="fas fa-shopping-cart" style="color:#da5586;"></i>
-                                </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="title">Total Orders</span>
+                            <div class="icon">
+                                <i class="fas fa-shopping-cart"></i>
                             </div>
-                            <h3 class="fw-bold text-dark mt-2 mb-2">1,645</h3>
-                            <p class="mb-0" style="font-size: 13px;"><span class="text-success fw-bold"><i
-                                        class="fas fa-arrow-up"></i> 5%</span> <span class="text-muted">vs last
-                                    month</span></p>
+                        </div>
+                        <div class="value">1,645</div>
+                        <div class="trend up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>5% vs last month</span>
                         </div>
                     </div>
 
-                    <div class="col-xl-3 col-md-6">
-                        <div class="card dash-card glass-panel rounded-4 p-3 border-0">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <p class="text-muted mb-1 fs-6">Total Customers</p>
-                                    <p class="text-muted" style="font-size: 11px;">Last 30 days</p>
-                                </div>
-                                <div class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center"
-                                    style="width:45px; height:45px;">
-                                    <i class="fas fa-user" style="color:#da5586;"></i>
-                                </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="title">Customers</span>
+                            <div class="icon">
+                                <i class="fas fa-users"></i>
                             </div>
-                            <h3 class="fw-bold text-dark mt-2 mb-2">1,462</h3>
-                            <p class="mb-0" style="font-size: 13px;"><span class="text-danger fw-bold"><i
-                                        class="fas fa-arrow-down"></i> 2%</span> <span class="text-muted">vs last
-                                    month</span></p>
+                        </div>
+                        <div class="value">1,462</div>
+                        <div class="trend down">
+                            <i class="fas fa-arrow-down"></i>
+                            <span>2% vs last month</span>
                         </div>
                     </div>
 
-                    <div class="col-xl-3 col-md-6">
-                        <div class="card dash-card glass-panel rounded-4 p-3 border-0">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <p class="text-muted mb-1 fs-6">Pending Orders</p>
-                                    <p class="text-muted" style="font-size: 11px;">Currently</p>
-                                </div>
-                                <div class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center"
-                                    style="width:45px; height:45px;">
-                                    <i class="fas fa-clock" style="color:#da5586;"></i>
-                                </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="title">Pending Orders</span>
+                            <div class="icon">
+                                <i class="fas fa-clock"></i>
                             </div>
-                            <h3 class="fw-bold text-dark mt-2 mb-2">115</h3>
-                            <p class="mb-0" style="font-size: 13px;"><span class="text-warning fw-bold"><i
-                                        class="fas fa-minus"></i> 0%</span> <span class="text-muted">vs yesterday</span>
-                            </p>
+                        </div>
+                        <div class="value">115</div>
+                        <div class="trend">
+                            <i class="fas fa-minus"></i>
+                            <span>0% vs yesterday</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="row mb-4">
-                    <div class="col-12">
-                        <div class="card glass-panel rounded-4 p-4 dash-card border-0">
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h5 class="fw-bold text-dark m-0">Sales Analytic</h5>
-                                <select class="form-select form-select-sm w-auto glass-input fw-bold text-dark">
-                                    <option>July 2026</option>
-                                    <option>August 2026</option>
-                                </select>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-md-3">
-                                    <p class="text-muted mb-1" style="font-size:13px;">Income</p>
-                                    <h4 class="fw-bold text-dark">Rs. 23,262.00</h4>
-                                </div>
-                                <div class="col-md-3">
-                                    <p class="text-muted mb-1" style="font-size:13px;">Expenses</p>
-                                    <h4 class="fw-bold text-dark">Rs. 11,135.00</h4>
-                                </div>
-                                <div class="col-md-3">
-                                    <p class="text-muted mb-1" style="font-size:13px;">Balance</p>
-                                    <h4 class="fw-bold text-dark">Rs. 48,135.00</h4>
-                                </div>
-                            </div>
-                            <div style="height: 300px;">
-                                <canvas id="salesChart"></canvas>
-                            </div>
+                <!-- Charts -->
+                <div class="charts-row">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h6>Sales Analytics</h6>
+                            <select>
+                                <option>Last 7 Days</option>
+                                <option>Last 30 Days</option>
+                                <option>This Month</option>
+                            </select>
+                        </div>
+                        <div style="height: 300px;">
+                            <canvas id="salesChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h6>Project Status</h6>
+                        </div>
+                        <div style="height: 300px;">
+                            <canvas id="statusChart"></canvas>
                         </div>
                     </div>
                 </div>
 
-                <div class="row mb-5">
-                    <div class="col-12">
-                        <div class="card glass-panel rounded-4 p-4 dash-card border-0">
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h5 class="fw-bold text-dark m-0">Top Selling Jewelry</h5>
-                                <a href="#" class="text-decoration-none" style="color: #da5586; font-weight: bold;">View
-                                    All <i class="fas fa-arrow-right"></i></a>
-                            </div>
+                <!-- Top Products -->
+                <div class="table-container">
+                    <div class="chart-header" style="margin-bottom: 24px;">
+                        <h6>Top Selling Products</h6>
+                        <a href="#" style="color: var(--pink-accent); text-decoration: none; font-size: 13px; font-weight: 500;">View All →</a>
+                    </div>
 
-                            <div class="row g-4 text-center">
-                                <div class="col-md-2 col-6">
-                                    <div class="product-img-box glass-input rounded-4 mb-3 p-3 border-0">
-                                        <img src="https://cdn-icons-png.flaticon.com/512/879/879793.png"
-                                            class="img-fluid" style="height: 80px; opacity: 0.8;">
-                                    </div>
-                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">Rose Gold Ring</h6>
-                                    <p class="text-muted m-0" style="font-size: 12px;">752 Pcs</p>
-                                </div>
-                                <div class="col-md-2 col-6">
-                                    <div class="product-img-box glass-input rounded-4 mb-3 p-3 border-0">
-                                        <img src="https://cdn-icons-png.flaticon.com/512/1155/1155093.png"
-                                            class="img-fluid" style="height: 80px; opacity: 0.8;">
-                                    </div>
-                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">Diamond Necklace</h6>
-                                    <p class="text-muted m-0" style="font-size: 12px;">642 Pcs</p>
-                                </div>
-                                <div class="col-md-2 col-6">
-                                    <div class="product-img-box glass-input rounded-4 mb-3 p-3 border-0">
-                                        <img src="https://cdn-icons-png.flaticon.com/512/834/834812.png"
-                                            class="img-fluid" style="height: 80px; opacity: 0.8;">
-                                    </div>
-                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">Ruby Earrings</h6>
-                                    <p class="text-muted m-0" style="font-size: 12px;">510 Pcs</p>
-                                </div>
-                                <div class="col-md-2 col-6">
-                                    <div class="product-img-box glass-input rounded-4 mb-3 p-3 border-0">
-                                        <img src="https://cdn-icons-png.flaticon.com/512/1004/1004389.png"
-                                            class="img-fluid" style="height: 80px; opacity: 0.8;">
-                                    </div>
-                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">Silver Bracelet</h6>
-                                    <p class="text-muted m-0" style="font-size: 12px;">480 Pcs</p>
-                                </div>
-                                <div class="col-md-2 col-6">
-                                    <div class="product-img-box glass-input rounded-4 mb-3 p-3 border-0">
-                                        <img src="https://cdn-icons-png.flaticon.com/512/3660/3660232.png"
-                                            class="img-fluid" style="height: 80px; opacity: 0.8;">
-                                    </div>
-                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">Pearl Pendant</h6>
-                                    <p class="text-muted m-0" style="font-size: 12px;">395 Pcs</p>
-                                </div>
+                    <div class="products-grid">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://cdn-icons-png.flaticon.com/512/879/879793.png" alt="Ring">
                             </div>
+                            <h6>Rose Gold Ring</h6>
+                            <span class="stock">752 Pcs</span>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://cdn-icons-png.flaticon.com/512/1155/1155093.png" alt="Necklace">
+                            </div>
+                            <h6>Diamond Necklace</h6>
+                            <span class="stock">642 Pcs</span>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://cdn-icons-png.flaticon.com/512/834/834812.png" alt="Earrings">
+                            </div>
+                            <h6>Ruby Earrings</h6>
+                            <span class="stock">510 Pcs</span>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://cdn-icons-png.flaticon.com/512/1004/1004389.png" alt="Bracelet">
+                            </div>
+                            <h6>Silver Bracelet</h6>
+                            <span class="stock">480 Pcs</span>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://cdn-icons-png.flaticon.com/512/3660/3660232.png" alt="Pendant">
+                            </div>
+                            <h6>Pearl Pendant</h6>
+                            <span class="stock">395 Pcs</span>
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <div id="footer-container"></div>
-
         </div>
     </div>
 
     <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
     <script src="assets/js/script.js"></script>
-    <script src="assets/js/dashboard.js"></script>
-</body>
+    <script>
+        // Dashboard Charts
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sales Chart
+            const ctx = document.getElementById('salesChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Revenue',
+                        data: [12000, 19000, 15000, 25000, 22000, 30000, 28000],
+                        borderColor: '#d9467d',
+                        backgroundColor: 'rgba(217, 70, 125, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#d9467d',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0,0,0,0.05)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return 'Rs.' + value;
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
 
+            // Status Chart
+            const ctx2 = document.getElementById('statusChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Completed', 'In Progress', 'Pending'],
+                    datasets: [{
+                        data: [10, 12, 2],
+                        backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
 </html>
