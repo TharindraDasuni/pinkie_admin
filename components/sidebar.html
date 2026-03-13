@@ -1,64 +1,53 @@
 <div class="sidebar-wrapper d-flex flex-column" id="sidebar-wrapper">
 
     <div class="sidebar-heading text-center py-4 position-relative d-flex flex-column align-items-center">
-        <img src="assets/images/logo_without_bc.png" alt="Pinkie Logo" style="width: 45px; transition: all 0.4s ease;" id="sidebarLogo">
+        <img src="assets/images/logo_without_bc.png" alt="Pinkie Logo" id="sidebarLogo">
         
         <div class="sidebar-text-hide mt-3" style="width: 100%;">
-            <h6 class="fw-bold mb-1" style="color: #ffffff; font-size: 17px;">Pinkie Jewelry</h6>
-            <span style="color: rgba(255,255,255,0.8); font-size: 11px; letter-spacing: 1px;">STORE ADMIN</span>
+            <h6 class="fw-bold mb-1" style="color: #da5586; font-size: 16px;">Pinkie Jewelry</h6>
+            <span style="color: #8c4261; font-size: 11px; letter-spacing: 1px; font-weight: bold;">STORE ADMIN</span>
         </div>
     </div>
 
     <div class="list-group list-group-flush mt-2 px-3 flex-grow-1 overflow-hidden">
-        <a href="dashboard.html" class="list-group-item list-group-item-action rounded mb-2 py-3 glass-item nav-dashboard sidebar-link d-flex align-items-center">
+        <a href="dashboard.html" class="list-group-item list-group-item-action rounded mb-2 glass-item nav-dashboard sidebar-link d-flex align-items-center ">
             <i class="fas fa-home"></i> <span>Dashboard</span>
         </a>
-        <a href="products.html" class="list-group-item list-group-item-action rounded mb-2 py-3 glass-item nav-products sidebar-link d-flex align-items-center">
+        <a href="products.html" class="list-group-item list-group-item-action rounded mb-2 glass-item nav-products sidebar-link d-flex align-items-center">
             <i class="fas fa-gem"></i> <span>Products</span>
         </a>
-         <a href="categories.html" class="list-group-item list-group-item-action rounded mb-2 py-3 glass-item nav-categories sidebar-link d-flex align-items-center">
+         <a href="categories.html" class="list-group-item list-group-item-action rounded mb-2 glass-item nav-categories sidebar-link d-flex align-items-center">
             <i class="fas fa-tags"></i> <span>Categories</span>
         </a>
-        <a href="inventory.html" class="list-group-item list-group-item-action rounded mb-2 py-3 glass-item nav-inventory sidebar-link d-flex align-items-center">
+        <a href="inventory.html" class="list-group-item list-group-item-action rounded mb-2 glass-item nav-inventory sidebar-link d-flex align-items-center">
             <i class="fas fa-box"></i> <span>Inventory</span>
         </a>
-        <a href="orders.html" class="list-group-item list-group-item-action sidebar-link rounded mb-2 py-3 glass-item nav-orders d-flex align-items-center">
+        <a href="orders.html" class="list-group-item list-group-item-action sidebar-link rounded mb-2 glass-item nav-orders d-flex align-items-center">
             <i class="fas fa-shopping-bag"></i> <span>Orders</span>
         </a>
-        <a href="customers.html" class="list-group-item list-group-item-action sidebar-link rounded mb-2 py-3 glass-item nav-customers d-flex align-items-center">
+        <a href="customers.html" class="list-group-item list-group-item-action sidebar-link rounded mb-2 glass-item nav-customers d-flex align-items-center">
             <i class="fas fa-users"></i> <span>Customers</span>
         </a>
-         <a href="reports.html" class="list-group-item list-group-item-action sidebar-link rounded mb-2 py-3 glass-item nav-reports d-flex align-items-center">
+         <a href="reports.html" class="list-group-item list-group-item-action sidebar-link rounded mb-2 glass-item nav-reports d-flex align-items-center">
             <i class="fas fa-chart-bar"></i> <span>Reports</span>
         </a>
     </div>
 
     <div class="list-group list-group-flush px-3 pb-4 overflow-hidden">
-        <hr style="border-color: rgba(255,255,255,0.3); margin-top: 0; margin-bottom: 10px;">
+        <hr style="border-color: rgba(218,85,134,0.3); margin-top: 0; margin-bottom: 10px;">
         
-        <a href="settings.html" class="list-group-item list-group-item-action sidebar-link rounded mb-2 py-3 glass-item nav-settings d-flex align-items-center">
+        <a href="settings.html" class="list-group-item list-group-item-action sidebar-link rounded mb-2 glass-item nav-settings d-flex align-items-center">
             <i class="fas fa-cog"></i> <span>Settings</span>
         </a>
         
-        <a href="#" class="list-group-item list-group-item-action sidebar-link rounded py-3 glass-item fw-bold mt-1 d-flex align-items-center" onclick="logoutAdmin()" style="color: #ffe6e6 !important;">
-            <i class="fas fa-sign-out-alt text-danger"></i> <span>Logout</span>
+        <a href="#" class="list-group-item list-group-item-action sidebar-link rounded glass-item mt-1 d-flex align-items-center" onclick="logoutAdmin()">
+            <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
         </a>
     </div>
 
 </div>
 
 <script>
-    // Logo Resize on Hover
-    const sidebar = document.getElementById('sidebar-wrapper');
-    const logo = document.getElementById('sidebarLogo');
-    
-    sidebar.addEventListener('mouseenter', () => {
-        logo.style.width = '80px'; // Hover කරද්දී ලෝගෝ එක ලොකු වෙනවා
-    });
-    sidebar.addEventListener('mouseleave', () => {
-        logo.style.width = '45px'; // අයින් කරාම ආයේ පොඩි වෙනවා
-    });
-
     function logoutAdmin() {
         Swal.fire({
             title: 'Ready to Leave?',

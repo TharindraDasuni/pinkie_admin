@@ -131,17 +131,21 @@ function toggleTheme() {
     body.classList.toggle('dark-mode');
     
     if (body.classList.contains('dark-mode')) {
-        icon.classList.remove('fa-moon', 'text-dark');
-        icon.classList.add('fa-sun', 'text-warning');
-        localStorage.setItem('theme', 'dark'); // පස්සේ ආවත් මතක තියාගන්න
+        if(icon) {
+            icon.classList.remove('fa-moon', 'text-dark');
+            icon.classList.add('fa-sun', 'text-warning');
+        }
+        localStorage.setItem('theme', 'dark');
     } else {
-        icon.classList.remove('fa-sun', 'text-warning');
-        icon.classList.add('fa-moon', 'text-dark');
+        if(icon) {
+            icon.classList.remove('fa-sun', 'text-warning');
+            icon.classList.add('fa-moon', 'text-dark');
+        }
         localStorage.setItem('theme', 'light');
     }
 }
 
-// Load Theme on Page Load
+// Check saved theme on page load
 document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('theme');
     const icon = document.getElementById('themeIcon');
