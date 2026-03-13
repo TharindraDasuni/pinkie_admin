@@ -1,4 +1,3 @@
-// --- Sign In Function ---
 function signIn() {
     let email = document.getElementById("email").value;
     let password = document.getElementById("password").value;
@@ -36,7 +35,8 @@ function signIn() {
     }
 }
 
-// --- Load HTML Components ---
+
+
 async function loadComponent(elementId, filePath) {
     try {
         const response = await fetch(filePath);
@@ -51,109 +51,74 @@ async function loadComponent(elementId, filePath) {
     }
 }
 
-// --- Theme Toggle ---
-function initThemeToggle() {
-    const themeToggleBtn = document.getElementById('theme-toggle-btn');
-    if (!themeToggleBtn) return;
-
-    // Check for saved theme preference
-    const currentTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', currentTheme);
-
-    themeToggleBtn.addEventListener('click', () => {
-        let theme = document.documentElement.getAttribute('data-theme');
-        let newTheme = theme === 'light' ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-    });
-}
-
-// --- Sidebar Collapse/Expand & Hover Effect ---
-function initSidebar() {
-    const menuToggle = document.getElementById("menu-toggle");
-    const wrapper = document.getElementById("wrapper");
-    const overlay = document.getElementById("sidebar-overlay");
-    const closeBtn = document.getElementById("close-sidebar");
-    const sidebar = document.querySelector('.glass-sidebar');
-    const sidebarLinks = document.querySelectorAll('.sidebar-link');
-
-    // Toggle sidebar on menu button click
-    if (menuToggle) {
-        menuToggle.addEventListener("click", function (e) {
-            e.preventDefault();
-            wrapper.classList.toggle("sidebar-collapsed");
-        });
-    }
-
-    // Close sidebar on overlay click (for mobile)
-    if (overlay) {
-        overlay.addEventListener("click", function () {
-            wrapper.classList.remove("toggled"); // Bootstrap class
-            wrapper.classList.remove("sidebar-collapsed"); // Our custom class
-        });
-    }
-
-    // Close sidebar on close button click (if exists in your mobile view)
-    if (closeBtn) {
-        closeBtn.addEventListener("click", function () {
-            wrapper.classList.remove("toggled");
-            wrapper.classList.remove("sidebar-collapsed");
-        });
-    }
-
-    // Active link highlighting
-    const currentPage = window.location.pathname.split("/").pop();
-    const pageMap = {
-        "dashboard.html": ".nav-dashboard",
-        "products.html": ".nav-products",
-        "categories.html": ".nav-categories",
-        "inventory.html": ".nav-inventory",
-        "orders.html": ".nav-orders",
-        "customers.html": ".nav-customers",
-        "reports.html": ".nav-reports",
-        "settings.html": ".nav-settings"
-    };
-
-    if (pageMap[currentPage]) {
-        const activeLink = document.querySelector(pageMap[currentPage]);
-        if (activeLink) {
-            activeLink.classList.add('active-nav');
-        }
-    }
-}
-
-// --- Page Title Update (Moved from old script) ---
-function updatePageTitle() {
-    const pageTitleElement = document.getElementById('page-title');
-    if (!pageTitleElement) return;
-
-    const currentPage = window.location.pathname.split("/").pop();
-    const titleMap = {
-        "dashboard.html": "Dashboard",
-        "products.html": "Products Management",
-        "categories.html": "Categories Management",
-        "inventory.html": "Inventory",
-        "orders.html": "Orders Management",
-        "customers.html": "Customers Management",
-        "reports.html": "Reports & Analytics",
-        "settings.html": "Settings",
-        "add-product.html": "Add New Product"
-    };
-    pageTitleElement.innerText = titleMap[currentPage] || "Overview";
-}
-
-// --- Document Ready ---
 document.addEventListener("DOMContentLoaded", async function() {
     
-    // Load components
     await loadComponent("sidebar-container", "components/sidebar.html");
     await loadComponent("navbar-container", "components/navbar.html");
     await loadComponent("footer-container", "components/footer.html");
 
-    // Initialize features after components are loaded
+    const currentPage = window.location.pathname.split("/").pop(); 
+    
+    if(currentPage === "dashboard.html" || currentPage === "") {
+        document.querySelector('.nav-dashboard').classList.add('active-nav');
+        document.getElementById('page-title').innerText = "Overview";
+    } 
+    else if(currentPage === "products.html") {
+        document.querySelector('.nav-products').classList.add('active-nav');
+        document.getElementById('page-title').innerText = "Products Management";
+    }
+     else if(currentPage === "categories.html") {
+        document.querySelector('.nav-categories').classList.add('active-nav');
+        document.getElementById('page-title').innerText = "Categories Management";
+    }
+
+    else if(currentPage === "inventory.html") {
+        document.querySelector('.nav-inventory').classList.add('active-nav');
+        document.getElementById('page-title').innerText = "Inventory";
+    }
+          else if(currentPage === "orders.html") {
+        document.querySelector('.nav-orders').classList.add('active-nav');
+        document.getElementById('page-title').innerText = "Orders Management";
+    }
+          else if(currentPage === "customers.html") {
+        document.querySelector('.nav-customers').classList.add('active-nav');
+        document.getElementById('page-title').innerText = "Customers Management";
+    }
+
+          else if(currentPage === "reports.html") {
+        document.querySelector('.nav-reports').classList.add('active-nav');
+        document.getElementById('page-title').innerText = "Reports & Analytics";
+    }
+
+       else if(currentPage === "settings.html") {
+        document.querySelector('.nav-settings').classList.add('active-nav');
+        document.getElementById('page-title').innerText = "Settings";
+    }
+
     setTimeout(() => {
-        initSidebar();
-        initThemeToggle();
-        updatePageTitle();
-    }, 100); // Small delay to ensure DOM is updated
+        const menuToggle = document.getElementById("menu-toggle");
+        const wrapper = document.getElementById("wrapper");
+        const overlay = document.getElementById("sidebar-overlay");
+        const closeBtn = document.getElementById("close-sidebar");
+
+        if (menuToggle) {
+            menuToggle.addEventListener("click", function (e) {
+                e.preventDefault();
+                wrapper.classList.toggle("toggled");
+            });
+        }
+
+        if (overlay) {
+            overlay.addEventListener("click", function () {
+                wrapper.classList.remove("toggled");
+            });
+        }
+
+        if (closeBtn) {
+            closeBtn.addEventListener("click", function () {
+                wrapper.classList.remove("toggled");
+            });
+        }
+    }, 100);
+
 });
