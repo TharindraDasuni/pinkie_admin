@@ -304,147 +304,91 @@ body {
     outline: none;
 }
 
-/* --- Light & Dark Theme Colors --- */
-:root {
-    --bg-color: #f4f6f9;
-    --sidebar-bg: rgba(255, 255, 255, 0.75);
-    --text-color: #333333;
-    --text-muted: #6c757d;
-    --border-color: rgba(218, 85, 134, 0.2);
-    --hover-bg: rgba(218, 85, 134, 0.15);
-    --primary-color: #da5586;
-    
-    /* Sidebar Sizes */
-    --sidebar-collapsed: 85px;
-    --sidebar-expanded: 260px;
-}
-
-[data-theme="dark"] {
-    --bg-color: #121212;
-    --sidebar-bg: rgba(30, 30, 30, 0.85);
-    --text-color: #e0e0e0;
-    --text-muted: #a0a0a0;
-    --border-color: rgba(218, 85, 134, 0.3);
-    --hover-bg: rgba(218, 85, 134, 0.25);
-    --primary-color: #ff75a6;
-}
-
-body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    transition: background-color 0.4s ease, color 0.4s ease;
-    margin: 0;
-    font-family: Arial, sans-serif;
-}
-
-/* --- Floating & Hover Sidebar --- */
-.glass-sidebar {
+/* --- Floating Hover Sidebar --- */
+.sidebar-wrapper {
     position: fixed;
-    top: 20px;
-    left: 20px;
-    bottom: 20px; /* උඩින් සහ යටින් ඉඩ තියලා පාවෙන්න හැදීම */
-    height: calc(100vh - 40px);
-    width: var(--sidebar-collapsed);
-    background: var(--sidebar-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
+    top: 15px; /* පාවෙන පෙනුම සඳහා උඩින් පරතරයක් */
+    left: 15px;
+    bottom: 15px;
+    height: calc(100vh - 30px) !important;
+    width: 80px; /* මුලින්ම Icons විතරක් පේන සයිස් එක */
+    border-radius: 20px; /* රවුම් පෙනුම */
+    background: rgba(255, 255, 255, 0.7) !important;
+    backdrop-filter: blur(20px);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    
-    transition: width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    overflow-x: hidden;
-    overflow-y: auto;
-    z-index: 1000;
-    white-space: nowrap; /* අකුරු කඩන් වැටෙන එක නැවැත්වීම */
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    z-index: 1050;
+    overflow: hidden;
 }
 
-/* Mouse එක ගෙනිච්චාම දිග හැරීම */
-.glass-sidebar:hover {
-    width: var(--sidebar-expanded);
+/* Hover කරද්දී Sidebar එක දිග වීම */
+.sidebar-wrapper:hover {
+    width: 260px;
+    background: rgba(255, 255, 255, 0.9) !important;
 }
 
-/* Sidebar Logo & Heading */
-.sidebar-heading {
-    transition: padding 0.3s;
+/* Content Area එකට ඉඩ වෙන් කිරීම */
+#page-content-wrapper {
+    margin-left: 95px; /* Sidebar එකේ පොඩි සයිස් එකට හරියන්න */
+    transition: margin-left 0.4s ease;
+    padding-top: 15px;
 }
-.sidebar-logo {
-    width: 40px;
-    transition: width 0.4s, margin 0.4s;
-}
-.glass-sidebar:hover .sidebar-logo {
-    width: 80px;
-    margin-bottom: 15px;
-}
-.brand-text {
+
+/* Sidebar එක ඇතුලේ තියෙන Text ටික පෙනෙන/නොපෙනෙන කිරීම */
+.sidebar-link span, .sidebar-heading h6, .sidebar-heading span {
     opacity: 0;
-    transition: opacity 0.3s;
-    visibility: hidden;
-}
-.glass-sidebar:hover .brand-text {
-    opacity: 1;
-    visibility: visible;
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+    display: inline-block;
+    vertical-align: middle;
 }
 
-/* Nav Links */
-.glass-item {
-    background: transparent !important;
-    color: var(--text-color) !important;
-    border: none;
-    display: flex;
-    align-items: center;
-    padding: 15px 20px;
-    margin: 5px 10px;
-    border-radius: 12px;
-    transition: background 0.3s, color 0.3s;
-    text-decoration: none;
+.sidebar-wrapper:hover .sidebar-link span,
+.sidebar-wrapper:hover .sidebar-heading h6,
+.sidebar-wrapper:hover .sidebar-heading span {
+    opacity: 1;
 }
-.glass-item:hover {
-    background: var(--hover-bg) !important;
-    color: var(--primary-color) !important;
-}
-.icon-fixed {
-    width: 25px;
+
+/* Icons සෙන්ටර් කිරීම (Collapse වෙලා තියෙද්දී) */
+.sidebar-link i {
+    min-width: 30px;
     text-align: center;
-    font-size: 1.2rem;
-    color: inherit;
-}
-.nav-text {
-    opacity: 0;
-    margin-left: 15px;
-    transition: opacity 0.3s;
-    font-weight: 500;
-}
-.glass-sidebar:hover .nav-text {
-    opacity: 1;
-    transition-delay: 0.1s; /* Sidebar එක දිග ඇරුණාට පස්සේ අකුරු පෙන්වීම */
+    margin-right: 15px !important;
 }
 
-/* --- Theme Toggle Button (Header) --- */
-.header-container {
-    padding: 20px 30px;
-    margin-left: var(--sidebar-collapsed);
-    display: flex;
-    justify-content: flex-end; /* දකුණු පැත්තට ගැනීම */
-    transition: margin-left 0.4s;
+/* --- Dark Mode Styles --- */
+body.dark-mode {
+    background: #121212;
+    color: #ffffff;
 }
-.theme-toggle-btn {
-    background: var(--sidebar-bg);
-    border: 1px solid var(--border-color);
-    color: var(--text-color);
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    font-size: 1.2rem;
-    backdrop-filter: blur(10px);
-    transition: all 0.3s;
+
+body.dark-mode .glass-panel,
+body.dark-mode .sidebar-wrapper {
+    background: rgba(30, 30, 30, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #e0e0e0 !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
-.theme-toggle-btn:hover {
-    background: var(--hover-bg);
-    color: var(--primary-color);
-    transform: rotate(15deg);
+
+body.dark-mode .text-dark {
+    color: #ffffff !important;
+}
+
+body.dark-mode .text-muted {
+    color: #a0a0a0 !important;
+}
+
+body.dark-mode .glass-input {
+    background: rgba(50, 50, 50, 0.5) !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+body.dark-mode .sidebar-link {
+    color: #cccccc !important;
+}
+
+body.dark-mode .sidebar-link:hover {
+    background: rgba(218, 85, 134, 0.2) !important;
+    color: #da5586 !important;
 }
