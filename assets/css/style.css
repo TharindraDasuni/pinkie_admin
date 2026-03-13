@@ -259,14 +259,14 @@ body {
 }
 
 .active-nav {
-    background: rgba(218, 85, 134, 0.7) !important; 
+    background: rgba(218, 85, 134, 0.475) !important; 
     color: #ffffff !important;
     box-shadow: 0 4px 10px rgba(218, 85, 134, 0.3);
     font-weight: bold;
 }
 
 .active-nav i, .active-nav span {
-    color: #ffffff !important; 
+    color: #000000ba !important; 
 }
 
 #page-content-wrapper {
