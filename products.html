@@ -75,7 +75,7 @@
                                     <th scope="col" class="py-3">CATEGORY</th>
                                     <th scope="col" class="py-3">PRICE</th>
                                     <th scope="col" class="py-3 text-center">STOCK</th>
-                                    <th scope="col" class="py-3 text-center">VISIBILITY</th>
+                                    <th scope="col" class="py-3 text-center">STATUS</th> 
                                     <th scope="col" class="text-end pe-4 py-3">ACTIONS</th>
                                 </tr>
                             </thead>
@@ -97,8 +97,14 @@
                                     <td class="fw-bold text-dark">Rs. 45,000</td>
                                     <td class="text-center"><span class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill">24 in stock</span></td>
                                     <td class="text-center">
-                                        <div class="form-check form-switch d-flex justify-content-center fs-5 mb-0">
-                                            <input class="form-check-input pinkie-switch" type="checkbox" role="switch" checked onchange="toggleVisibility(this, 'Premium Rose Gold Ring')">
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-outline-success rounded-pill px-3 fw-bold dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 12px;">
+                                                <i class="fas fa-eye me-1"></i> Published
+                                            </button>
+                                            <ul class="dropdown-menu shadow-sm rounded-3 border-0" style="font-size: 13px;">
+                                                <li><a class="dropdown-item text-success fw-bold" href="#" onclick="changeStatus(this, 'Published', 'Premium Rose Gold Ring')"><i class="fas fa-eye me-2"></i> Published</a></li>
+                                                <li><a class="dropdown-item text-secondary fw-bold" href="#" onclick="changeStatus(this, 'Hidden', 'Premium Rose Gold Ring')"><i class="fas fa-eye-slash me-2"></i> Hidden</a></li>
+                                            </ul>
                                         </div>
                                     </td>
                                     <td class="text-end pe-4">
@@ -124,35 +130,14 @@
                                     <td class="fw-bold text-dark">Rs. 120,000</td>
                                     <td class="text-center"><span class="badge bg-danger bg-opacity-10 text-danger px-3 py-2 rounded-pill">Out of Stock</span></td>
                                     <td class="text-center">
-                                        <div class="form-check form-switch d-flex justify-content-center fs-5 mb-0">
-                                            <input class="form-check-input pinkie-switch" type="checkbox" role="switch" checked onchange="toggleVisibility(this, 'Diamond Shine Necklace')">
-                                        </div>
-                                    </td>
-                                    <td class="text-end pe-4">
-                                        <button class="btn btn-sm btn-light text-primary shadow-sm rounded-circle me-1" style="width: 32px; height: 32px;" title="Edit"><i class="fas fa-pen"></i></button>
-                                        <button class="btn btn-sm btn-light text-danger shadow-sm rounded-circle" style="width: 32px; height: 32px;" title="Delete"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                                
-                                <tr>
-                                    <td class="fw-bold text-muted ps-4">1003</td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="product-img-box glass-input rounded-3 p-1 me-3" style="width: 45px; height: 45px;">
-                                                <img src="https://cdn-icons-png.flaticon.com/512/834/834812.png" class="img-fluid" style="opacity: 0.9;">
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-0 fw-bold text-dark" style="font-size: 14px;">Ruby Drop Earrings</h6>
-                                                <small class="text-muted">Casual</small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-muted">Earrings</td>
-                                    <td class="fw-bold text-dark">Rs. 35,500</td>
-                                    <td class="text-center"><span class="badge bg-warning bg-opacity-10 text-warning px-3 py-2 rounded-pill">5 Low Stock</span></td>
-                                    <td class="text-center">
-                                        <div class="form-check form-switch d-flex justify-content-center fs-5 mb-0">
-                                            <input class="form-check-input pinkie-switch" type="checkbox" role="switch" onchange="toggleVisibility(this, 'Ruby Drop Earrings')">
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-outline-secondary rounded-pill px-3 fw-bold dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 12px;">
+                                                <i class="fas fa-eye-slash me-1"></i> Hidden
+                                            </button>
+                                            <ul class="dropdown-menu shadow-sm rounded-3 border-0" style="font-size: 13px;">
+                                                <li><a class="dropdown-item text-success fw-bold" href="#" onclick="changeStatus(this, 'Published', 'Diamond Shine Necklace')"><i class="fas fa-eye me-2"></i> Published</a></li>
+                                                <li><a class="dropdown-item text-secondary fw-bold" href="#" onclick="changeStatus(this, 'Hidden', 'Diamond Shine Necklace')"><i class="fas fa-eye-slash me-2"></i> Hidden</a></li>
+                                            </ul>
                                         </div>
                                     </td>
                                     <td class="text-end pe-4">
