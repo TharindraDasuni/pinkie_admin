@@ -252,6 +252,24 @@
                 });
             }
         }
+
+        // Save Product Changes Alert
+        function saveProductChanges() {
+            // Close the modal first
+            var myModalEl = document.getElementById('editProductModal');
+            var modal = bootstrap.Modal.getInstance(myModalEl);
+            modal.hide();
+
+            // Show Success Alert
+            Swal.fire({
+                icon: 'success',
+                title: 'Updated Successfully!',
+                text: 'Product details have been saved.',
+                confirmButtonColor: '#da5586',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        }
     </script>
 </body>
 
