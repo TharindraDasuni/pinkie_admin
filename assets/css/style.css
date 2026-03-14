@@ -363,6 +363,36 @@ body.dark-mode .active-nav i, body.dark-mode .active-nav span {
     color: #ffffff !important;
 }
 
+/* --- Dark Mode Fixes for Table & Theme Button --- */
+
+/* Theme Toggle Button එක Dark Mode එකට ගැළපෙන ලෙස සකස් කිරීම */
+body.dark-mode #themeToggle {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+body.dark-mode #themeToggle i {
+    color: #ffc107 !important; /* Sun icon එක කහ පාටින් පෙන්වන්න */
+}
+
+/* Table Header එක සහ Table Data පැහැදිලි කිරීම */
+body.dark-mode .pink-header th, 
+body.dark-mode .glass-table th {
+    background-color: rgba(218, 85, 134, 0.15) !important; /* ලා රෝස/අඳුරු පසුබිමක් */
+    color: #ffffff !important; /* අකුරු පැහැදිලි සුදු පාටින් */
+    border-bottom: 1px solid rgba(218, 85, 134, 0.3) !important;
+}
+
+body.dark-mode .glass-table td {
+    color: #e0e0e0 !important; /* Table එකේ අනිත් අකුරුත් පැහැදිලි කිරීම */
+    border-bottom-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Table එක ඇතුලේ තියෙන Links/Text-dark සුදු කිරීම */
+body.dark-mode .glass-table .text-dark {
+    color: #ffffff !important;
+}
+
 /* --- Mobile Responsive Fixes --- */
 @media (max-width: 768px) {
     .sidebar-wrapper {
