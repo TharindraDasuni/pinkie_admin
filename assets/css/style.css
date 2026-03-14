@@ -194,10 +194,10 @@ body {
 /* --- Floating Hover Sidebar (Lighter & Modern) --- */
 .sidebar-wrapper {
     position: fixed;
-    top: 15px;
-    left: 15px;
-    bottom: 15px;
-    height: calc(100vh - 30px) !important;
+    top: 20px;
+    left: 20px;
+    bottom: 20px;
+    height: calc(100vh - 40px) !important;
     width: 230px; 
     border-radius: 20px;
     background: rgba(252, 235, 241, 0.182);
