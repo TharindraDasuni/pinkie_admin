@@ -114,20 +114,22 @@
                                             <ul class="dropdown-menu shadow-sm rounded-3 border-0"
                                                 style="font-size: 13px;">
                                                 <li><a class="dropdown-item text-success fw-bold" href="#"
-                                                        onclick="changeStatus(this, 'Published', 'Premium Rose Gold Ring')"><i
+                                                        onclick="changeStatus(event, this, 'Published', 'Premium Rose Gold Ring')"><i
                                                             class="fas fa-eye me-2"></i> Published</a></li>
                                                 <li><a class="dropdown-item text-secondary fw-bold" href="#"
-                                                        onclick="changeStatus(this, 'Hidden', 'Premium Rose Gold Ring')"><i
+                                                        onclick="changeStatus(event, this, 'Hidden', 'Premium Rose Gold Ring')"><i
                                                             class="fas fa-eye-slash me-2"></i> Hidden</a></li>
                                             </ul>
                                         </div>
                                     </td>
                                     <td class="text-end pe-4">
-                                        <button class="btn btn-sm btn-light text-primary shadow-sm rounded-circle me-1"
-                                            style="width: 32px; height: 32px;" title="Edit"><i
-                                                class="fas fa-pen"></i></button>
-                                        <button class="btn btn-sm btn-light text-danger shadow-sm rounded-circle"
-                                            style="width: 32px; height: 32px;" title="Delete"><i
+                                        <a href="add-product.html?mode=edit&id=1001" class="btn btn-sm btn-light text-primary shadow-sm rounded-circle me-1"
+                                            style="width: 32px; height: 32px; padding-top: 5px;" title="Edit">
+                                            <i class="fas fa-pen"></i>
+                                        </a> 
+                                        <button
+                                            class="btn btn-sm btn-light text-danger shadow-sm rounded-circle"
+                                            style="width: 32px; height: 32px;" title="Delete" onclick="deleteProduct('Premium Rose Gold Ring')"><i
                                                 class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
@@ -164,22 +166,22 @@
                                             <ul class="dropdown-menu shadow-sm rounded-3 border-0"
                                                 style="font-size: 13px;">
                                                 <li><a class="dropdown-item text-success fw-bold" href="#"
-                                                        onclick="changeStatus(this, 'Published', 'Diamond Shine Necklace')"><i
+                                                        onclick="changeStatus(event, this, 'Published', 'Diamond Shine Necklace')"><i
                                                             class="fas fa-eye me-2"></i> Published</a></li>
                                                 <li><a class="dropdown-item text-secondary fw-bold" href="#"
-                                                        onclick="changeStatus(this, 'Hidden', 'Diamond Shine Necklace')"><i
+                                                        onclick="changeStatus(event, this, 'Hidden', 'Diamond Shine Necklace')"><i
                                                             class="fas fa-eye-slash me-2"></i> Hidden</a></li>
                                             </ul>
                                         </div>
                                     </td>
                                     <td class="text-end pe-4">
-                                        <button class="btn btn-sm btn-light text-primary shadow-sm rounded-circle me-1"
-                                            style="width: 32px; height: 32px;" title="Edit" data-bs-toggle="modal"
-                                            data-bs-target="#editProductModal">
+                                        <a href="add-product.html?mode=edit&id=1002" class="btn btn-sm btn-light text-primary shadow-sm rounded-circle me-1"
+                                            style="width: 32px; height: 32px; padding-top: 5px;" title="Edit">
                                             <i class="fas fa-pen"></i>
-                                        </button> <button
+                                        </a> 
+                                        <button
                                             class="btn btn-sm btn-light text-danger shadow-sm rounded-circle"
-                                            style="width: 32px; height: 32px;" title="Delete"><i
+                                            style="width: 32px; height: 32px;" title="Delete" onclick="deleteProduct('Diamond Shine Necklace')"><i
                                                 class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
@@ -198,11 +200,20 @@
     <script src="assets/js/script.js"></script>
 
     <script>
-        // Toggle Visibility Alert Function
-        function toggleVisibility(checkbox, productName) {
-            const isVisible = checkbox.checked;
+        // Change Status Dropdown Logic
+        function changeStatus(event, element, newStatus, productName) {
+            event.preventDefault(); 
+            
+            const button = element.closest('.dropdown').querySelector('.dropdown-toggle');
+            
+            if(newStatus === 'Published') {
+                button.className = 'btn btn-sm btn-outline-success rounded-pill px-3 fw-bold dropdown-toggle';
+                button.innerHTML = '<i class="fas fa-eye me-1"></i> Published';
+            } else {
+                button.className = 'btn btn-sm btn-outline-secondary rounded-pill px-3 fw-bold dropdown-toggle';
+                button.innerHTML = '<i class="fas fa-eye-slash me-1"></i> Hidden';
+            }
 
-            // Show SweetAlert Notification
             const Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',
@@ -211,34 +222,32 @@
                 timerProgressBar: true,
             });
 
-            if (isVisible) {
-                Toast.fire({
-                    icon: 'success',
-                    title: `"${productName}" is now visible to customers.`
-                });
-            } else {
-                Toast.fire({
-                    icon: 'warning',
-                    title: `"${productName}" has been hidden from the store.`
-                });
-            }
+            Toast.fire({
+                icon: newStatus === 'Published' ? 'success' : 'info',
+                title: `"${productName}" is now ${newStatus}.`
+            });
         }
 
-        // Save Product Changes Alert
-        function saveProductChanges() {
-            // Close the modal first
-            var myModalEl = document.getElementById('editProductModal');
-            var modal = bootstrap.Modal.getInstance(myModalEl);
-            modal.hide();
-
-            // Show Success Alert
+        // Delete Product Alert
+        function deleteProduct(productName) {
             Swal.fire({
-                icon: 'success',
-                title: 'Updated Successfully!',
-                text: 'Product details have been saved.',
-                confirmButtonColor: '#da5586',
-                timer: 2000,
-                showConfirmButton: false
+                title: 'Are you sure?',
+                text: `You are about to delete "${productName}". This action cannot be undone.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Deleted!',
+                        text: 'The product has been deleted.',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
             });
         }
     </script>
