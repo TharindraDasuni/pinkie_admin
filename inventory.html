@@ -147,10 +147,9 @@
                                             class="badge bg-success bg-opacity-75 rounded-pill px-3 py-2">In
                                             Stock</span></td>
                                     <td class="text-center">
-                                        <button
-                                            class="btn btn-sm btn-light text-primary rounded-pill shadow-sm px-3 fw-bold"
-                                            onclick="updateStock('1001')"><i class="fas fa-sync-alt me-1"></i>
-                                            Update</button>
+                                      <button class="btn btn-sm btn-light text-primary rounded-pill shadow-sm px-3 fw-bold" onclick="updateStock('1001', 'Premium Rose Gold Ring', 24)">
+    <i class="fas fa-sync-alt me-1"></i> Update
+</button>
                                     </td>
                                     <td class="pe-3">
                                         <button
@@ -225,9 +224,7 @@
 
             </div>
 
-            <div id="footer-container"></div>
-        </div>
-        <div class="modal fade" id="updateStockModal" tabindex="-1" aria-hidden="true">
+            <div class="modal fade" id="updateStockModal" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content glass-panel rounded-4 border-0 shadow-lg" style="backdrop-filter: blur(25px);">
                         <div class="modal-header border-bottom-0 pb-2 px-4 pt-4">
@@ -280,8 +277,54 @@
                     </div>
                 </div>
             </div>
+            <div id="footer-container"></div>
+        </div>
+        
     </div>
+<script>
+        // Open Modal and set Data
+        function updateStock(id, name, currentQty) {
+            // Set dynamic data to the modal
+            document.getElementById('modalProductName').innerText = name + ' (#' + id + ')';
+            document.getElementById('modalCurrentQty').innerText = currentQty;
+            document.getElementById('stockQty').value = ''; // Reset input field
+            
+            // Show the modal
+            var stockModal = new bootstrap.Modal(document.getElementById('updateStockModal'));
+            stockModal.show();
+        }
 
+        // Save Stock Alert
+        function saveStockUpdate() {
+            const action = document.getElementById('stockAction').value;
+            const qty = document.getElementById('stockQty').value;
+
+            if(!qty || qty <= 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid Quantity',
+                    text: 'Please enter a valid quantity to update.',
+                    confirmButtonColor: '#da5586'
+                });
+                return;
+            }
+
+            // Close the modal
+            var myModalEl = document.getElementById('updateStockModal');
+            var modal = bootstrap.Modal.getInstance(myModalEl);
+            modal.hide();
+
+            // Show Success Alert
+            Swal.fire({
+                icon: 'success',
+                title: 'Stock Updated!',
+                text: `Inventory has been successfully ${action === 'add' ? 'increased' : 'decreased'} by ${qty} items.`,
+                confirmButtonColor: '#da5586',
+                timer: 2500,
+                showConfirmButton: false
+            });
+        }
+    </script>
     <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
     <script src="assets/js/script.js"></script>
