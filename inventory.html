@@ -147,12 +147,13 @@
                                             class="badge bg-success bg-opacity-75 rounded-pill px-3 py-2">In
                                             Stock</span></td>
                                     <td class="text-center">
-                                      <button class="btn btn-sm btn-light text-primary rounded-pill shadow-sm px-3 fw-bold" onclick="updateStock('1001', 'Premium Rose Gold Ring', 24)">
-    <i class="fas fa-sync-alt me-1"></i> Update
-</button>
+                                        <button
+                                            class="btn btn-sm btn-light text-primary rounded-pill shadow-sm px-3 fw-bold"
+                                            onclick="updateStock('1001')"><i class="fas fa-sync-alt me-1"></i>
+                                            Update</button>
                                     </td>
                                     <td class="pe-3">
-                                     
+                                        
                                         <button class="btn btn-sm btn-light text-danger rounded-circle shadow-sm"><i
                                                 class="fas fa-trash"></i></button>
                                     </td>
@@ -179,9 +180,7 @@
                                             Update</button>
                                     </td>
                                     <td class="pe-3">
-                                        <button
-                                            class="btn btn-sm btn-light text-primary rounded-circle shadow-sm me-1"><i
-                                                class="fas fa-edit"></i></button>
+                                       
                                         <button class="btn btn-sm btn-light text-danger rounded-circle shadow-sm"><i
                                                 class="fas fa-trash"></i></button>
                                     </td>
@@ -208,9 +207,7 @@
                                             Update</button>
                                     </td>
                                     <td class="pe-3">
-                                        <button
-                                            class="btn btn-sm btn-light text-primary rounded-circle shadow-sm me-1"><i
-                                                class="fas fa-edit"></i></button>
+                                       
                                         <button class="btn btn-sm btn-light text-danger rounded-circle shadow-sm"><i
                                                 class="fas fa-trash"></i></button>
                                     </td>
@@ -222,107 +219,12 @@
 
             </div>
 
-            <div class="modal fade" id="updateStockModal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content glass-panel rounded-4 border-0 shadow-lg" style="backdrop-filter: blur(25px);">
-                        <div class="modal-header border-bottom-0 pb-2 px-4 pt-4">
-                            <div class="d-flex align-items-center">
-                                <div class="bg-white rounded-circle d-flex align-items-center justify-content-center shadow-sm me-3" style="width: 45px; height: 45px;">
-                                    <i class="fas fa-boxes text-pinkie fs-5"></i>
-                                </div>
-                                <div>
-                                    <h5 class="modal-title fw-bold text-dark m-0">Update Stock</h5>
-                                    <small class="text-muted fw-bold" id="modalProductName">Premium Rose Gold Ring</small>
-                                </div>
-                            </div>
-                            <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-
-                        <div class="modal-body px-4 pt-3 pb-4">
-                            <div class="card border-0 rounded-4 p-3 shadow-sm mb-4 text-center" style="background: rgba(255,255,255,0.6);">
-                                <p class="text-muted fw-bold mb-1" style="font-size: 13px; text-transform: uppercase;">Current Quantity</p>
-                                <h2 class="fw-bold text-dark m-0" id="modalCurrentQty">24</h2>
-                            </div>
-
-                            <form id="updateStockForm">
-                                <div class="row g-3 mb-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label text-muted fw-bold" style="font-size: 12px;">Action Type</label>
-                                        <select class="form-select glass-input rounded-pill px-3 py-2 fw-bold text-dark shadow-none" id="stockAction">
-                                            <option value="add" selected>+ Add Stock</option>
-                                            <option value="remove">- Remove Stock</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label text-muted fw-bold" style="font-size: 12px;">Quantity</label>
-                                        <input type="number" class="form-control glass-input rounded-pill px-3 py-2 shadow-none text-center fw-bold" placeholder="0" id="stockQty" min="1">
-                                    </div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label text-muted fw-bold" style="font-size: 12px;">Remarks / Reason (Optional)</label>
-                                    <input type="text" class="form-control glass-input rounded-pill px-3 py-2 shadow-none" placeholder="e.g. New shipment arrived">
-                                </div>
-                            </form>
-                        </div>
-                        
-                        <div class="modal-footer border-top-0 pt-0 px-4 pb-4">
-                            <button type="button" class="btn btn-light rounded-pill px-4 fw-bold text-muted shadow-sm" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-pinkie rounded-pill px-5 fw-bold shadow" onclick="saveStockUpdate()">
-                                <i class="fas fa-save me-2"></i> Update Inventory
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
             <div id="footer-container"></div>
         </div>
         
     </div>
-<script>
-        // Open Modal and set Data
-        function updateStock(id, name, currentQty) {
-            // Set dynamic data to the modal
-            document.getElementById('modalProductName').innerText = name + ' (#' + id + ')';
-            document.getElementById('modalCurrentQty').innerText = currentQty;
-            document.getElementById('stockQty').value = ''; // Reset input field
-            
-            // Show the modal
-            var stockModal = new bootstrap.Modal(document.getElementById('updateStockModal'));
-            stockModal.show();
-        }
 
-        // Save Stock Alert
-        function saveStockUpdate() {
-            const action = document.getElementById('stockAction').value;
-            const qty = document.getElementById('stockQty').value;
-
-            if(!qty || qty <= 0) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Invalid Quantity',
-                    text: 'Please enter a valid quantity to update.',
-                    confirmButtonColor: '#da5586'
-                });
-                return;
-            }
-
-            // Close the modal
-            var myModalEl = document.getElementById('updateStockModal');
-            var modal = bootstrap.Modal.getInstance(myModalEl);
-            modal.hide();
-
-            // Show Success Alert
-            Swal.fire({
-                icon: 'success',
-                title: 'Stock Updated!',
-                text: `Inventory has been successfully ${action === 'add' ? 'increased' : 'decreased'} by ${qty} items.`,
-                confirmButtonColor: '#da5586',
-                timer: 2500,
-                showConfirmButton: false
-            });
-        }
-    </script>
     <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
     <script src="assets/js/script.js"></script>
