@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pinkie Admin | Add Product</title>
+    <title id="pageTitle">Pinkie Admin | Add Product</title>
     <link rel="icon" type="image/png" href="assets/images/logo.png">
 
     <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
@@ -30,11 +30,11 @@
                         style="width: 40px; height: 40px;">
                         <i class="fas fa-arrow-left"></i>
                     </a>
-                    <h5 class="fw-bold text-dark m-0">Add New Jewelry</h5>
+                    <h5 class="fw-bold text-dark m-0" id="headerTitle">Add New Jewelry</h5>
                 </div>
 
                 <div class="card glass-panel rounded-4 p-4 border-0 mb-5">
-                    <form id="addProductForm">
+                    <form id="productForm">
                         <div class="row g-4">
 
                             <div class="col-lg-8">
@@ -43,7 +43,7 @@
                                 <div class="mb-3">
                                     <label class="form-label text-muted fw-bold" style="font-size: 13px;">Product Name
                                         *</label>
-                                    <input type="text" class="form-control glass-input-product rounded-pill px-3 py-2"
+                                    <input type="text" id="productName" class="form-control glass-input-product rounded-pill px-3 py-2"
                                         placeholder="e.g. Premium Rose Gold Ring" required>
                                 </div>
 
@@ -51,21 +51,21 @@
                                     <div class="col-md-4">
                                         <label class="form-label text-muted fw-bold" style="font-size: 13px;">Price
                                             (Rs.) *</label>
-                                        <input type="number"
+                                        <input type="number" id="productPrice"
                                             class="form-control glass-input-product rounded-pill px-3 py-2"
                                             placeholder="0.00" required>
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label text-muted fw-bold" style="font-size: 13px;">Discount
                                             (%)</label>
-                                        <input type="number"
+                                        <input type="number" id="productDiscount"
                                             class="form-control glass-input-product rounded-pill px-3 py-2"
                                             placeholder="e.g. 10">
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label text-muted fw-bold" style="font-size: 13px;">Stock
                                             Quantity *</label>
-                                        <input type="number"
+                                        <input type="number" id="productStock"
                                             class="form-control glass-input-product rounded-pill px-3 py-2"
                                             placeholder="0" required>
                                     </div>
@@ -74,7 +74,7 @@
                                 <div class="mb-3">
                                     <label class="form-label text-muted fw-bold"
                                         style="font-size: 13px;">Description</label>
-                                    <textarea class="form-control glass-input-product rounded-4 px-3 py-2" rows="3"
+                                    <textarea id="productDescription" class="form-control glass-input-product rounded-4 px-3 py-2" rows="3"
                                         placeholder="Enter product description..."></textarea>
                                 </div>
 
@@ -99,7 +99,7 @@
                                     <div class="col-md-4">
                                         <label class="form-label text-muted fw-bold" style="font-size: 13px;">Category
                                             *</label>
-                                        <select class="form-select glass-input-product rounded-pill px-3 py-2" required>
+                                        <select id="productCategory" class="form-select glass-input-product rounded-pill px-3 py-2" required>
                                             <option value="" selected disabled>Select...</option>
                                             <option value="1">Rings</option>
                                             <option value="2">Necklaces</option>
@@ -110,7 +110,7 @@
                                     <div class="col-md-4">
                                         <label class="form-label text-muted fw-bold" style="font-size: 13px;">Type
                                             *</label>
-                                        <select class="form-select glass-input-product rounded-pill px-3 py-2" required>
+                                        <select id="productType" class="form-select glass-input-product rounded-pill px-3 py-2" required>
                                             <option value="" selected disabled>Select...</option>
                                             <option value="1">Bridal</option>
                                             <option value="2">Casual</option>
@@ -121,7 +121,7 @@
                                     <div class="col-md-4">
                                         <label class="form-label text-muted fw-bold" style="font-size: 13px;">Material
                                             *</label>
-                                        <select class="form-select glass-input-product rounded-pill px-3 py-2" required>
+                                        <select id="productMaterial" class="form-select glass-input-product rounded-pill px-3 py-2" required>
                                             <option value="" selected disabled>Select...</option>
                                             <option value="1">Rose Gold</option>
                                             <option value="2">Yellow Gold</option>
@@ -136,7 +136,7 @@
                                     <div class="col-md-4">
                                         <label class="form-label text-muted fw-bold"
                                             style="font-size: 13px;">Color</label>
-                                        <select class="form-select glass-input-product rounded-pill px-3 py-2">
+                                        <select id="productColor" class="form-select glass-input-product rounded-pill px-3 py-2">
                                             <option value="" selected disabled>Select...</option>
                                             <option value="1">Gold</option>
                                             <option value="2">Silver</option>
@@ -147,14 +147,14 @@
                                     <div class="col-md-4">
                                         <label class="form-label text-muted fw-bold"
                                             style="font-size: 13px;">Weight</label>
-                                        <input type="text"
+                                        <input type="text" id="productWeight"
                                             class="form-control glass-input-product rounded-pill px-3 py-2"
                                             placeholder="e.g. 5.2g">
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label text-muted fw-bold" style="font-size: 13px;">Length /
                                             Size</label>
-                                        <input type="text"
+                                        <input type="text" id="productSize"
                                             class="form-control glass-input-product rounded-pill px-3 py-2"
                                             placeholder="e.g. 18 inches / Size 6">
                                     </div>
@@ -187,8 +187,8 @@
 
                         <div class="d-flex justify-content-end gap-2">
                             <a href="products.html" class="btn btn-outline-pinkie rounded-pill px-4 fw-bold">Cancel</a>
-                            <button type="button" class="btn btn-pinkie rounded-pill px-5 fw-bold"
-                                onclick="saveNewProduct()">Save Product</button>
+                            <button type="button" id="submitBtn" class="btn btn-pinkie rounded-pill px-5 fw-bold"
+                                onclick="saveProduct()">Save Product</button>
                         </div>
                     </form>
                 </div>
@@ -203,6 +203,65 @@
     <script src="assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
     <script src="assets/js/script.js"></script>
     <script src="assets/js/add-product.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // URL එකෙන් parameter එක ලබා ගැනීම (e.g., ?mode=edit&id=1001)
+            const urlParams = new URLSearchParams(window.location.search);
+            const mode = urlParams.get('mode');
+            const productId = urlParams.get('id');
+
+            const pageTitle = document.getElementById('pageTitle');
+            const headerTitle = document.getElementById('headerTitle');
+            const submitBtn = document.getElementById('submitBtn');
+
+            if (mode === 'edit' && productId) {
+                // --- EDIT MODE ---
+                pageTitle.textContent = 'Pinkie Admin | Edit Product';
+                headerTitle.innerHTML = `Edit Jewelry <span class="text-muted fs-6 ms-2">#${productId}</span>`;
+                submitBtn.textContent = 'Update Product';
+
+                // මෙහිදී ඔබගේ Database/API එකෙන් දත්ත ගෙනැවිත් form එකට පිරවිය හැක (Dummy Data Example)
+                if (productId === '1001') {
+                    document.getElementById('productName').value = 'Premium Rose Gold Ring';
+                    document.getElementById('productPrice').value = '45000';
+                    document.getElementById('productStock').value = '24';
+                    document.getElementById('productCategory').value = '1';
+                    document.getElementById('productMaterial').value = '1';
+                }
+            } else {
+                // --- ADD MODE (Default) ---
+                pageTitle.textContent = 'Pinkie Admin | Add Product';
+                headerTitle.textContent = 'Add New Jewelry';
+                submitBtn.textContent = 'Save Product';
+            }
+        });
+
+        // Submit Button Logic
+        function saveProduct() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const mode = urlParams.get('mode');
+
+            let alertTitle = 'Product Saved!';
+            let alertText = 'The new product has been successfully added to the store.';
+
+            if (mode === 'edit') {
+                alertTitle = 'Product Updated!';
+                alertText = 'The changes have been successfully saved.';
+            }
+
+            Swal.fire({
+                icon: 'success',
+                title: alertTitle,
+                text: alertText,
+                confirmButtonColor: '#da5586'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'products.html'; // ආපසු Products පිටුවට යැවීම
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>
