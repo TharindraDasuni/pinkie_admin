@@ -101,93 +101,198 @@
                     </div>
                 </div>
 
-                  <div class="card glass-panel rounded-4 p-4 border-0 mb-5">
-                <div class="table-responsive">
-                    <table class="table table-hover glass-table align-middle mb-0" style="border-collapse: separate; border-spacing: 0 8px;">
-                        <thead class="pink-header">
-                            <tr>
-                                <th scope="col" class="ps-3">#ID</th>
-                                <th scope="col">CUSTOMER INFO</th>
-                                <th scope="col">JOINED DATE</th>
-                                <th scope="col" class="text-center">TOTAL ORDERS</th>
-                                <th scope="col" class="text-center">TOTAL SPENT</th>
-                                <th scope="col" class="text-center">STATUS</th>
-                                <th scope="col" class="text-center pe-3">ACTIONS</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr style="border-radius: 10px;">
-                                <td class="fw-bold text-muted ps-3">CUS-001</td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="bg-white rounded-circle d-flex align-items-center justify-content-center border shadow-sm me-3" style="width: 40px; height: 40px;">
-                                            <i class="fas fa-user text-pinkie"></i>
+                <div class="card glass-panel rounded-4 p-4 border-0 mb-5">
+                    <div class="table-responsive">
+                        <table class="table table-hover glass-table align-middle mb-0" style="border-collapse: separate; border-spacing: 0 8px;">
+                            <thead class="pink-header">
+                                <tr>
+                                    <th scope="col" class="ps-3">#ID</th>
+                                    <th scope="col">CUSTOMER INFO</th>
+                                    <th scope="col">JOINED DATE</th>
+                                    <th scope="col" class="text-center">TOTAL ORDERS</th>
+                                    <th scope="col" class="text-center">TOTAL SPENT</th>
+                                    <th scope="col" class="text-center">STATUS</th>
+                                    <th scope="col" class="text-center pe-3">ACTIONS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-radius: 10px;">
+                                    <td class="fw-bold text-muted ps-3">CUS-001</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-white rounded-circle d-flex align-items-center justify-content-center border shadow-sm me-3" style="width: 40px; height: 40px;">
+                                                <i class="fas fa-user text-pinkie"></i>
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0 fw-bold text-dark" style="font-size: 14px;">Sanduni Perera</h6>
+                                                <small class="text-muted" style="font-size: 12px;">sanduni@email.com | +94 77 123 4567</small>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <h6 class="mb-0 fw-bold text-dark" style="font-size: 14px;">Sanduni Perera</h6>
-                                            <small class="text-muted" style="font-size: 12px;">sanduni@email.com | +94 77 123 4567</small>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="text-muted" style="font-size: 13px;">Jan 15, 2024</td>
-                                <td class="text-center fw-bold text-dark fs-6">12</td>
-                                <td class="text-center fw-bold text-pinkie fs-6">Rs. 450,000</td>
-                                <td class="text-center"><span class="badge bg-success bg-opacity-75 rounded-pill px-3 py-2">Active</span></td>
-                                <td class="text-center pe-3">
-                                    <button class="btn btn-sm btn-light text-primary rounded-circle shadow-sm me-1" title="View Profile" onclick="viewCustomer('Sanduni Perera')"><i class="fas fa-eye"></i></button>
-                                    <button class="btn btn-sm btn-light text-danger rounded-circle shadow-sm" title="Ban User"><i class="fas fa-ban"></i></button>
-                                </td>
-                            </tr>
+                                    </td>
+                                    <td class="text-muted" style="font-size: 13px;">Jan 15, 2024</td>
+                                    <td class="text-center fw-bold text-dark fs-6">12</td>
+                                    <td class="text-center fw-bold text-pinkie fs-6">Rs. 450,000</td>
+                                    <td class="text-center"><span class="badge bg-success bg-opacity-75 rounded-pill px-3 py-2">Active</span></td>
+                                    <td class="text-center pe-3">
+                                        <button class="btn btn-sm btn-light text-primary rounded-circle shadow-sm me-1" title="View Profile" data-bs-toggle="modal" data-bs-target="#customerProfileModal"><i class="fas fa-eye"></i></button>
+                                        <button class="btn btn-sm btn-light text-danger rounded-circle shadow-sm" title="Ban User" onclick="banCustomer('Sanduni Perera')"><i class="fas fa-ban"></i></button>
+                                    </td>
+                                </tr>
 
-                            <tr style="border-radius: 10px;">
-                                <td class="fw-bold text-muted ps-3">CUS-002</td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="bg-white rounded-circle d-flex align-items-center justify-content-center border shadow-sm me-3" style="width: 40px; height: 40px;">
-                                            <i class="fas fa-user text-pinkie"></i>
+                                <tr style="border-radius: 10px;">
+                                    <td class="fw-bold text-muted ps-3">CUS-002</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-white rounded-circle d-flex align-items-center justify-content-center border shadow-sm me-3" style="width: 40px; height: 40px;">
+                                                <i class="fas fa-user text-pinkie"></i>
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0 fw-bold text-dark" style="font-size: 14px;">Kamal Silva</h6>
+                                                <small class="text-muted" style="font-size: 12px;">kamal@email.com | +94 71 987 6543</small>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <h6 class="mb-0 fw-bold text-dark" style="font-size: 14px;">Kamal Silva</h6>
-                                            <small class="text-muted" style="font-size: 12px;">kamal@email.com | +94 71 987 6543</small>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="text-muted" style="font-size: 13px;">Mar 02, 2024</td>
-                                <td class="text-center fw-bold text-dark fs-6">3</td>
-                                <td class="text-center fw-bold text-pinkie fs-6">Rs. 145,500</td>
-                                <td class="text-center"><span class="badge bg-success bg-opacity-75 rounded-pill px-3 py-2">Active</span></td>
-                                <td class="text-center pe-3">
-                                    <button class="btn btn-sm btn-light text-primary rounded-circle shadow-sm me-1" title="View Profile" onclick="viewCustomer('Kamal Silva')"><i class="fas fa-eye"></i></button>
-                                    <button class="btn btn-sm btn-light text-danger rounded-circle shadow-sm" title="Ban User"><i class="fas fa-ban"></i></button>
-                                </td>
-                            </tr>
+                                    </td>
+                                    <td class="text-muted" style="font-size: 13px;">Mar 02, 2024</td>
+                                    <td class="text-center fw-bold text-dark fs-6">3</td>
+                                    <td class="text-center fw-bold text-pinkie fs-6">Rs. 145,500</td>
+                                    <td class="text-center"><span class="badge bg-success bg-opacity-75 rounded-pill px-3 py-2">Active</span></td>
+                                    <td class="text-center pe-3">
+                                        <button class="btn btn-sm btn-light text-primary rounded-circle shadow-sm me-1" title="View Profile" data-bs-toggle="modal" data-bs-target="#customerProfileModal"><i class="fas fa-eye"></i></button>
+                                        <button class="btn btn-sm btn-light text-danger rounded-circle shadow-sm" title="Ban User" onclick="banCustomer('Kamal Silva')"><i class="fas fa-ban"></i></button>
+                                    </td>
+                                </tr>
 
-                            <tr style="border-radius: 10px;">
-                                <td class="fw-bold text-muted ps-3">CUS-003</td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="bg-white rounded-circle d-flex align-items-center justify-content-center border shadow-sm me-3" style="width: 40px; height: 40px;">
-                                            <i class="fas fa-user text-muted"></i>
+                                <tr style="border-radius: 10px;">
+                                    <td class="fw-bold text-muted ps-3">CUS-003</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-white rounded-circle d-flex align-items-center justify-content-center border shadow-sm me-3" style="width: 40px; height: 40px;">
+                                                <i class="fas fa-user text-muted"></i>
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0 fw-bold text-dark" style="font-size: 14px;">Naveen Bandara</h6>
+                                                <small class="text-muted" style="font-size: 12px;">naveen@email.com | +94 76 555 1234</small>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <h6 class="mb-0 fw-bold text-dark" style="font-size: 14px;">Naveen Bandara</h6>
-                                            <small class="text-muted" style="font-size: 12px;">naveen@email.com | +94 76 555 1234</small>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="text-muted" style="font-size: 13px;">Oct 10, 2024</td>
-                                <td class="text-center fw-bold text-dark fs-6">0</td>
-                                <td class="text-center fw-bold text-pinkie fs-6">Rs. 0</td>
-                                <td class="text-center"><span class="badge bg-secondary bg-opacity-75 rounded-pill px-3 py-2">Inactive</span></td>
-                                <td class="text-center pe-3">
-                                    <button class="btn btn-sm btn-light text-primary rounded-circle shadow-sm me-1" title="View Profile" onclick="viewCustomer('Naveen Bandara')"><i class="fas fa-eye"></i></button>
-                                    <button class="btn btn-sm btn-light text-danger rounded-circle shadow-sm" title="Ban User"><i class="fas fa-ban"></i></button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                    </td>
+                                    <td class="text-muted" style="font-size: 13px;">Oct 10, 2024</td>
+                                    <td class="text-center fw-bold text-dark fs-6">0</td>
+                                    <td class="text-center fw-bold text-pinkie fs-6">Rs. 0</td>
+                                    <td class="text-center"><span class="badge bg-secondary bg-opacity-75 rounded-pill px-3 py-2">Inactive</span></td>
+                                    <td class="text-center pe-3">
+                                        <button class="btn btn-sm btn-light text-primary rounded-circle shadow-sm me-1" title="View Profile" data-bs-toggle="modal" data-bs-target="#customerProfileModal"><i class="fas fa-eye"></i></button>
+                                        <button class="btn btn-sm btn-light text-danger rounded-circle shadow-sm" title="Ban User" onclick="banCustomer('Naveen Bandara')"><i class="fas fa-ban"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-</div>
+
+            </div>
+
+            <div class="modal fade" id="customerProfileModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-centered">
+                    <div class="modal-content glass-panel rounded-4 border-0 shadow-lg" style="backdrop-filter: blur(25px);">
+                        
+                        <div class="modal-header border-bottom-0 pb-2 px-4 pt-4">
+                            <h5 class="modal-title fw-bold text-dark m-0"><i class="fas fa-user-circle text-pinkie me-2"></i> Customer Profile</h5>
+                            <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body px-4 pt-2 pb-4">
+                            <div class="row g-4">
+                                <div class="col-lg-4">
+                                    <div class="card h-100 border-0 rounded-4 p-4 shadow-sm text-center" style="background: rgba(255,255,255,0.6);">
+                                        <div class="bg-white rounded-circle d-flex align-items-center justify-content-center shadow-sm mx-auto mb-3" style="width: 80px; height: 80px;">
+                                            <i class="fas fa-user text-pinkie fs-1"></i>
+                                        </div>
+                                        <h5 class="fw-bold text-dark mb-1">Sanduni Perera</h5>
+                                        <p class="text-muted mb-3" style="font-size: 13px;">Customer ID: #CUS-001</p>
+                                        <span class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill mb-4">Active Member</span>
+                                        
+                                        <div class="text-start mt-2">
+                                            <p class="mb-2 text-dark" style="font-size: 13px;"><i class="fas fa-envelope text-secondary me-2"></i> sanduni@email.com</p>
+                                            <p class="mb-2 text-dark" style="font-size: 13px;"><i class="fas fa-phone-alt text-secondary me-2"></i> +94 77 123 4567</p>
+                                            <p class="mb-2 text-dark" style="font-size: 13px;"><i class="fas fa-calendar-alt text-secondary me-2"></i> Joined: Jan 15, 2024</p>
+                                            <hr class="my-3 text-muted">
+                                            <h6 class="fw-bold text-pinkie mb-2" style="font-size: 12px; text-transform: uppercase;">Default Address</h6>
+                                            <p class="mb-0 text-muted" style="font-size: 13px; line-height: 1.5;">No 15, Galle Road,<br>Colombo 03,<br>Sri Lanka.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-8">
+                                    <div class="row g-3 mb-4">
+                                        <div class="col-md-4">
+                                            <div class="card border-0 rounded-4 p-3 shadow-sm text-center" style="background: rgba(255,255,255,0.6);">
+                                                <p class="text-muted fw-bold mb-1" style="font-size: 12px;">TOTAL ORDERS</p>
+                                                <h4 class="fw-bold text-dark m-0">12</h4>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card border-0 rounded-4 p-3 shadow-sm text-center" style="background: rgba(255,255,255,0.6);">
+                                                <p class="text-muted fw-bold mb-1" style="font-size: 12px;">TOTAL SPENT</p>
+                                                <h4 class="fw-bold text-pinkie m-0">Rs. 450K</h4>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card border-0 rounded-4 p-3 shadow-sm text-center" style="background: rgba(255,255,255,0.6);">
+                                                <p class="text-muted fw-bold mb-1" style="font-size: 12px;">AVG. ORDER VALUE</p>
+                                                <h4 class="fw-bold text-success m-0">Rs. 37.5K</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <h6 class="fw-bold text-dark mb-3">Recent Orders</h6>
+                                    <div class="card border-0 rounded-4 shadow-sm overflow-hidden" style="background: rgba(255,255,255,0.6);">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover align-middle mb-0 glass-table">
+                                                <thead style="background: rgba(218,85,134,0.08);">
+                                                    <tr>
+                                                        <th scope="col" class="text-muted ps-3 py-2" style="font-size: 12px;">ORDER ID</th>
+                                                        <th scope="col" class="text-muted py-2" style="font-size: 12px;">DATE</th>
+                                                        <th scope="col" class="text-muted py-2" style="font-size: 12px;">ITEMS</th>
+                                                        <th scope="col" class="text-muted py-2" style="font-size: 12px;">TOTAL</th>
+                                                        <th scope="col" class="text-center text-muted py-2" style="font-size: 12px;">STATUS</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="ps-3 py-2 fw-bold text-dark" style="font-size: 13px;">#ORD-5001</td>
+                                                        <td class="py-2 text-muted" style="font-size: 13px;">Oct 12, 2026</td>
+                                                        <td class="py-2 text-muted" style="font-size: 13px;">2 Items</td>
+                                                        <td class="py-2 fw-bold text-pinkie" style="font-size: 13px;">Rs. 85,000</td>
+                                                        <td class="py-2 text-center"><span class="badge bg-warning text-dark px-2 rounded-pill" style="font-size: 11px;">Processing</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ps-3 py-2 fw-bold text-dark" style="font-size: 13px;">#ORD-4920</td>
+                                                        <td class="py-2 text-muted" style="font-size: 13px;">Sep 05, 2026</td>
+                                                        <td class="py-2 text-muted" style="font-size: 13px;">1 Item</td>
+                                                        <td class="py-2 fw-bold text-pinkie" style="font-size: 13px;">Rs. 45,000</td>
+                                                        <td class="py-2 text-center"><span class="badge bg-success px-2 rounded-pill" style="font-size: 11px;">Delivered</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ps-3 py-2 fw-bold text-dark" style="font-size: 13px;">#ORD-4850</td>
+                                                        <td class="py-2 text-muted" style="font-size: 13px;">Aug 20, 2026</td>
+                                                        <td class="py-2 text-muted" style="font-size: 13px;">3 Items</td>
+                                                        <td class="py-2 fw-bold text-pinkie" style="font-size: 13px;">Rs. 120,000</td>
+                                                        <td class="py-2 text-center"><span class="badge bg-success px-2 rounded-pill" style="font-size: 11px;">Delivered</span></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="modal-footer border-top-0 pt-0 px-4 pb-4">
+                            <button type="button" class="btn btn-light rounded-pill px-4 fw-bold text-muted shadow-sm" data-bs-dismiss="modal">Close Profile</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div id="footer-container"></div>
@@ -199,15 +304,29 @@
     <script src="assets/js/script.js"></script>
 
     <script>
-        function viewCustomer(name) {
+        function banCustomer(name) {
             Swal.fire({
-                title: 'Customer Profile',
-                html: `<p class="text-muted mt-2">Viewing full profile and order history for <strong>${name}</strong>.</p><p style="font-size: 13px;">(Here you can link to a detailed customer profile page in the future).</p>`,
-                icon: 'info',
-                confirmButtonColor: '#da5586',
-                confirmButtonText: 'Close',
+                title: 'Ban Customer?',
+                text: `Are you sure you want to ban ${name}? They will no longer be able to place orders.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Yes, Ban',
                 customClass: {
                     popup: 'glass-panel rounded-4'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Banned!',
+                        text: `${name} has been banned successfully.`,
+                        icon: 'success',
+                        confirmButtonColor: '#da5586',
+                        customClass: {
+                            popup: 'glass-panel rounded-4'
+                        }
+                    });
                 }
             });
         }
