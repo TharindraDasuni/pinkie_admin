@@ -12,6 +12,10 @@ function changeStatus(event, element, newStatus, productName) {
         button.innerHTML = '<i class="fas fa-eye-slash me-1"></i> Hidden';
     }
 
+    // Close dropdown menu programmatically
+    const dropdownInstance = bootstrap.Dropdown.getOrCreateInstance(button);
+    dropdownInstance.hide();
+
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
