@@ -2,7 +2,7 @@ function signIn() {
     let email = document.getElementById("email").value;
     let password = document.getElementById("password").value;
 
-    if(email === "" || password === "") {
+    if (email === "" || password === "") {
         Swal.fire({
             icon: 'warning',
             title: 'Oops...',
@@ -13,7 +13,7 @@ function signIn() {
         return;
     }
 
-    if(email === "admin@pinkie.com" && password === "1234") {
+    if (email === "admin@pinkie.com" && password === "1234") {
         Swal.fire({
             icon: 'success',
             title: 'Welcome Back!',
@@ -51,46 +51,46 @@ async function loadComponent(elementId, filePath) {
     }
 }
 
-document.addEventListener("DOMContentLoaded", async function() {
-    
+document.addEventListener("DOMContentLoaded", async function () {
+
     await loadComponent("sidebar-container", "components/sidebar.html");
     await loadComponent("navbar-container", "components/navbar.html");
     await loadComponent("footer-container", "components/footer.html");
 
-    const currentPage = window.location.pathname.split("/").pop(); 
-    
-    if(currentPage === "dashboard.html" || currentPage === "") {
+    const currentPage = window.location.pathname.split("/").pop();
+
+    if (currentPage === "dashboard.html" || currentPage === "") {
         document.querySelector('.nav-dashboard').classList.add('active-nav');
         document.getElementById('page-title').innerText = "Overview";
-    } 
-    else if(currentPage === "products.html") {
+    }
+    else if (currentPage === "products.html") {
         document.querySelector('.nav-products').classList.add('active-nav');
         document.getElementById('page-title').innerText = "Products Management";
     }
-     else if(currentPage === "categories.html") {
+    else if (currentPage === "categories.html") {
         document.querySelector('.nav-categories').classList.add('active-nav');
         document.getElementById('page-title').innerText = "Categories Management";
     }
 
-    else if(currentPage === "inventory.html") {
+    else if (currentPage === "inventory.html") {
         document.querySelector('.nav-inventory').classList.add('active-nav');
         document.getElementById('page-title').innerText = "Inventory";
     }
-          else if(currentPage === "orders.html") {
+    else if (currentPage === "orders.html") {
         document.querySelector('.nav-orders').classList.add('active-nav');
         document.getElementById('page-title').innerText = "Orders Management";
     }
-          else if(currentPage === "customers.html") {
+    else if (currentPage === "customers.html") {
         document.querySelector('.nav-customers').classList.add('active-nav');
         document.getElementById('page-title').innerText = "Customers Management";
     }
 
-          else if(currentPage === "reports.html") {
+    else if (currentPage === "reports.html") {
         document.querySelector('.nav-reports').classList.add('active-nav');
         document.getElementById('page-title').innerText = "Reports & Analytics";
     }
 
-       else if(currentPage === "settings.html") {
+    else if (currentPage === "settings.html") {
         document.querySelector('.nav-settings').classList.add('active-nav');
         document.getElementById('page-title').innerText = "Settings";
     }
@@ -127,17 +127,17 @@ document.addEventListener("DOMContentLoaded", async function() {
 function toggleTheme() {
     const body = document.body;
     const icon = document.getElementById('themeIcon');
-    
+
     body.classList.toggle('dark-mode');
-    
+
     if (body.classList.contains('dark-mode')) {
-        if(icon) {
+        if (icon) {
             icon.classList.remove('fa-moon', 'text-dark');
             icon.classList.add('fa-sun', 'text-warning');
         }
         localStorage.setItem('theme', 'dark');
     } else {
-        if(icon) {
+        if (icon) {
             icon.classList.remove('fa-sun', 'text-warning');
             icon.classList.add('fa-moon', 'text-dark');
         }
@@ -149,10 +149,10 @@ function toggleTheme() {
 document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('theme');
     const icon = document.getElementById('themeIcon');
-    
+
     if (savedTheme === 'dark') {
         document.body.classList.add('dark-mode');
-        if(icon) {
+        if (icon) {
             icon.classList.remove('fa-moon', 'text-dark');
             icon.classList.add('fa-sun', 'text-warning');
         }
