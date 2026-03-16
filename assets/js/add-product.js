@@ -1,16 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Image Upload Preview 
 
         let uploadedImagesCount = 0;
