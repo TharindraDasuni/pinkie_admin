@@ -215,7 +215,7 @@
                                         </div>
                                     </td>
                                     <td class="text-muted" style="font-size: 13px;">Necklaces</td>
-                                     <td class="text-muted" style="font-size: 13px;">Bridal</td>
+                                    <td class="text-muted" style="font-size: 13px;">Bridal</td>
                                     <td class="text-muted" style="font-size: 13px;">Rose Gold</td>
                                     <td class="fw-bold text-dark" style="font-size: 13px;">Rs. 120,000</td>
                                     <td class="text-center"><span
@@ -265,59 +265,9 @@
     <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
     <script src="assets/js/script.js"></script>
+    <script src="assets/js/product.js"></script>
 
-    <script>
-        // Change Status Dropdown Logic
-        function changeStatus(event, element, newStatus, productName) {
-            event.preventDefault();
 
-            const button = element.closest('.dropdown').querySelector('.dropdown-toggle');
-
-            if (newStatus === 'Published') {
-                button.className = 'btn btn-sm btn-outline-success rounded-pill px-3 fw-bold dropdown-toggle';
-                button.innerHTML = '<i class="fas fa-eye me-1"></i> Published';
-            } else {
-                button.className = 'btn btn-sm btn-outline-secondary rounded-pill px-3 fw-bold dropdown-toggle';
-                button.innerHTML = '<i class="fas fa-eye-slash me-1"></i> Hidden';
-            }
-
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-            });
-
-            Toast.fire({
-                icon: newStatus === 'Published' ? 'success' : 'info',
-                title: `"${productName}" is now ${newStatus}.`
-            });
-        }
-
-        // Delete Product Alert
-        function deleteProduct(productName) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: `You are about to delete "${productName}". This action cannot be undone.`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#dc3545',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Deleted!',
-                        text: 'The product has been deleted.',
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                }
-            });
-        }
-    </script>
 </body>
 
 </html>
