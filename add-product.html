@@ -206,7 +206,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // URL එකෙන් parameter එක ලබා ගැනීම (e.g., ?mode=edit&id=1001)
             const urlParams = new URLSearchParams(window.location.search);
             const mode = urlParams.get('mode');
             const productId = urlParams.get('id');
@@ -216,7 +215,7 @@
             const submitBtn = document.getElementById('submitBtn');
 
             if (mode === 'edit' && productId) {
-                // --- EDIT MODE ---
+                // --- EDIT MODE 
                 pageTitle.textContent = 'Pinkie Admin | Edit Product';
                 headerTitle.innerHTML = `Edit Jewelry <span class="text-muted fs-6 ms-2">#${productId}</span>`;
                 submitBtn.textContent = 'Update Product';
