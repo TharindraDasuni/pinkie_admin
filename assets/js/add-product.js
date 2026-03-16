@@ -1,76 +1,5 @@
 
 
-// Save Button Alert
-function saveNewProduct() {
-    Swal.fire({
-        icon: 'success',
-        title: 'Product Added!',
-        text: 'The new jewelry item has been successfully added.',
-        confirmButtonColor: '#da5586',
-        timer: 2000,
-        showConfirmButton: false
-    }).then(() => {
-        window.location.href = "products.html";
-    });
-}
-
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const mode = urlParams.get('mode');
-    const productId = urlParams.get('id');
-
-    const pageTitle = document.getElementById('pageTitle');
-    const headerTitle = document.getElementById('headerTitle');
-    const submitBtn = document.getElementById('submitBtn');
-
-    if (mode === 'edit' && productId) {
-        // PRODUCT EDIT MODE 
-        pageTitle.textContent = 'Pinkie Admin | Edit Product';
-        headerTitle.innerHTML = `Edit Jewelry <span class="text-muted fs-6 ms-2">#${productId}</span>`;
-        submitBtn.textContent = 'Update Product';
-
-        if (productId === '1001') {
-            document.getElementById('productName').value = 'Premium Rose Gold Ring';
-            document.getElementById('productPrice').value = '45000';
-            document.getElementById('productStock').value = '24';
-            document.getElementById('productCategory').value = '1';
-            document.getElementById('productMaterial').value = '1';
-        }
-    } else {
-        // PRODCUT ADD MODE (Default) 
-        pageTitle.textContent = 'Pinkie Admin | Add Product';
-        headerTitle.textContent = 'Add New Jewelry';
-        submitBtn.textContent = 'Save Product';
-    }
-});
-
-// Submit Button 
-function saveProduct() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const mode = urlParams.get('mode');
-
-    let alertTitle = 'Product Saved!';
-    let alertText = 'The new product has been successfully added to the store.';
-
-    if (mode === 'edit') {
-        alertTitle = 'Product Updated!';
-        alertText = 'The changes have been successfully saved.';
-    }
-
-    Swal.fire({
-        icon: 'success',
-        title: alertTitle,
-        text: alertText,
-        confirmButtonColor: '#da5586'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            window.location.href = 'products.html';
-        }
-    });
-}
-
 
 
 
@@ -153,6 +82,7 @@ function saveProduct() {
             const submitBtn = document.getElementById('submitBtn');
 
             if (mode === 'edit' && productId) {
+                                // PRODUCT EDIT MODE
                 pageTitle.textContent = 'Pinkie Admin | Edit Product';
                 headerTitle.innerHTML = `Edit Jewelry <span class="text-muted fs-6 ms-2">#${productId}</span>`;
                 submitBtn.textContent = 'Update Product';
@@ -165,6 +95,7 @@ function saveProduct() {
                     document.getElementById('productMaterial').value = '1';
                 }
             } else {
+                 // PRODCUT ADD MODE (Default)
                 pageTitle.textContent = 'Pinkie Admin | Add Product';
                 headerTitle.textContent = 'Add New Jewelry';
                 submitBtn.textContent = 'Save Product';
