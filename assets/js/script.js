@@ -53,17 +53,7 @@ async function signIn() {
                 sessionStorage.setItem("adminName", result.data.name);
             }
 
-            // Success Alert and Redirect
-            Swal.fire({
-                icon: 'success',
-                title: 'Welcome Back!',
-                text: `Logging into Admin Workspace, ${result.data.name}...`,
-                showConfirmButton: false,
-                timer: 1500,
-                heightAuto: false
-            }).then(() => {
-                window.location.href = "dashboard.html";
-            });
+             window.location.href = "dashboard.html";
 
         } else {
             // 6. Handle Backend Errors (Validation or Invalid Credentials)
