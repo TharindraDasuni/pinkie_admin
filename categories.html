@@ -35,29 +35,46 @@
                             <h6 class="fw-bold text-dark mb-4"><i class="fas fa-plus-circle text-pinkie me-2"></i>Add New Category</h6>
                             
                             <form id="addCategoryForm">
-                                <div class="mb-3">
-                                    <label class="form-label text-muted fw-bold" style="font-size: 13px;">Category Name *</label>
-                                    <input type="text" class="form-control glass-input rounded-pill px-3 py-2" placeholder="e.g. Rings" required>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label text-muted fw-bold" style="font-size: 13px;">Description</label>
-                                    <textarea class="form-control glass-input rounded-4 px-3 py-2" rows="4" placeholder="Brief description about the category..."></textarea>
-                                </div>
-                                
-                                <div class="mb-4">
-                                    <label class="form-label text-muted fw-bold" style="font-size: 13px;">Category Image / Icon</label>
-                                    <div class="glass-upload-box d-flex flex-column align-items-center justify-content-center text-center p-3 rounded-4" onclick="document.getElementById('catImage').click()" style="height: 120px;">
-                                        <i class="fas fa-image fs-3 text-pinkie mb-2"></i>
-                                        <p class="text-muted m-0" style="font-size: 12px;">Click to Upload Image</p>
-                                        <input type="file" class="d-none" id="catImage" accept="image/*">
-                                    </div>
-                                </div>
+    <div class="mb-3">
+        <label class="form-label text-muted fw-bold" style="font-size: 13px;">Category Name *</label>
+        <input type="text" id="catName" class="form-control glass-input rounded-pill px-3 py-2" placeholder="e.g. Rings" required>
+    </div>
+    
+    <div class="mb-3">
+        <label class="form-label text-muted fw-bold" style="font-size: 13px;">Description</label>
+        <textarea id="catDesc" class="form-control glass-input rounded-4 px-3 py-2" rows="4" placeholder="Brief description about the category..."></textarea>
+    </div>
+    
+    <div class="mb-4">
+    <label class="form-label text-muted fw-bold" style="font-size: 13px;">Category Image / Icon *</label>
+    
+    <div class="d-flex justify-content-center mt-2">
+        <div id="imagePreviewBox" class="glass-upload-box d-flex flex-column align-items-center justify-content-center text-center shadow-sm" 
+             onclick="document.getElementById('catImage').click()" 
+             style="width: 150px; height: 150px; cursor: pointer; overflow: hidden; position: relative; border-radius: 20px; border: 2px dashed #da5586; background-color: #fcf4f7;">
+            
+            <div id="uploadPlaceholder">
+                <i class="fas fa-cloud-upload-alt fs-3 text-pinkie mb-2"></i>
+                <p class="text-muted m-0" style="font-size: 11px; font-weight: 500;">Click or Drop<br>1:1 Image</p>
+            </div>
+            
+            <img id="imagePreview" src="" class="d-none" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 1;">
+            
+            <button type="button" id="removeImageBtn" class="btn btn-sm btn-danger rounded-circle d-none shadow" 
+                    onclick="removeImage(event)" 
+                    style="position: absolute; top: 8px; right: 8px; z-index: 2; width: 28px; height: 28px; padding: 0; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-times" style="font-size: 14px;"></i>
+            </button>
+            
+            <input type="file" class="d-none" id="catImage" accept="image/*" onchange="previewImage(event)">
+        </div>
+    </div>
+</div>
 
-                                <button type="button" class="btn btn-pinkie rounded-pill w-100 fw-bold" onclick="saveCategory()">
-                                    Save Category
-                                </button>
-                            </form>
+    <button type="button" class="btn btn-pinkie rounded-pill w-100 fw-bold" onclick="saveCategory()">
+        Save Category
+    </button>
+</form>
                         </div>
                     </div>
 
