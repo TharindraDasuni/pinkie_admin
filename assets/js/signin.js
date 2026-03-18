@@ -96,43 +96,178 @@ async function signIn() {
     }
 }
 
-// Forgot Password 
-function sendOTP() {
-    const emailInput = document.getElementById('resetEmail').value;
+// Step 1: Send OTP Logic
+async function sendOTP() {
+    const email = document.getElementById("resetEmail").value;
 
-    if (emailInput.trim() === '') {
+    if (email === "") {
         Swal.fire({
             icon: 'warning',
-            title: 'Email Required',
-            text: 'Please enter your email address to receive the OTP.',
-            confirmButtonColor: '#da5586'
+            title: 'Required!',
+            text: 'Please enter your registered email address.',
+            confirmButtonColor: '#da5586',
+            heightAuto: false
         });
         return;
     }
 
-    // Close the modal
-    var myModalEl = document.getElementById('forgotPasswordModal');
-    var modal = bootstrap.Modal.getInstance(myModalEl);
-    modal.hide();
-
-    // Simulate sending OTP 
+    // Show Loading Alert
     Swal.fire({
         title: 'Sending OTP...',
         text: 'Please wait while we send the code to your email.',
         allowOutsideClick: false,
+        showConfirmButton: false,
+        heightAuto: false,
         didOpen: () => {
             Swal.showLoading();
         }
     });
 
-    setTimeout(() => {
-        Swal.fire({
-            icon: 'success',
-            title: 'OTP Sent!',
-            text: `A 6-digit verification code has been sent to ${emailInput}.`,
-            confirmButtonColor: '#da5586'
-        }).then(() => {
-            console.log("Proceed to OTP verification step");
+    try {
+        // Backend API Call (OTP යැවීම)
+        const response = await fetch("http://localhost:8080/api/forgot-password/send-otp", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email: email })
         });
-    }, 1500);
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+            Swal.close();
+
+            // UI එක මාරු කිරීම (Email එක හංගලා, Reset කොටස පෙන්නනවා)
+            document.getElementById("emailSection").classList.add("d-none");
+            document.getElementById("resetSection").classList.remove("d-none");
+
+            // Modal එකේ Title එකයි විස්තරෙයි මාරු කරනවා
+            document.getElementById("modalTitle").innerText = "Enter OTP";
+            document.getElementById("modalDesc").innerHTML = `We have sent a 6-digit OTP to <b>${email}</b>. Please enter it below.`;
+        } else {
+            // Email එක Database එකේ නැත්නම් Error එක පෙන්වීම
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed!',
+                text: result.message || 'Could not send OTP. Please try again.',
+                confirmButtonColor: '#da5586',
+                heightAuto: false
+            });
+        }
+    } catch (error) {
+        console.error("OTP Send Error:", error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Connection Error',
+            text: 'Could not connect to the server. Please check your backend.',
+            confirmButtonColor: '#da5586',
+            heightAuto: false
+        });
+    }
+}
+
+// Step 2: Update Password Logic
+async function updatePassword() {
+    const email = document.getElementById("resetEmail").value; // කලින් ගහපු Email එක මෙතනින් ගන්නවා
+    const otp = document.getElementById("otpCode").value;
+    const newPassword = document.getElementById("newPassword").value;
+    const confirmPassword = document.getElementById("confirmNewPassword").value;
+
+    if (otp === "" || newPassword === "" || confirmPassword === "") {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Incomplete',
+            text: 'Please fill in all the fields.',
+            confirmButtonColor: '#da5586',
+            heightAuto: false
+        });
+        return;
+    }
+
+    if (newPassword !== confirmPassword) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Mismatch!',
+            text: 'New password and confirm password do not match.',
+            confirmButtonColor: '#da5586',
+            heightAuto: false
+        });
+        return;
+    }
+
+    Swal.fire({
+        title: 'Resetting Password...',
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        heightAuto: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    try {
+        // Backend API Call (Password එක Reset කිරීම)
+        const response = await fetch("http://localhost:8080/api/forgot-password/reset", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email: email,
+                otp: otp,
+                newPassword: newPassword
+            })
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Password Reset Successful!',
+                text: 'You can now log in with your new password.',
+                confirmButtonColor: '#da5586',
+                heightAuto: false
+            }).then(() => {
+                // Modal එක වහලා ආයෙත් මුල් තත්ත්වයට පත් කරනවා
+                const modal = bootstrap.Modal.getInstance(document.getElementById('forgotPasswordModal'));
+                modal.hide();
+                resetModalUI();
+            });
+        } else {
+            // OTP එක වැරදි නම් හෝ Expire වෙලා නම් Error එකක් පෙන්වීම
+            Swal.fire({
+                icon: 'error',
+                title: 'Reset Failed',
+                text: result.message || 'Invalid OTP or expired.',
+                confirmButtonColor: '#da5586',
+                heightAuto: false
+            });
+        }
+    } catch (error) {
+        console.error("Password Reset Error:", error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Connection Error',
+            text: 'Could not connect to the server.',
+            confirmButtonColor: '#da5586',
+            heightAuto: false
+        });
+    }
+}
+
+// Modal එක ආපහු මුල් (Email ගහන) තත්ත්වයට පත් කිරීම
+function resetModalUI() {
+    document.getElementById("emailSection").classList.remove("d-none");
+    document.getElementById("resetSection").classList.add("d-none");
+    
+    document.getElementById("modalTitle").innerText = "Forgot Password?";
+    document.getElementById("modalDesc").innerText = "Enter the email address associated with your admin account. We'll send an OTP to reset your password.";
+    
+    // Inputs හිස් කිරීම
+    document.getElementById("resetEmail").value = "";
+    document.getElementById("otpCode").value = "";
+    document.getElementById("newPassword").value = "";
+    document.getElementById("confirmNewPassword").value = "";
 }
