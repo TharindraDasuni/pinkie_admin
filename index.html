@@ -101,7 +101,7 @@
 
                     <form id="forgotPasswordForm">
                         <div class="mb-4 text-start">
-                            <label class="form-label " style="font-size: 13px;">Registered Email
+                            <label class="form-label fw-bold text-muted" style="font-size: 13px;">Registered Email
                                 Address</label>
                             <input type="email" id="resetEmail" class="form-control form-control-lg pinkie-input"
                                 placeholder="e.g. admin@pinkie.lk" required>
@@ -120,46 +120,7 @@
     <script src="assets/js/script.js"></script>
 
     <script>
-        function sendOTP() {
-            const emailInput = document.getElementById('resetEmail').value;
-
-            if (emailInput.trim() === '') {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Email Required',
-                    text: 'Please enter your email address to receive the OTP.',
-                    confirmButtonColor: '#da5586'
-                });
-                return;
-            }
-
-            // Close the modal
-            var myModalEl = document.getElementById('forgotPasswordModal');
-            var modal = bootstrap.Modal.getInstance(myModalEl);
-            modal.hide();
-
-            // Simulate sending OTP (You can connect this to your backend later)
-            Swal.fire({
-                title: 'Sending OTP...',
-                text: 'Please wait while we send the code to your email.',
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-
-            setTimeout(() => {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'OTP Sent!',
-                    text: `A 6-digit verification code has been sent to ${emailInput}.`,
-                    confirmButtonColor: '#da5586'
-                }).then(() => {
-                    // Here you can show the next step: OTP Verification Input
-                    console.log("Proceed to OTP verification step");
-                });
-            }, 1500);
-        }
+       
     </script>
 </body>
 
