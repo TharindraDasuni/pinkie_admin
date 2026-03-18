@@ -59,9 +59,9 @@
                                         <label class="form-check-label text-muted" for="remember_me"
                                             style="font-size: 13px;">Remember me</label>
                                     </div>
-                                   <a href="#" class="text-decoration-none"
-                                        style="font-size: 13px; color: #da5586;" data-bs-toggle="modal"
-                                        data-bs-target="#forgotPasswordModal">Forgot password?</a>
+                                    <a href="#" class="text-decoration-none" style="font-size: 13px; color: #da5586;"
+                                        data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot
+                                        password?</a>
                                 </div>
 
                                 <button type="button" class="btn btn-pinkie w-100 rounded-pill fw-bold"
@@ -76,7 +76,7 @@
     </div>
 
     <!-- forgot password modal -->
-<div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content rounded-4 border-0 shadow-lg">
                 <div class="modal-header border-bottom-0 pb-0">
@@ -84,14 +84,16 @@
                 </div>
                 <div class="modal-body text-center px-5 pb-4 pt-0">
                     <div class="mb-4">
-                       <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3"
-    style="width: 70px; height: 70px;">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#da5586" viewBox="0 0 16 16">
-        <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
-    </svg>
-    
-</div>
+                        <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3"
+                            style="width: 70px; height: 70px;">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" fill="#da5586"
+                                viewBox="0 0 640 640">
+                                <path
+                                    d="M256 72C322.3 72 376 125.7 376 192C376 258.3 322.3 312 256 312C189.7 312 136 258.3 136 192C136 125.7 189.7 72 256 72zM226.3 368L285.7 368C315.4 368 343.4 375.3 368 388.1L368 392.4C348.4 410 336 435.5 336 463.9L336 559.9C336 565.4 336.5 570.8 337.3 576L77.7 576C61.3 576 48 562.7 48 546.3C48 447.8 127.8 368 226.3 368zM528 368.1C528 350.4 513.7 336.1 496 336.1C478.3 336.1 464 350.4 464 368.1L464 416L528 416L528 368.1zM384 464C384 443.1 397.4 425.3 416 418.7L416 368.1C416 323.9 451.8 288.1 496 288.1C540.2 288.1 576 323.9 576 368.1L576 418.7C594.6 425.3 608 443.1 608 464L608 560C608 586.5 586.5 608 560 608L432 608C405.5 608 384 586.5 384 560L384 464z" />
+                            </svg>
+
+                        </div>
                         <h4 class="fw-bold text-dark">Forgot Password?</h4>
                         <p class="text-muted" style="font-size: 14px;">Enter the email address associated with your
                             admin account. We'll send an OTP to reset your password.</p>
@@ -99,7 +101,7 @@
 
                     <form id="forgotPasswordForm">
                         <div class="mb-4 text-start">
-                            <label class="form-label fw-bold text-muted" style="font-size: 13px;">Registered Email
+                            <label class="form-label " style="font-size: 13px;">Registered Email
                                 Address</label>
                             <input type="email" id="resetEmail" class="form-control form-control-lg pinkie-input"
                                 placeholder="e.g. admin@pinkie.lk" required>
