@@ -3,7 +3,7 @@ async function signIn() {
     const password = document.getElementById("password").value;
     const rememberMe = document.getElementById("remember_me").checked;
 
-    // 1. Basic Frontend Validation
+    // Frontend Validation
     if (email === "" || password === "") {
         Swal.fire({
             icon: 'warning',
@@ -15,7 +15,7 @@ async function signIn() {
         return;
     }
 
-    // 2. Show Loading Alert
+    //Loading Alert
     Swal.fire({
         title: 'Signing In...',
         text: 'Please wait while we authenticate your credentials.',
@@ -28,7 +28,7 @@ async function signIn() {
     });
 
     try {
-        // 3. Call Spring Boot Backend API
+        // Call Spring Boot Backend API
         const response = await fetch("http://localhost:8080/api/auth/login", {
             method: "POST",
             headers: {
@@ -44,7 +44,7 @@ async function signIn() {
         const result = await response.json();
 
         if (response.ok && result.success) {
-            // 4. Save the JWT Token and Admin Name
+            // Save JWT Token and Admin Name
             if (rememberMe) {
                 localStorage.setItem("adminToken", result.data.token);
                 localStorage.setItem("adminName", result.data.name);
@@ -53,7 +53,7 @@ async function signIn() {
                 sessionStorage.setItem("adminName", result.data.name);
             }
 
-            // 5. Success Alert and Redirect
+            // Success Alert and Redirect
             Swal.fire({
                 icon: 'success',
                 title: 'Welcome Back!',
