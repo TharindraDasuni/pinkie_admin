@@ -1,7 +1,9 @@
-function signIn() {
-    let email = document.getElementById("email").value;
-    let password = document.getElementById("password").value;
+async function signIn() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const rememberMe = document.getElementById("remember_me").checked;
 
+    // 1. Basic Frontend Validation
     if (email === "" || password === "") {
         Swal.fire({
             icon: 'warning',
@@ -13,22 +15,91 @@ function signIn() {
         return;
     }
 
-    if (email === "admin@pinkie.com" && password === "1234") {
-        Swal.fire({
-            icon: 'success',
-            title: 'Welcome Back!',
-            text: 'Logging into Admin Workspace...',
-            showConfirmButton: false,
-            timer: 1500,
-            heightAuto: false
-        }).then(() => {
-            window.location.href = "dashboard.html";
+    // 2. Show Loading Alert
+    Swal.fire({
+        title: 'Signing In...',
+        text: 'Please wait while we authenticate your credentials.',
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        heightAuto: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    try {
+        // 3. Call Spring Boot Backend API
+        const response = await fetch("http://localhost:8080/api/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password,
+                rememberMe: rememberMe
+            })
         });
-    } else {
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+            // 4. Save the JWT Token and Admin Name
+            if (rememberMe) {
+                localStorage.setItem("adminToken", result.data.token);
+                localStorage.setItem("adminName", result.data.name);
+            } else {
+                sessionStorage.setItem("adminToken", result.data.token);
+                sessionStorage.setItem("adminName", result.data.name);
+            }
+
+            // 5. Success Alert and Redirect
+            Swal.fire({
+                icon: 'success',
+                title: 'Welcome Back!',
+                text: `Logging into Admin Workspace, ${result.data.name}...`,
+                showConfirmButton: false,
+                timer: 1500,
+                heightAuto: false
+            }).then(() => {
+                window.location.href = "dashboard.html";
+            });
+
+        } else {
+            // 6. Handle Backend Errors (Validation or Invalid Credentials)
+            if (result.data && typeof result.data === "object" && Object.keys(result.data).length > 0) {
+                // Spring Boot Validation Errors (e.g., Email is invalid)
+                let errorHtml = '<ul style="text-align: left; list-style-type: disc; padding-left: 20px;">';
+                for (const field in result.data) {
+                    errorHtml += `<li style="margin-bottom: 5px;">${result.data[field]}</li>`;
+                }
+                errorHtml += '</ul>';
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validation Failed',
+                    html: errorHtml,
+                    confirmButtonColor: '#da5586',
+                    heightAuto: false
+                });
+            } else {
+                // Invalid Password or Email
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Access Denied',
+                    text: result.message || 'Invalid Email or Password!',
+                    confirmButtonColor: '#da5586',
+                    heightAuto: false
+                });
+            }
+        }
+    } catch (error) {
+        // 7. Handle Network Errors (Server down)
+        console.error("Login Error:", error);
         Swal.fire({
             icon: 'error',
-            title: 'Access Denied',
-            text: 'Invalid Email or Password!',
+            title: 'Connection Failed',
+            text: 'Could not connect to the server. Please check if the backend is running.',
             confirmButtonColor: '#da5586',
             heightAuto: false
         });
