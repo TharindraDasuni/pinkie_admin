@@ -59,8 +59,9 @@
                                         <label class="form-check-label text-muted" for="remember_me"
                                             style="font-size: 13px;">Remember me</label>
                                     </div>
-                                    <a href="#" class="text-decoration-none"
-                                        style="font-size: 13px; color: #da5586;">Forgot password?</a>
+                                   <a href="#" class="text-decoration-none fw-bold"
+                                        style="font-size: 13px; color: #da5586;" data-bs-toggle="modal"
+                                        data-bs-target="#forgotPasswordModal">Forgot password?</a>
                                 </div>
 
                                 <button type="button" class="btn btn-pinkie w-100 rounded-pill fw-bold"
@@ -74,9 +75,85 @@
         </div>
     </div>
 
+<div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow-lg">
+                <div class="modal-header border-bottom-0 pb-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center px-5 pb-4 pt-0">
+                    <div class="mb-4">
+                        <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3"
+                            style="width: 70px; height: 70px;">
+                            <i class="fas fa-unlock-alt fs-2 text-pinkie"></i>
+                        </div>
+                        <h4 class="fw-bold text-dark">Forgot Password?</h4>
+                        <p class="text-muted" style="font-size: 14px;">Enter the email address associated with your
+                            admin account. We'll send an OTP to reset your password.</p>
+                    </div>
+
+                    <form id="forgotPasswordForm">
+                        <div class="mb-4 text-start">
+                            <label class="form-label fw-bold text-muted" style="font-size: 13px;">Registered Email
+                                Address</label>
+                            <input type="email" id="resetEmail" class="form-control form-control-lg pinkie-input"
+                                placeholder="e.g. admin@pinkie.lk" required>
+                        </div>
+
+                        <button type="button" class="btn btn-pinkie w-100 rounded-pill fw-bold py-2"
+                            onclick="sendOTP()">Send OTP</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
     <script src="assets/js/script.js"></script>
+
+    <script>
+        function sendOTP() {
+            const emailInput = document.getElementById('resetEmail').value;
+
+            if (emailInput.trim() === '') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Email Required',
+                    text: 'Please enter your email address to receive the OTP.',
+                    confirmButtonColor: '#da5586'
+                });
+                return;
+            }
+
+            // Close the modal
+            var myModalEl = document.getElementById('forgotPasswordModal');
+            var modal = bootstrap.Modal.getInstance(myModalEl);
+            modal.hide();
+
+            // Simulate sending OTP (You can connect this to your backend later)
+            Swal.fire({
+                title: 'Sending OTP...',
+                text: 'Please wait while we send the code to your email.',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            setTimeout(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'OTP Sent!',
+                    text: `A 6-digit verification code has been sent to ${emailInput}.`,
+                    confirmButtonColor: '#da5586'
+                }).then(() => {
+                    // Here you can show the next step: OTP Verification Input
+                    console.log("Proceed to OTP verification step");
+                });
+            }, 1500);
+        }
+    </script>
 </body>
 
 </html>
