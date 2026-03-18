@@ -132,7 +132,6 @@ function sendOTP() {
             text: `A 6-digit verification code has been sent to ${emailInput}.`,
             confirmButtonColor: '#da5586'
         }).then(() => {
-            // Here you can show the next step: OTP Verification Input
             console.log("Proceed to OTP verification step");
         });
     }, 1500);
