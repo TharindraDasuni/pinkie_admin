@@ -58,35 +58,43 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // 4. "Crop & Save" බොත්තම එබූ විට
+// 3. "Crop & Save" බොත්තම එබූ විට
 function applyCrop() {
     if (!cropper) return;
 
+    // Quality එක 600x600 ලෙස සකසා ඇත
     const canvas = cropper.getCroppedCanvas({
         width: 600, 
         height: 600
     });
     
+    // Transparent PNG සඳහා සහය දැක්වීමට 'image/png' භාවිතා කරයි
     const croppedImageDataURL = canvas.toDataURL('image/png');
     
-    // Preview Box එකට දානවා
+    // අදාළ Preview Box එකට පින්තූරය දැමීම
     const previewImg = document.getElementById(currentPreviewBoxId);
     if(previewImg) {
         previewImg.src = croppedImageDataURL;
         previewImg.classList.remove('d-none');
     }
     
-    // Add Type එකේ නම් Placeholder එක හංගන්න ඕනේ (Edit එකේ එහෙම එකක් නෑ)
-    const placeholder = document.getElementById('uploadPlaceholder');
-    const removeBtn = document.getElementById('removeImageBtn');
-    
-    if (placeholder && currentPreviewBoxId === 'imagePreview') {
-        placeholder.classList.add('d-none');
+    // අකුරු (Placeholder) හැංගීම සහ රතු බොත්තම (Remove) පෙන්වීම
+    if (currentPreviewBoxId === 'imagePreview') {
+        // පළමු කොටුවට (Main Image) අදාළව
+        const mainPlaceholder = document.getElementById('uploadPlaceholder');
+        const mainRemoveBtn = document.getElementById('removeImageBtn');
+        if (mainPlaceholder) mainPlaceholder.classList.add('d-none');
+        if (mainRemoveBtn) mainRemoveBtn.classList.remove('d-none');
+        
+    } else if (currentPreviewBoxId === 'iconPreview') {
+        // දෙවන කොටුවට (Vector Icon) අදාළව
+        const iconPlaceholder = document.getElementById('iconUploadPlaceholder');
+        const iconRemoveBtn = document.getElementById('removeIconBtn');
+        if (iconPlaceholder) iconPlaceholder.classList.add('d-none');
+        if (iconRemoveBtn) iconRemoveBtn.classList.remove('d-none');
     }
-    if (removeBtn && currentPreviewBoxId === 'imagePreview') {
-        removeBtn.classList.remove('d-none');
-    }
     
-    // Modal එක වහනවා
+    // Modal එක වැසීම
     const cropModal = bootstrap.Modal.getInstance(document.getElementById('cropModal'));
     cropModal.hide();
 }
