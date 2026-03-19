@@ -288,3 +288,54 @@ async function submitEditCategory() {
         Swal.fire({ icon: 'error', title: 'Connection Error', text: 'Backend is unreachable.' });
     }
 }
+
+// Category එකක් මකා දැමීමේ Function එක
+async function deleteCategory(id) {
+    // 1. මකන්න කලින් "විශ්වාසද?" කියලා අහන SweetAlert එක
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "Do you really want to delete this category? This action cannot be undone!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#da5586', // අපේ Pinkie පාට
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel',
+        heightAuto: false
+    }).then(async (result) => {
+        
+        // Admin "Yes, delete it!" එබුවොත් විතරක් Backend එකට Request එක යවනවා
+        if (result.isConfirmed) {
+            const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
+
+            Swal.fire({ title: 'Deleting...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+            try {
+                const response = await fetch(`http://localhost:8080/api/categories/delete/${id}`, {
+                    method: "DELETE",
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Deleted!',
+                        text: 'The category has been deleted.',
+                        confirmButtonColor: '#da5586',
+                        heightAuto: false
+                    }).then(() => {
+                        // මකලා ඉවර වුණාම Table එක Auto Refresh කරනවා
+                        loadCategories();
+                    });
+                } else {
+                    Swal.fire({ icon: 'error', title: 'Failed', text: data.message });
+                }
+            } catch (error) {
+                console.error("Delete Error:", error);
+                Swal.fire({ icon: 'error', title: 'Connection Error', text: 'Backend server is unreachable.' });
+            }
+        }
+    });
+}
