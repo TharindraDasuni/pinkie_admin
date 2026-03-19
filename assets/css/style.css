@@ -523,3 +523,15 @@ body.dark-mode .glass-table .text-dark {
 body.dark-mode .cat-upload-square {
     background-color: rgba(0, 0, 0, 0.3);
 }
+
+/* image crop */
+ .cropper-view-box,
+      .cropper-face {
+        border-radius: 10px; 
+      }
+      .cropper-point {
+        background-color: #da5586;
+      }
+      .cropper-line {
+        background-color: #da5586;
+      }
