@@ -1,71 +1,67 @@
-// 1. Image Preview Function එක
-function previewImage(event) {
-    const reader = new FileReader();
-    const imageFile = event.target.files[0];
-
-    if (imageFile) {
-        reader.onload = function () {
-            const preview = document.getElementById('imagePreview');
-            const placeholder = document.getElementById('uploadPlaceholder');
-            const removeBtn = document.getElementById('removeImageBtn');
-
-            preview.src = reader.result;
-            preview.classList.remove('d-none'); // Image එක පෙන්නනවා
-            placeholder.classList.add('d-none'); // පරණ අයිකන් එක හංගනවා
-            removeBtn.classList.remove('d-none'); // Remove බොත්තම පෙන්නනවා
-        }
-        reader.readAsDataURL(imageFile);
-    }
+// 1. පින්තූර තේරූ විට පොදු Crop Modal එකට යැවීම (Add සහ Edit දෙකටම මේක වැඩ)
+function previewImage(event, type) {
+    const previewId = (type === 'image') ? 'imagePreview' : 'iconPreview';
+    triggerCropModal(event, previewId);
 }
 
-// 2. අලුතින් එකතු කළ Remove Image Function එක
-function removeImage(event) {
-    // මේක අනිවාර්යයි! මේකෙන් කරන්නේ Remove බොත්තම එබුවම යටින් තියෙන File Upload එක ආයේ ඕපන් වෙන එක නවත්වන එකයි.
+function previewEditImage(event, type) {
+    const previewId = (type === 'image') ? 'editImagePreview' : 'editIconPreview';
+    triggerCropModal(event, previewId);
+}
+
+// 2. දාපු පින්තූරය මකා දැමීම (Add Category Form එකේ)
+function removeImage(event, type) {
     event.stopPropagation();
 
-    const input = document.getElementById('catImage');
-    const preview = document.getElementById('imagePreview');
-    const placeholder = document.getElementById('uploadPlaceholder');
-    const removeBtn = document.getElementById('removeImageBtn');
+    let inputId, previewId, placeholderId, removeBtnId;
 
-    // Input එකේ තියෙන ෆයිල් එක මකා දානවා
-    input.value = "";
+    if (type === 'image') {
+        inputId = 'catImage';
+        previewId = 'imagePreview';
+        placeholderId = 'uploadPlaceholder';
+        removeBtnId = 'removeImageBtn';
+    } else {
+        inputId = 'catIcon';
+        previewId = 'iconPreview';
+        placeholderId = 'iconUploadPlaceholder';
+        removeBtnId = 'removeIconBtn';
+    }
+
+    document.getElementById(inputId).value = "";
+    
+    const preview = document.getElementById(previewId);
     preview.src = "";
-
-    // UI එක මුල් (පින්තූරයක් නැති) තත්ත්වයට පත් කරනවා
     preview.classList.add('d-none');
-    removeBtn.classList.add('d-none');
-    placeholder.classList.remove('d-none');
+
+    document.getElementById(placeholderId).classList.remove('d-none');
+    document.getElementById(removeBtnId).classList.add('d-none');
 }
 
-// 2. Save Category Logic
+// 3. Save Category Logic (Backend API Call)
 async function saveCategory() {
     const name = document.getElementById("catName").value.trim();
     const description = document.getElementById("catDesc").value.trim();
-    const imageInput = document.getElementById("catImage");
+    
+    // ක්‍රොප් කරපු පින්තූර තියෙන්නේ Input එකේ නෙමෙයි, 'src' එකේ Base64 විදිහටයි.
+    const imageSrc = document.getElementById('imagePreview').src;
+    const iconSrc = document.getElementById('iconPreview').src;
 
-    // Validations
     if (name === "") {
         Swal.fire({ icon: 'warning', title: 'Required', text: 'Category Name is required!' });
         return;
     }
     
-    if (imageInput.files.length === 0) {
+    if (!imageSrc || imageSrc.includes('assets/images/placeholder.jpg') || imageSrc === window.location.href) {
         Swal.fire({ icon: 'warning', title: 'Required', text: 'Please upload a Category Image!' });
         return;
     }
 
-    const imageFile = imageInput.files[0];
+    if (!iconSrc || iconSrc.includes('assets/images/placeholder.jpg') || iconSrc === window.location.href) {
+        Swal.fire({ icon: 'warning', title: 'Required', text: 'Please upload a Category Icon!' });
+        return;
+    }
 
-    // Form Data එක හැදීම (පින්තූර යවන්න මේක අත්‍යවශ්‍යයි)
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("description", description);
-    formData.append("image", imageFile);
-
-    // Local Storage / Session Storage එකෙන් JWT Token එක ගැනීම
     const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
-
     if (!token) {
         Swal.fire({ icon: 'error', title: 'Unauthorized', text: 'Please login again!' }).then(() => {
             window.location.href = "index.html";
@@ -73,48 +69,49 @@ async function saveCategory() {
         return;
     }
 
-    // Loading Alert
-    Swal.fire({
-        title: 'Saving Category...',
-        allowOutsideClick: false,
-        didOpen: () => { Swal.showLoading(); }
-    });
+    // Backend එක Base64 බාරගන්නා ලෙස සකසා ඇතැයි උපකල්පනය කර JSON විදිහට යවමු
+    // (ඔබට FormData අවශ්‍ය නම් Base64->File Convert කළ යුතුය)
+    const categoryData = {
+        name: name,
+        description: description,
+        imageBase64: imageSrc,
+        iconBase64: iconSrc
+    };
+
+    Swal.fire({ title: 'Saving Category...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
 
     try {
         const response = await fetch("http://localhost:8080/api/categories/add", {
             method: "POST",
             headers: {
-                "Authorization": `Bearer ${token}` 
-                // මෙතන Content-Type: application/json දාන්නේ නෑ, Browser එකෙන් Auto 'multipart/form-data' දාගන්නවා.
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
             },
-            body: formData
+            body: JSON.stringify(categoryData)
         });
 
         const result = await response.json();
 
         if (response.ok && result.success) {
             Swal.fire({
-                icon: 'success',
-                title: 'Saved!',
-                text: 'Category has been added successfully.'
+                icon: 'success', title: 'Saved!', text: 'Category has been added successfully.'
             }).then(() => {
                 loadCategories();
-                // Form එක Clear කිරීම
                 document.getElementById("addCategoryForm").reset();
-                document.getElementById('imagePreview').classList.add('d-none');
-                document.getElementById('uploadPlaceholder').classList.remove('d-none');
-                document.getElementById('removeImageBtn').classList.add('d-none');
                 
-                // TODO: Table එක Update කරන්න ඕනේ (පස්සේ හදමු)
+                // පින්තූර ඉවත් කිරීම
+                removeImage({ stopPropagation: () => {} }, 'image');
+                removeImage({ stopPropagation: () => {} }, 'icon');
             });
         } else {
             Swal.fire({ icon: 'error', title: 'Failed', text: result.message || 'Error saving category.' });
         }
     } catch (error) {
-        console.error("Save Category Error:", error);
         Swal.fire({ icon: 'error', title: 'Connection Error', text: 'Backend server is unreachable.' });
     }
 }
+
+// ... (ඔබගේ loadCategories(), editCategory(), deleteCategory(), searchCategory() function ටික කිසිම වෙනසක් නැතුව මේකට යටින්ම දාගන්න) ...
 
 // පිටුව Load වෙද්දීම Categories ටික ගන්නවා
 document.addEventListener("DOMContentLoaded", () => {
