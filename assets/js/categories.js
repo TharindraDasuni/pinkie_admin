@@ -188,3 +188,103 @@ async function loadCategories() {
         tableBody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-danger">Backend server is unreachable!</td></tr>`;
     }
 }
+
+// 1. Edit බොත්තම එබුවම Modal එකට දත්ත ගෙනැල්ලා පෙන්වීම
+async function editCategory(id) {
+    const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
+
+    try {
+        const response = await fetch(`http://localhost:8080/api/categories/get/${id}`, {
+            method: "GET",
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+            const cat = result.data;
+            
+            // Modal එකේ Inputs වලට දත්ත දැමීම
+            document.getElementById("editCatId").value = cat.id;
+            document.getElementById("editCatName").value = cat.name;
+            document.getElementById("editCatDesc").value = cat.description;
+            document.getElementById("editCatStatus").value = cat.status;
+            document.getElementById("editImagePreview").src = cat.imageUrl; // පරණ පින්තූරය පෙන්වනවා
+            document.getElementById("editCatImage").value = ""; // අලුත් File input එක හිස් කරනවා
+
+            // Bootstrap Modal එක ඕපන් කිරීම
+            const editModal = new bootstrap.Modal(document.getElementById('editCategoryModal'));
+            editModal.show();
+        } else {
+            Swal.fire({ icon: 'error', title: 'Error', text: 'Could not fetch category details.' });
+        }
+    } catch (error) {
+        Swal.fire({ icon: 'error', title: 'Connection Error', text: 'Backend is unreachable.' });
+    }
+}
+
+// 2. Edit Modal එකේ පින්තූරය මාරු කරද්දී Preview එක වෙනස් කිරීම
+function previewEditImage(event) {
+    const reader = new FileReader();
+    if (event.target.files[0]) {
+        reader.onload = function () {
+            document.getElementById('editImagePreview').src = reader.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+}
+
+// 3. Update කරපු දත්ත Backend එකට යැවීම
+async function submitEditCategory() {
+    const id = document.getElementById("editCatId").value;
+    const name = document.getElementById("editCatName").value.trim();
+    const description = document.getElementById("editCatDesc").value.trim();
+    const status = document.getElementById("editCatStatus").value;
+    const imageInput = document.getElementById("editCatImage");
+
+    if (name === "") {
+        Swal.fire({ icon: 'warning', title: 'Required', text: 'Category Name is required!' });
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("status", status);
+    
+    // අලුත් පින්තූරයක් තෝරලා තියෙනවා නම් විතරක් ඒක යවනවා
+    if (imageInput.files.length > 0) {
+        formData.append("image", imageInput.files[0]);
+    }
+
+    const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
+
+    Swal.fire({ title: 'Updating Category...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+    try {
+        const response = await fetch(`http://localhost:8080/api/categories/update/${id}`, {
+            method: "PUT",
+            headers: { "Authorization": `Bearer ${token}` },
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+            Swal.fire({ icon: 'success', title: 'Updated!', text: 'Category has been updated successfully.' })
+            .then(() => {
+                // Modal එක වහනවා
+                const modalElement = document.getElementById('editCategoryModal');
+                const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                modalInstance.hide();
+                
+                // Table එක Auto Refresh කරනවා
+                loadCategories(); 
+            });
+        } else {
+            Swal.fire({ icon: 'error', title: 'Update Failed', text: result.message });
+        }
+    } catch (error) {
+        Swal.fire({ icon: 'error', title: 'Connection Error', text: 'Backend is unreachable.' });
+    }
+}
