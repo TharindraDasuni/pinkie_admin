@@ -339,3 +339,29 @@ async function deleteCategory(id) {
         }
     });
 }
+
+function searchCategory() {
+    
+    const input = document.getElementById("searchInput").value.toLowerCase();
+    
+    const tableBody = document.getElementById("categoryTableBody");
+    const rows = tableBody.getElementsByTagName("tr");
+
+    for (let i = 0; i < rows.length; i++) {
+        
+        const idCol = rows[i].getElementsByTagName("td")[0]; 
+        const nameCol = rows[i].getElementsByTagName("td")[2]; 
+
+        if (idCol || nameCol) {
+            
+            const idText = idCol.textContent || idCol.innerText;
+            const nameText = nameCol.textContent || nameCol.innerText;
+
+            if (idText.toLowerCase().indexOf(input) > -1 || nameText.toLowerCase().indexOf(input) > -1) {
+                rows[i].style.display = "";
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
+    }
+}

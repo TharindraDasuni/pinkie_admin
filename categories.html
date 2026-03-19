@@ -179,8 +179,10 @@
                     </span>
                     <input
                       type="text"
+                      id="searchInput"
                       class="form-control glass-input border-start-0 rounded-end-pill"
-                      placeholder="Search category..."
+                      placeholder="Search by ID or Name..."
+                      onkeyup="searchCategory()"
                     />
                   </div>
                 </div>
@@ -212,55 +214,123 @@
       </div>
     </div>
 
-    <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div
+      class="modal fade"
+      id="editCategoryModal"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content rounded-4 border-0 shadow-lg p-3">
-            <div class="modal-header border-bottom-0">
-                <h5 class="fw-bold text-dark m-0"><i class="fas fa-edit text-pinkie me-2"></i>Edit Category</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="editCategoryForm">
-                    <input type="hidden" id="editCatId"> <div class="mb-3">
-                        <label class="form-label text-muted fw-bold" style="font-size: 13px;">Category Name *</label>
-                        <input type="text" id="editCatName" class="form-control glass-input rounded-pill px-3 py-2" required>
-                    </div>
+          <div class="modal-header border-bottom-0">
+            <h5 class="fw-bold text-dark m-0">
+              <i class="fas fa-edit text-pinkie me-2"></i>Edit Category
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="editCategoryForm">
+              <input type="hidden" id="editCatId" />
+              <div class="mb-3">
+                <label
+                  class="form-label text-muted fw-bold"
+                  style="font-size: 13px"
+                  >Category Name *</label
+                >
+                <input
+                  type="text"
+                  id="editCatName"
+                  class="form-control glass-input rounded-pill px-3 py-2"
+                  required
+                />
+              </div>
 
-                    <div class="mb-3">
-                        <label class="form-label text-muted fw-bold" style="font-size: 13px;">Description</label>
-                        <textarea id="editCatDesc" class="form-control glass-input rounded-4 px-3 py-2" rows="3"></textarea>
-                    </div>
+              <div class="mb-3">
+                <label
+                  class="form-label text-muted fw-bold"
+                  style="font-size: 13px"
+                  >Description</label
+                >
+                <textarea
+                  id="editCatDesc"
+                  class="form-control glass-input rounded-4 px-3 py-2"
+                  rows="3"
+                ></textarea>
+              </div>
 
-                    <div class="row mb-4">
-                        <div class="col-6">
-                            <label class="form-label text-muted fw-bold" style="font-size: 13px;">Status</label>
-                            <select id="editCatStatus" class="form-select glass-input rounded-pill px-3 py-2">
-                                <option value="Active">Active</option>
-                                <option value="Inactive">Inactive</option>
-                            </select>
-                        </div>
-                        <div class="col-6 d-flex flex-column align-items-center">
-                            <label class="form-label text-muted fw-bold" style="font-size: 13px;">Change Image</label>
-                            <div class="glass-upload-box rounded-circle shadow-sm overflow-hidden" 
-                                 onclick="document.getElementById('editCatImage').click()" 
-                                 style="width: 80px; height: 80px; cursor: pointer; position: relative;">
-                                <img id="editImagePreview" src="" class="w-100 h-100" style="object-fit: cover;">
-                                <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-50 text-white" style="opacity: 0; transition: 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0">
-                                    <i class="fas fa-camera"></i>
-                                </div>
-                                <input type="file" class="d-none" id="editCatImage" accept="image/*" onchange="previewEditImage(event)">
-                            </div>
-                        </div>
+              <div class="row mb-4">
+                <div class="col-6">
+                  <label
+                    class="form-label text-muted fw-bold"
+                    style="font-size: 13px"
+                    >Status</label
+                  >
+                  <select
+                    id="editCatStatus"
+                    class="form-select glass-input rounded-pill px-3 py-2"
+                  >
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                  </select>
+                </div>
+                <div class="col-6 d-flex flex-column align-items-center">
+                  <label
+                    class="form-label text-muted fw-bold"
+                    style="font-size: 13px"
+                    >Change Image</label
+                  >
+                  <div
+                    class="glass-upload-box rounded-circle shadow-sm overflow-hidden"
+                    onclick="document.getElementById('editCatImage').click()"
+                    style="
+                      width: 80px;
+                      height: 80px;
+                      cursor: pointer;
+                      position: relative;
+                    "
+                  >
+                    <img
+                      id="editImagePreview"
+                      src=""
+                      class="w-100 h-100"
+                      style="object-fit: cover"
+                    />
+                    <div
+                      class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-50 text-white"
+                      style="opacity: 0; transition: 0.3s"
+                      onmouseover="this.style.opacity = 1"
+                      onmouseout="this.style.opacity = 0"
+                    >
+                      <i class="fas fa-camera"></i>
                     </div>
+                    <input
+                      type="file"
+                      class="d-none"
+                      id="editCatImage"
+                      accept="image/*"
+                      onchange="previewEditImage(event)"
+                    />
+                  </div>
+                </div>
+              </div>
 
-                    <button type="button" class="btn btn-pinkie rounded-pill w-100 fw-bold py-2" onclick="submitEditCategory()">
-                        Update Category
-                    </button>
-                </form>
-            </div>
+              <button
+                type="button"
+                class="btn btn-pinkie rounded-pill w-100 fw-bold py-2"
+                onclick="submitEditCategory()"
+              >
+                Update Category
+              </button>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
-</div>
 
     <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
