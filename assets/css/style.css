@@ -443,3 +443,83 @@ body.dark-mode .glass-table .text-dark {
         margin-right: 15px;
     }
 }
+
+/*------------------------------------------------------------------------
+  Categories Page - Upload Boxes
+------------------------------------------------------------------------*/
+
+.cat-upload-square {
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 20px;
+    background-color: rgba(218, 85, 134, 0.05); /* Very light pinkie */
+}
+
+.cat-edit-circle {
+    width: 80px;
+    height: 80px;
+    position: relative;
+    border-radius: 50%;
+}
+
+.preview-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.preview-contain {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 15px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.btn-remove-image {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 2;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hover-camera-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+    border-radius: 50%;
+}
+
+.cat-edit-circle:hover .hover-camera-overlay {
+    opacity: 1;
+}
+
+/* Dark Mode Support for new boxes */
+body.dark-mode .cat-upload-square {
+    background-color: rgba(0, 0, 0, 0.3);
+}
