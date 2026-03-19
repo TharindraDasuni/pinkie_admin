@@ -38,6 +38,11 @@ document.addEventListener("DOMContentLoaded", async function () {
         document.getElementById('page-title').innerText = "Types Management";
     }
 
+     else if (currentPage === "materials.html") {
+        document.querySelector('.nav-materials').classList.add('active-nav');
+        document.getElementById('page-title').innerText = "Materials Management";
+    }
+
     else if (currentPage === "inventory.html") {
         document.querySelector('.nav-inventory').classList.add('active-nav');
         document.getElementById('page-title').innerText = "Inventory";
