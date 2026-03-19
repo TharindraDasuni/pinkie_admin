@@ -62,7 +62,7 @@ function applyCrop() {
         height: 600
     });
     
-    const croppedImageDataURL = canvas.toDataURL('image/jpeg', 0.9);
+   const croppedImageDataURL = canvas.toDataURL('image/png');
     
     // ඒ Image එක අපේ Preview Box එකට දානවා
     const previewImg = document.getElementById(currentPreviewBoxId);
