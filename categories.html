@@ -112,53 +112,63 @@
       </div>
     </div>
 
-    <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-hidden="true">
+   <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content rounded-4 border-0 shadow-lg p-3">
           <div class="modal-header border-bottom-0">
-            <h5 class="fw-bold text-dark m-0"><i class="fas fa-edit text-pinkie me-2"></i>Edit Category</h5>
+            <h5 class="fw-bold text-dark m-0">
+              <i class="fas fa-edit text-pinkie me-2"></i>Edit Category
+            </h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <form id="editCategoryForm">
               <input type="hidden" id="editCatId" />
+              
               <div class="mb-3">
                 <label class="form-label text-muted fw-bold" style="font-size: 13px">Category Name *</label>
-                <input type="text" id="editCatName" class="form-control glass-input-pink rounded-pill px-3 py-2" required />
+                <input type="text" id="editCatName" class="form-control glass-input rounded-pill px-3 py-2" required />
               </div>
 
-             
-              <div class="row mb-4">
+              <div class="row mb-4 align-items-center">
                 <div class="col-4">
                   <label class="form-label text-muted fw-bold" style="font-size: 13px">Status</label>
-                  <select id="editCatStatus" class="form-select glass-input-pink rounded-pill px-3 py-2">
+                  <select id="editCatStatus" class="form-select glass-input rounded-pill px-3 py-2">
                     <option value="Active">Active</option>
                     <option value="Inactive">Inactive</option>
                   </select>
                 </div>
+
                 <div class="col-4 d-flex flex-column align-items-center">
                   <label class="form-label text-muted fw-bold" style="font-size: 13px">Change Image</label>
                   <div class="glass-upload-box cat-edit-circle shadow-sm" onclick="document.getElementById('editCatImage').click()">
-                    <img id="editImagePreview" src="" class="preview-cover rounded-circle" />
+                    <img id="editImagePreview" src="assets/images/placeholder.jpg" class="preview-cover rounded-circle" />
+                    
                     <div class="hover-camera-overlay">
                       <i class="fas fa-camera"></i>
                     </div>
+                    
                     <input type="file" class="d-none" id="editCatImage" accept="image/*" onchange="previewEditImage(event, 'image')" />
                   </div>
                 </div>
+
                 <div class="col-4 d-flex flex-column align-items-center">
                   <label class="form-label text-muted fw-bold" style="font-size: 13px">Change Icon</label>
                   <div class="glass-upload-box cat-edit-circle shadow-sm" onclick="document.getElementById('editCatIcon').click()">
-                    <img id="editIconPreview" src="" class="preview-contain rounded-circle" />
+                    <img id="editIconPreview" src="assets/images/placeholder.jpg" class="preview-contain rounded-circle" style="background: rgba(218, 85, 134, 0.05);" />
+                    
                     <div class="hover-camera-overlay">
                       <i class="fas fa-camera"></i>
                     </div>
+                    
                     <input type="file" class="d-none" id="editCatIcon" accept="image/png, image/svg+xml" onchange="previewEditImage(event, 'icon')" />
                   </div>
                 </div>
               </div>
 
-              <button type="button" class="btn btn-pinkie rounded-pill w-100 fw-bold py-2" onclick="submitEditCategory()">Update Category</button>
+              <button type="button" class="btn btn-pinkie rounded-pill w-100 fw-bold py-2" onclick="submitEditCategory()">
+                Update Category
+              </button>
             </form>
           </div>
         </div>
