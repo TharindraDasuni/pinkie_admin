@@ -33,6 +33,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         document.querySelector('.nav-categories').classList.add('active-nav');
         document.getElementById('page-title').innerText = "Categories Management";
     }
+     else if (currentPage === "types.html") {
+        document.querySelector('.nav-types').classList.add('active-nav');
+        document.getElementById('page-title').innerText = "Types Management";
+    }
 
     else if (currentPage === "inventory.html") {
         document.querySelector('.nav-inventory').classList.add('active-nav');
