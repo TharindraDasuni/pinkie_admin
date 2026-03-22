@@ -348,7 +348,10 @@ function removeGeneralImage(index) {
 }
 
 async function saveProduct() {
-    
+    const urlParams = new URLSearchParams(window.location.search);
+    const isEditMode = urlParams.get('mode') === 'edit';
+    const productId = urlParams.get('id');
+
     const name = document.getElementById("productName").value.trim();
     const price = document.getElementById("productPrice").value;
     const stock = document.getElementById("productStock").value;
@@ -361,13 +364,17 @@ async function saveProduct() {
         return;
     }
 
-    if (generalImageFiles.length === 0) {
+    const keptExistingImages = (typeof existingGeneralImages !== 'undefined') ? existingGeneralImages.filter(url => url !== null) : [];
+
+    if (!isEditMode && generalImageFiles.length === 0) {
         Swal.fire({ icon: 'warning', title: 'Images Required', text: 'Please upload at least 1 general image.' });
+        return;
+    } else if (isEditMode && generalImageFiles.length === 0 && keptExistingImages.length === 0) {
+        Swal.fire({ icon: 'warning', title: 'Images Required', text: 'Product must have at least 1 general image.' });
         return;
     }
 
     const formData = new FormData();
-
     formData.append("title", name);
     formData.append("price", price);
     formData.append("discount", document.getElementById("productDiscount").value || 0);
@@ -376,9 +383,7 @@ async function saveProduct() {
 
     const isCustomizable = document.getElementById("customizationSwitch").checked;
     formData.append("isCustomizable", isCustomizable);
-    if (isCustomizable) {
-        formData.append("maxLetters", document.getElementById("maxLetters").value || 0);
-    }
+    if (isCustomizable) formData.append("maxLetters", document.getElementById("maxLetters").value || 0);
 
     formData.append("categoryId", catSelect.value);
     formData.append("categoryName", catSelect.options[catSelect.selectedIndex].text);
@@ -390,6 +395,7 @@ async function saveProduct() {
     formData.append("length", document.getElementById("productLength").value.trim());
 
     formData.append("sizes", JSON.stringify(selectedSizes));
+    formData.append("existingGeneralImages", JSON.stringify(keptExistingImages));
 
     const colorRows = document.querySelectorAll("#colorVariantsContainer .row");
     let colorsData = [];
@@ -401,26 +407,31 @@ async function saveProduct() {
         const cDiscount = row.querySelector(".color-discount-input").value || 0;
         const cQty = row.querySelector(".color-qty-input").value || 0;
         const fileInput = row.querySelector(".color-image-input");
+        const imgElement = row.querySelector("img");
 
         if (cName) {
-            
-            colorsData.push({
+            let colorObj = {
                 name: cName,
                 price: parseFloat(cPrice) || parseFloat(price),
                 discount: parseFloat(cDiscount),
                 quantity: parseInt(cQty)
-            });
+            };
 
             if (fileInput.files.length > 0) {
-                formData.append("colorImages", fileInput.files[0]); 
+                formData.append("colorImages", fileInput.files[0]);
+                colorObj.hasNewImage = true;
             } else {
-                missingColorImage = true;
+                colorObj.hasNewImage = false;
+                colorObj.existingImageUrl = imgElement ? imgElement.getAttribute("data-old-url") : "";
+                
+                if (!colorObj.existingImageUrl) missingColorImage = true;
             }
+            colorsData.push(colorObj);
         }
     });
 
     if (colorsData.length > 0 && missingColorImage) {
-        Swal.fire({ icon: 'warning', title: 'Missing Images', text: 'Please upload an image for each color variant you added.' });
+        Swal.fire({ icon: 'warning', title: 'Missing Images', text: 'Please upload an image for each color variant.' });
         return;
     }
 
@@ -432,16 +443,15 @@ async function saveProduct() {
 
     const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
     
-    Swal.fire({ 
-        title: 'Saving Product...', 
-        text: 'Uploading images and saving details. Please wait.',
-        allowOutsideClick: false, 
-        didOpen: () => Swal.showLoading() 
-    });
+    const apiUrl = isEditMode ? `http://localhost:8080/api/products/update/${productId}` : `http://localhost:8080/api/products/add`;
+    const apiMethod = isEditMode ? "PUT" : "POST";
+    const loadingMsg = isEditMode ? "Updating Product..." : "Saving Product...";
+
+    Swal.fire({ title: loadingMsg, text: 'Uploading details. Please wait.', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
 
     try {
-        const response = await fetch("http://localhost:8080/api/products/add", {
-            method: "POST",
+        const response = await fetch(apiUrl, {
+            method: apiMethod,
             headers: { "Authorization": `Bearer ${token}` },
             body: formData
         });
@@ -449,14 +459,13 @@ async function saveProduct() {
         const result = await response.json();
 
         if (response.ok && result.success) {
-            Swal.fire('Saved!', 'Product has been added successfully.', 'success').then(() => {
+            Swal.fire('Success!', result.message, 'success').then(() => {
                 window.location.href = "products.html"; 
             });
         } else {
-            Swal.fire('Failed', result.message || 'Could not save product', 'error');
+            Swal.fire('Failed', result.message || 'Action failed', 'error');
         }
     } catch (error) {
-        console.error(error);
-        Swal.fire('Connection Error', 'Backend server is unreachable.', 'error');
+        Swal.fire('Error', 'Backend server is unreachable.', 'error');
     }
 } 
