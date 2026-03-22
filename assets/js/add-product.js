@@ -1,114 +1,327 @@
-// Image Upload Preview 
+let selectedSizes = [];
+let generalImageFiles = [];
 
-let uploadedImagesCount = 0;
-const maxImages = 6;
+let globalTypes = [];
+let globalMaterials = [];
 
-function previewImages() {
-    const fileInput = document.getElementById('productImage');
-    const container = document.getElementById('imagePreviewContainer');
-    const files = Array.from(fileInput.files);
-
-    files.forEach(file => {
-        if (uploadedImagesCount < maxImages) {
-            uploadedImagesCount++;
-
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const div = document.createElement('div');
-                div.className = 'col-4 position-relative mb-2';
-                div.innerHTML = `
-                            <div class="glass-input rounded-3 overflow-hidden shadow-sm" style="height: 80px; border: 1px solid rgba(218,85,134,0.3);">
-                                <img src="${e.target.result}" style="width: 100%; height: 100%; object-fit: cover;">
-                            </div>
-                            <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 rounded-circle p-0 d-flex align-items-center justify-content-center" style="width: 20px; height: 20px; font-size: 10px;" onclick="removeImage(this)">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        `;
-                container.appendChild(div);
-            }
-            reader.readAsDataURL(file);
-        } else {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Limit Reached!',
-                text: 'You can only upload a maximum of 6 images.',
-                confirmButtonColor: '#da5586'
-            });
-        }
-    });
-    fileInput.value = '';
-}
-
-function removeImage(btn) {
-    btn.parentElement.remove();
-    uploadedImagesCount--;
-}
-
-function updateCustomizationText() {
-    const toggle = document.getElementById('customizationSwitch');
-    const label = document.getElementById('customizationLabel');
-
-    if (toggle.checked) {
-        label.innerText = "Available";
-        label.classList.remove("text-muted");
-        label.classList.add("text-pinkie");
-    } else {
-        label.innerText = "Not Available";
-        label.classList.remove("text-pinkie");
-        label.classList.add("text-muted");
-    }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const mode = urlParams.get('mode');
-    const productId = urlParams.get('id');
-
-    const pageTitle = document.getElementById('pageTitle');
-    const headerTitle = document.getElementById('headerTitle');
-    const submitBtn = document.getElementById('submitBtn');
-
-    if (mode === 'edit' && productId) {
-        // PRODUCT EDIT MODE
-        pageTitle.textContent = 'Pinkie Admin | Edit Product';
-        headerTitle.innerHTML = `Edit Jewelry <span class="text-muted fs-6 ms-2">#${productId}</span>`;
-        submitBtn.textContent = 'Update Product';
-
-        if (productId === '1001') {
-            document.getElementById('productName').value = 'Premium Rose Gold Ring';
-            document.getElementById('productPrice').value = '45000';
-            document.getElementById('productStock').value = '24';
-            document.getElementById('productCategory').value = '1';
-            document.getElementById('productMaterial').value = '1';
-        }
-    } else {
-        // PRODCUT ADD MODE (Default)
-        pageTitle.textContent = 'Pinkie Admin | Add Product';
-        headerTitle.textContent = 'Add New Jewelry';
-        submitBtn.textContent = 'Save Product';
-    }
+document.addEventListener("DOMContentLoaded", async () => {
+    await loadInitialDropdownData();
 });
 
-function saveProduct() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const mode = urlParams.get('mode');
-
-    let alertTitle = 'Product Saved!';
-    let alertText = 'The new product has been successfully added to the store.';
-
-    if (mode === 'edit') {
-        alertTitle = 'Product Updated!';
-        alertText = 'The changes have been successfully saved.';
-    }
-
-    Swal.fire({
-        icon: 'success',
-        title: alertTitle,
-        text: alertText,
-        confirmButtonColor: '#da5586'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            window.location.href = 'products.html';
+async function loadInitialDropdownData() {
+    const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
+    
+    try {
+        const catRes = await fetch("http://localhost:8080/api/categories/all", { headers: { "Authorization": `Bearer ${token}` } });
+        const catData = await catRes.json();
+        
+        if (catRes.ok && catData.success) {
+            const catSelect = document.getElementById("productCategory");
+            let options = `<option value="" selected disabled>Select Category...</option>`;
+            
+            catData.data.forEach(c => {
+                if (c.status === 'Active') {
+                    options += `<option value="${c.id}">${c.name}</option>`;
+                }
+            });
+            catSelect.innerHTML = options;
         }
+
+        const typeRes = await fetch("http://localhost:8080/api/types/all", { headers: { "Authorization": `Bearer ${token}` } });
+        const typeData = await typeRes.json();
+        if (typeRes.ok && typeData.success) {
+            globalTypes = typeData.data.filter(t => t.status === 'Active');
+        }
+
+        const matRes = await fetch("http://localhost:8080/api/materials/all", { headers: { "Authorization": `Bearer ${token}` } });
+        const matData = await matRes.json();
+        if (matRes.ok && matData.success) {
+            globalMaterials = matData.data.filter(m => m.status === 'Active');
+        }
+
+    } catch (error) {
+        console.error("Error loading dropdown data", error);
+        Swal.fire({ icon: 'error', title: 'Connection Error', text: 'Could not load categories.' });
+    }
+}
+
+function loadTypesForCategory() {
+    const categoryId = document.getElementById("productCategory").value;
+    const typeSelect = document.getElementById("productType");
+    const matSelect = document.getElementById("productMaterial");
+
+    let options = `<option value="" selected disabled>Select Type...</option>`;
+    
+    const filteredTypes = globalTypes.filter(t => t.categoryId === categoryId);
+    
+    filteredTypes.forEach(t => {
+        options += `<option value="${t.id}">${t.name}</option>`;
+    });
+    
+    typeSelect.innerHTML = options;
+
+    matSelect.innerHTML = `<option value="" selected disabled>Select Type First</option>`;
+}
+
+function loadMaterialsForType() {
+    const typeId = document.getElementById("productType").value;
+    const matSelect = document.getElementById("productMaterial");
+
+    let options = `<option value="" selected disabled>Select Material...</option>`;
+    
+    const filteredMats = globalMaterials.filter(m => m.typeId === typeId);
+    
+    filteredMats.forEach(m => {
+        options += `<option value="${m.id}">${m.name}</option>`;
+    });
+    
+    matSelect.innerHTML = options;
+}
+
+function toggleCustomization() {
+    const isChecked = document.getElementById("customizationSwitch").checked;
+    const detailsDiv = document.getElementById("customizationDetails");
+    if (isChecked) {
+        detailsDiv.classList.remove("d-none");
+    } else {
+        detailsDiv.classList.add("d-none");
+        document.getElementById("maxLetters").value = "";
+    }
+}
+
+function addSize() {
+    const inputField = document.getElementById("sizeInput");
+    const val = inputField.value.trim();
+    
+    if (val && !selectedSizes.includes(val)) {
+        selectedSizes.push(val);
+        renderSizes();
+    }
+    inputField.value = ""; 
+}
+
+function removeSize(sizeToRemove) {
+    selectedSizes = selectedSizes.filter(size => size !== sizeToRemove);
+    renderSizes();
+}
+
+function renderSizes() {
+    const container = document.getElementById("sizesContainer");
+    container.innerHTML = "";
+    selectedSizes.forEach(size => {
+        container.innerHTML += `
+            <span class="badge bg-pinkie bg-opacity-10 text-pinkie border border-pinkie px-3 py-2 rounded-pill d-flex align-items-center" style="font-size: 13px;">
+                ${size} 
+                <i class="fas fa-times ms-2" style="cursor: pointer;" onclick="removeSize('${size}')"></i>
+            </span>
+        `;
     });
 }
+
+function addColorRow() {
+    const container = document.getElementById("colorVariantsContainer");
+    const rowId = 'colorRow_' + Date.now(); 
+
+    const row = document.createElement("div");
+    row.className = "row mb-2 align-items-center bg-white p-2 rounded-3 shadow-sm border";
+    row.id = rowId;
+
+    row.innerHTML = `
+        <div class="col-md-2">
+            <input type="text" class="form-control glass-input-pink border-0 bg-light rounded-pill px-3 color-name-input" placeholder="Color Name" style="font-size: 13px;">
+        </div>
+        <div class="col-md-2">
+            <input type="number" class="form-control glass-input-pink border-0 bg-light rounded-pill px-3 color-price-input" placeholder="Price (Rs.)" style="font-size: 13px;">
+        </div>
+        <div class="col-md-2">
+            <input type="number" class="form-control glass-input-pink border-0 bg-light rounded-pill px-3 color-discount-input" placeholder="Discount (%)" style="font-size: 13px;">
+        </div>
+        <div class="col-md-2">
+            <input type="number" class="form-control glass-input-pink border-0 bg-light rounded-pill px-3 color-qty-input" placeholder="Quantity" style="font-size: 13px;">
+        </div>
+        <div class="col-md-3 d-flex align-items-center">
+            <input type="file" class="form-control glass-input-pink border-0 bg-light rounded-pill color-image-input" accept="image/*" style="font-size: 12px;" onchange="previewColorThumb(event, '${rowId}')">
+            <img id="thumb_${rowId}" src="" class="ms-2 rounded-circle d-none shadow-sm" style="width: 32px; height: 32px; object-fit: cover; border: 1px solid #da5586;">
+        </div>
+        <div class="col-md-1 text-end">
+            <button type="button" class="btn btn-sm btn-light text-danger rounded-circle shadow-sm" onclick="this.parentElement.parentElement.remove()">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    `;
+    container.appendChild(row);
+}
+
+function previewColorThumb(event, rowId) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = document.getElementById(`thumb_${rowId}`);
+            img.src = e.target.result;
+            img.classList.remove('d-none');
+        }
+        reader.readAsDataURL(file);
+    }
+}
+
+function previewGeneralImages(event) {
+    const files = Array.from(event.target.files);
+    
+    if (generalImageFiles.length + files.length > 5) {
+        Swal.fire({ icon: 'warning', title: 'Limit Exceeded', text: 'You can only upload up to 5 general images in total.' });
+
+        const allowedSpots = 5 - generalImageFiles.length;
+        generalImageFiles.push(...files.slice(0, allowedSpots));
+    } else {
+        generalImageFiles.push(...files);
+    }
+
+    event.target.value = "";
+    renderGeneralImagePreviews();
+}
+
+function renderGeneralImagePreviews() {
+    const container = document.getElementById("generalImagePreviewContainer");
+    container.innerHTML = ""; 
+
+    generalImageFiles.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            
+            container.innerHTML += `
+                <div class="col-4 mb-2">
+                    <div class="position-relative rounded-4 overflow-hidden shadow-sm" style="aspect-ratio: 1/1; border: 2px solid #fce4ec;">
+                        <img src="${e.target.result}" class="w-100 h-100" style="object-fit: cover;">
+                        
+                        <button type="button" class="btn btn-danger btn-sm rounded-circle position-absolute shadow" 
+                                style="top: 5px; right: 5px; width: 22px; height: 22px; padding: 0; display: flex; align-items: center; justify-content: center; z-index: 10;"
+                                onclick="removeGeneralImage(${index})">
+                            <i class="fas fa-times" style="font-size: 10px;"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+        reader.readAsDataURL(file);
+    });
+}
+
+function removeGeneralImage(index) {
+    generalImageFiles.splice(index, 1);
+    renderGeneralImagePreviews();
+}
+
+async function saveProduct() {
+    
+    const name = document.getElementById("productName").value.trim();
+    const price = document.getElementById("productPrice").value;
+    const stock = document.getElementById("productStock").value;
+    const catSelect = document.getElementById("productCategory");
+    const typeSelect = document.getElementById("productType");
+    const matSelect = document.getElementById("productMaterial");
+
+    if (!name || !price || !stock || !catSelect.value || !typeSelect.value || !matSelect.value) {
+        Swal.fire({ icon: 'warning', title: 'Required Fields', text: 'Please fill all the mandatory (*) fields.' });
+        return;
+    }
+
+    if (generalImageFiles.length === 0) {
+        Swal.fire({ icon: 'warning', title: 'Images Required', text: 'Please upload at least 1 general image.' });
+        return;
+    }
+
+    const formData = new FormData();
+
+    formData.append("title", name);
+    formData.append("price", price);
+    formData.append("discount", document.getElementById("productDiscount").value || 0);
+    formData.append("stock", stock);
+    formData.append("description", document.getElementById("productDescription").value.trim());
+
+    const isCustomizable = document.getElementById("customizationSwitch").checked;
+    formData.append("isCustomizable", isCustomizable);
+    if (isCustomizable) {
+        formData.append("maxLetters", document.getElementById("maxLetters").value || 0);
+    }
+
+    formData.append("categoryId", catSelect.value);
+    formData.append("categoryName", catSelect.options[catSelect.selectedIndex].text);
+    formData.append("typeId", typeSelect.value);
+    formData.append("typeName", typeSelect.options[typeSelect.selectedIndex].text);
+    formData.append("materialId", matSelect.value);
+    formData.append("materialName", matSelect.options[matSelect.selectedIndex].text);
+    formData.append("weight", document.getElementById("productWeight").value.trim());
+    formData.append("length", document.getElementById("productLength").value.trim());
+
+    formData.append("sizes", JSON.stringify(selectedSizes));
+
+    const colorRows = document.querySelectorAll("#colorVariantsContainer .row");
+    let colorsData = [];
+    let missingColorImage = false;
+
+    colorRows.forEach((row) => {
+        const cName = row.querySelector(".color-name-input").value.trim();
+        const cPrice = row.querySelector(".color-price-input").value;
+        const cDiscount = row.querySelector(".color-discount-input").value || 0;
+        const cQty = row.querySelector(".color-qty-input").value || 0;
+        const fileInput = row.querySelector(".color-image-input");
+
+        if (cName) {
+            
+            colorsData.push({
+                name: cName,
+                price: parseFloat(cPrice) || parseFloat(price),
+                discount: parseFloat(cDiscount),
+                quantity: parseInt(cQty)
+            });
+
+            if (fileInput.files.length > 0) {
+                formData.append("colorImages", fileInput.files[0]); 
+            } else {
+                missingColorImage = true;
+            }
+        }
+    });
+
+    if (colorsData.length > 0 && missingColorImage) {
+        Swal.fire({ icon: 'warning', title: 'Missing Images', text: 'Please upload an image for each color variant you added.' });
+        return;
+    }
+
+    formData.append("colorsData", JSON.stringify(colorsData));
+
+    generalImageFiles.forEach(file => {
+        formData.append("generalImages", file);
+    });
+
+    const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
+    
+    Swal.fire({ 
+        title: 'Saving Product...', 
+        text: 'Uploading images and saving details. Please wait.',
+        allowOutsideClick: false, 
+        didOpen: () => Swal.showLoading() 
+    });
+
+    try {
+        const response = await fetch("http://localhost:8080/api/products/add", {
+            method: "POST",
+            headers: { "Authorization": `Bearer ${token}` },
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+            Swal.fire('Saved!', 'Product has been added successfully.', 'success').then(() => {
+                window.location.href = "products.html"; 
+            });
+        } else {
+            Swal.fire('Failed', result.message || 'Could not save product', 'error');
+        }
+    } catch (error) {
+        console.error(error);
+        Swal.fire('Connection Error', 'Backend server is unreachable.', 'error');
+    }
+} 

@@ -35,161 +35,130 @@
 
                 <div class="card glass-panel rounded-4 p-4 border-0 mb-5">
                     <form id="productForm">
+                        
                         <div class="row g-4">
+    <div class="col-lg-8">
+        <h6 class="fw-bold text-dark mb-3">Basic Information</h6>
 
-                            <div class="col-lg-8">
-                                <h6 class="fw-bold text-dark mb-3">Basic Information</h6>
+        <div class="mb-3">
+            <label class="form-label text-muted fw-bold" style="font-size: 13px;">Product Name *</label>
+            <input type="text" id="productName" class="form-control glass-input-pink rounded-pill px-3 py-2" placeholder="e.g. Premium Rose Gold Ring" required>
+        </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label text-muted fw-bold" style="font-size: 13px;">Product Name
-                                        *</label>
-                                    <input type="text" id="productName" class="form-control glass-input-pink rounded-pill px-3 py-2"
-                                        placeholder="e.g. Premium Rose Gold Ring" required>
-                                </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="form-label text-muted fw-bold" style="font-size: 13px;">Price (Rs.) *</label>
+                <input type="number" id="productPrice" class="form-control glass-input-pink rounded-pill px-3 py-2" placeholder="0.00" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label text-muted fw-bold" style="font-size: 13px;">Discount (%)</label>
+                <input type="number" id="productDiscount" class="form-control glass-input-pink rounded-pill px-3 py-2" placeholder="e.g. 10">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label text-muted fw-bold" style="font-size: 13px;">Total Stock Quantity *</label>
+                <input type="number" id="productStock" class="form-control glass-input-pink rounded-pill px-3 py-2" placeholder="0" required>
+            </div>
+        </div>
 
-                                <div class="row mb-3">
-                                    <div class="col-md-4">
-                                        <label class="form-label text-muted fw-bold" style="font-size: 13px;">Price
-                                            (Rs.) *</label>
-                                        <input type="number" id="productPrice"
-                                            class="form-control glass-input-pink rounded-pill px-3 py-2"
-                                            placeholder="0.00" required>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label text-muted fw-bold" style="font-size: 13px;">Discount
-                                            (%)</label>
-                                        <input type="number" id="productDiscount"
-                                            class="form-control glass-input-pink rounded-pill px-3 py-2"
-                                            placeholder="e.g. 10">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label text-muted fw-bold" style="font-size: 13px;">Stock
-                                            Quantity *</label>
-                                        <input type="number" id="productStock"
-                                            class="form-control glass-input-pink rounded-pill px-3 py-2"
-                                            placeholder="0" required>
-                                    </div>
-                                </div>
+        <div class="mb-3">
+            <label class="form-label text-muted fw-bold" style="font-size: 13px;">Description</label>
+            <textarea id="productDescription" class="form-control glass-input-pink rounded-4 px-3 py-2" rows="3" placeholder="Enter product description..."></textarea>
+        </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label text-muted fw-bold"
-                                        style="font-size: 13px;">Description</label>
-                                    <textarea id="productDescription" class="form-control glass-input-pink rounded-4 px-3 py-2" rows="3"
-                                        placeholder="Enter product description..."></textarea>
-                                </div>
+        <div class="mb-4 bg-light p-3 rounded-4" style="border: 1px dashed rgba(218, 85, 134, 0.4);">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <label class="form-label text-muted fw-bold m-0" style="font-size: 13px;">Allow Customization (Engraving)?</label>
+                <div class="form-check form-switch m-0">
+                    <input class="form-check-input pinkie-switch" type="checkbox" id="customizationSwitch" style="cursor: pointer; width: 40px; height: 20px;" onchange="toggleCustomization()">
+                </div>
+            </div>
+            <div id="customizationDetails" class="d-none mt-3">
+                <label class="form-label text-muted fw-bold" style="font-size: 12px;">Maximum allowed letters/characters</label>
+                <input type="number" id="maxLetters" class="form-control glass-input-pink rounded-pill px-3 py-2 w-50" placeholder="e.g. 15">
+            </div>
+        </div>
 
-                                <div class="mb-4">
-                                    <label class="form-label text-muted fw-bold" style="font-size: 13px;">Customization
-                                        Options</label>
-                                    <div class="form-check form-switch d-flex align-items-center mt-1">
-                                        <input class="form-check-input pinkie-switch me-2" type="checkbox"
-                                            id="customizationSwitch" style="cursor: pointer; width: 40px; height: 20px;"
-                                            onchange="updateCustomizationText()">
-                                        <label class="form-check-label" id="customizationLabel"
-                                            for="customizationSwitch" style="font-size: 14px; cursor: pointer;">Not
-                                            Available</label>
-                                    </div>
-                                </div>
+        <hr class="my-4" style="border-color: rgba(218, 85, 134, 0.2);">
 
-                                <hr class="my-4" style="border-color: rgba(218, 85, 134, 0.2);">
+        <h6 class="fw-bold text-dark mb-3">Product Attributes</h6>
 
-                                <h6 class="fw-bold text-dark mb-3">Product Attributes</h6>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="form-label text-muted fw-bold" style="font-size: 13px;">Category *</label>
+                <select id="productCategory" class="form-select glass-input-pink rounded-pill px-3 py-2" onchange="loadTypesForCategory()" required>
+                    <option value="" selected disabled>Loading...</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label text-muted fw-bold" style="font-size: 13px;">Type *</label>
+                <select id="productType" class="form-select glass-input-pink rounded-pill px-3 py-2" onchange="loadMaterialsForType()" required>
+                    <option value="" selected disabled>Select Category First</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label text-muted fw-bold" style="font-size: 13px;">Material *</label>
+                <select id="productMaterial" class="form-select glass-input-pink rounded-pill px-3 py-2" required>
+                    <option value="" selected disabled>Select Type First</option>
+                </select>
+            </div>
+        </div>
 
-                                <div class="row mb-3">
-                                    <div class="col-md-4">
-                                        <label class="form-label text-muted fw-bold" style="font-size: 13px;">Category
-                                            *</label>
-                                        <select id="productCategory" class="form-select glass-input-pink rounded-pill px-3 py-2" required>
-                                            <option value="" selected disabled>Select...</option>
-                                            <option value="1">Rings</option>
-                                            <option value="2">Necklaces</option>
-                                            <option value="3">Earrings</option>
-                                            <option value="4">Bracelets</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label text-muted fw-bold" style="font-size: 13px;">Type
-                                            *</label>
-                                        <select id="productType" class="form-select glass-input-pink rounded-pill px-3 py-2" required>
-                                            <option value="" selected disabled>Select...</option>
-                                            <option value="1">Bridal</option>
-                                            <option value="2">Casual</option>
-                                            <option value="3">Engagement</option>
-                                            <option value="4">Party Wear</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label text-muted fw-bold" style="font-size: 13px;">Material
-                                            *</label>
-                                        <select id="productMaterial" class="form-select glass-input-pink rounded-pill px-3 py-2" required>
-                                            <option value="" selected disabled>Select...</option>
-                                            <option value="1">Rose Gold</option>
-                                            <option value="2">Yellow Gold</option>
-                                            <option value="3">White Gold</option>
-                                            <option value="4">Sterling Silver</option>
-                                            <option value="5">Platinum</option>
-                                        </select>
-                                    </div>
-                                </div>
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <label class="form-label text-muted fw-bold" style="font-size: 13px;">Weight (g)</label>
+                <input type="text" id="productWeight" class="form-control glass-input-pink rounded-pill px-3 py-2" placeholder="e.g. 5.2">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label text-muted fw-bold" style="font-size: 13px;">Length/Dimensions</label>
+                <input type="text" id="productLength" class="form-control glass-input-pink rounded-pill px-3 py-2" placeholder="e.g. 18 inches">
+            </div>
+        </div>
 
-                                <div class="row mb-3">
-                                    <div class="col-md-4">
-                                        <label class="form-label text-muted fw-bold"
-                                            style="font-size: 13px;">Color</label>
-                                        <select id="productColor" class="form-select glass-input-pink rounded-pill px-3 py-2">
-                                            <option value="" selected disabled>Select...</option>
-                                            <option value="1">Gold</option>
-                                            <option value="2">Silver</option>
-                                            <option value="3">Rose Gold</option>
-                                            <option value="4">Dual Tone</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label text-muted fw-bold"
-                                            style="font-size: 13px;">Weight</label>
-                                        <input type="text" id="productWeight"
-                                            class="form-control glass-input-pink rounded-pill px-3 py-2"
-                                            placeholder="e.g. 5.2g">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label text-muted fw-bold" style="font-size: 13px;">Length /
-                                            Size</label>
-                                        <input type="text" id="productSize"
-                                            class="form-control glass-input-pink rounded-pill px-3 py-2"
-                                            placeholder="e.g. 18 inches / Size 6">
-                                    </div>
-                                </div>
-                            </div>
+        <hr class="my-4" style="border-color: rgba(218, 85, 134, 0.2);">
 
-                            <div class="col-lg-4">
-                                <h6 class="fw-bold text-dark mb-3">Product Images (Up to 6)</h6>
+        <h6 class="fw-bold text-dark mb-3">Color Variants & Specific Images</h6>
+        <div id="colorVariantsContainer" class="mb-3">
+            </div>
+        <button type="button" class="btn btn-outline-pinkie btn-sm rounded-pill fw-bold" onclick="addColorRow()">
+            <i class="fas fa-plus me-1"></i> Add Color Variant
+        </button>
 
-                                <div class="glass-upload-box d-flex flex-column align-items-center justify-content-center text-center p-4 mb-3 rounded-4"
-                                    onclick="document.getElementById('productImage').click()">
-                                    <div class="bg-white rounded-circle d-flex align-items-center justify-content-center mb-3 shadow-sm"
-                                        style="width: 60px; height: 60px;">
-                                        <i class="fas fa-cloud-upload-alt fs-4 text-pinkie"></i>
-                                    </div>
-                                    <h6 class="fw-bold text-dark mb-1">Click to Upload</h6>
-                                    <p class="text-muted m-0" style="font-size: 12px;">Select up to 6 images (PNG, JPG)
-                                    </p>
+        <hr class="my-4" style="border-color: rgba(218, 85, 134, 0.2);">
 
-                                    <input type="file" class="d-none" id="productImage" accept="image/*" multiple
-                                        onchange="previewImages()">
-                                </div>
+        <h6 class="fw-bold text-dark mb-3">Available Sizes</h6>
+        <div class="d-flex mb-3">
+            <input type="text" id="sizeInput" class="form-control glass-input-pink rounded-start-pill px-3 py-2" placeholder="e.g. Size 6, 18mm, etc.">
+            <button type="button" class="btn btn-pinkie rounded-end-pill px-4 fw-bold" onclick="addSize()">Add</button>
+        </div>
+        <div id="sizesContainer" class="d-flex flex-wrap gap-2 mb-4">
+            </div>
 
-                                <div class="row g-2" id="imagePreviewContainer">
-                                </div>
-                            </div>
-                        </div>
+    </div>
 
-                        <hr class="my-4" style="border-color: rgba(218, 85, 134, 0.2);">
+    <div class="col-lg-4">
+        <h6 class="fw-bold text-dark mb-3">General Images (Up to 5)</h6>
+        <div class="glass-upload-box d-flex flex-column align-items-center justify-content-center text-center p-4 mb-3 rounded-4 shadow-sm"
+            onclick="document.getElementById('generalImages').click()" style="cursor: pointer; border: 2px dashed #da5586; background: #fcf4f7;">
+            <div class="bg-white rounded-circle d-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 60px; height: 60px;">
+                <i class="fas fa-images fs-4 text-pinkie"></i>
+            </div>
+            <h6 class="fw-bold text-dark mb-1">Click to Upload</h6>
+            <p class="text-muted m-0" style="font-size: 11px;">Upload angle shots, packaging, etc.</p>
+            <input type="file" class="d-none" id="generalImages" accept="image/*" multiple onchange="previewGeneralImages(event)">
+        </div>
 
-                        <div class="d-flex justify-content-end gap-2">
-                            <a href="products.html" class="btn btn-outline-pinkie rounded-pill px-4 fw-bold">Cancel</a>
-                            <button type="button" id="submitBtn" class="btn btn-pinkie rounded-pill px-5 fw-bold"
-                                onclick="saveProduct()">Save Product</button>
-                        </div>
+        <div class="row g-2" id="generalImagePreviewContainer">
+            </div>
+    </div>
+</div>
+
+<hr class="my-4" style="border-color: rgba(218, 85, 134, 0.2);">
+
+<div class="d-flex justify-content-end gap-2">
+    <a href="products.html" class="btn btn-light text-muted border rounded-pill px-4 fw-bold">Cancel</a>
+    <button type="button" id="submitBtn" class="btn btn-pinkie rounded-pill px-5 fw-bold" onclick="saveProduct()">Save Product</button>
+</div>
+
                     </form>
                 </div>
 
