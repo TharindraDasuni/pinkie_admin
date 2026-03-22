@@ -44,12 +44,7 @@
 
                   <div class="mb-3">
                     <label class="form-label text-muted fw-bold" style="font-size: 13px">Select Category *</label>
-                    <select id="typeCategory" class="form-select glass-input-pink rounded-pill px-3 py-2" required>
-                        <option value="" disabled selected>Choose a category...</option>
-                        <option value="1">Rings</option>
-                        <option value="2">Necklaces</option>
-                        <option value="3">Earrings</option>
-                    </select>
+                    <select id="typeCategory" class="form-select glass-input-pink rounded-pill px-3 py-2" required></select>
                   </div>
          
                   <div class="mb-4">
@@ -82,7 +77,7 @@
                     <span class="input-group-text glass-input-pink border-end-0 bg-transparent rounded-start-pill px-3">
                       <i class="fas fa-search text-muted"></i>
                     </span>
-                    <input type="text" id="searchInput" class="form-control glass-input-pink border-start-0 rounded-end-pill" placeholder="Search..." />
+                    <input type="text" id="searchInput" class="form-control glass-input-pink border-start-0 rounded-end-pill" placeholder="Search..." onkeyup="searchType();"/>
                   </div>
                 </div>
 
