@@ -1,12 +1,147 @@
 let selectedSizes = [];
 let generalImageFiles = [];
+let existingGeneralImages = [];
 
 let globalTypes = [];
 let globalMaterials = [];
 
 document.addEventListener("DOMContentLoaded", async () => {
+    
     await loadInitialDropdownData();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const mode = urlParams.get('mode');
+    const productId = urlParams.get('id');
+
+    if (mode === 'edit' && productId) {
+        document.getElementById("pageTitle").innerText = "Pinkie Admin | Edit Product";
+        document.getElementById("headerTitle").innerText = "Edit Jewelry Details";
+        document.getElementById("submitBtn").innerText = "Update Product";
+        
+        loadProductData(productId);
+    }
 });
+
+async function loadProductData(id) {
+    const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
+    
+    Swal.fire({ title: 'Loading details...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+    try {
+        const response = await fetch(`http://localhost:8080/api/products/get/${id}`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+            const p = result.data;
+
+            document.getElementById("productName").value = p.title;
+            document.getElementById("productPrice").value = p.price;
+            document.getElementById("productDiscount").value = p.discount;
+            document.getElementById("productStock").value = p.stock;
+            document.getElementById("productDescription").value = p.description || "";
+            document.getElementById("productWeight").value = p.weight || "";
+            document.getElementById("productLength").value = p.length || "";
+
+            if (p.customization && p.customization.isCustomizable) {
+                document.getElementById("customizationSwitch").checked = true;
+                toggleCustomization();
+                document.getElementById("maxLetters").value = p.customization.maxLetters;
+            }
+
+            document.getElementById("productCategory").value = p.categoryId;
+            loadTypesForCategory();
+            
+            setTimeout(() => {
+                document.getElementById("productType").value = p.typeId;
+                loadMaterialsForType();
+                
+                setTimeout(() => {
+                    document.getElementById("productMaterial").value = p.materialId;
+                }, 100);
+            }, 100);
+
+            if (p.sizes && p.sizes.length > 0) {
+                selectedSizes = p.sizes;
+                renderSizes();
+            }
+
+            if (p.colors && p.colors.length > 0) {
+                p.colors.forEach(c => {
+                    const container = document.getElementById("colorVariantsContainer");
+                    const rowId = 'colorRow_' + Date.now() + Math.floor(Math.random() * 1000); 
+
+                    const row = document.createElement("div");
+                    row.className = "row mb-2 align-items-center bg-white p-2 rounded-3 shadow-sm border color-row";
+                    row.id = rowId;
+
+                    row.innerHTML = `
+                        <div class="col-md-2">
+                            <input type="text" class="form-control glass-input-pink border-0 bg-light rounded-pill px-3 color-name-input" value="${c.name}" style="font-size: 13px;">
+                        </div>
+                        <div class="col-md-2">
+                            <input type="number" class="form-control glass-input-pink border-0 bg-light rounded-pill px-3 color-price-input" value="${c.price}" style="font-size: 13px;">
+                        </div>
+                        <div class="col-md-2">
+                            <input type="number" class="form-control glass-input-pink border-0 bg-light rounded-pill px-3 color-discount-input" value="${c.discount || 0}" style="font-size: 13px;">
+                        </div>
+                        <div class="col-md-2">
+                            <input type="number" class="form-control glass-input-pink border-0 bg-light rounded-pill px-3 color-qty-input" value="${c.quantity || 0}" style="font-size: 13px;">
+                        </div>
+                        <div class="col-md-3 d-flex align-items-center">
+                            <input type="file" class="form-control glass-input-pink border-0 bg-light rounded-pill color-image-input" accept="image/*" style="font-size: 12px;" onchange="previewColorThumb(event, '${rowId}')">
+                            <img id="thumb_${rowId}" src="${c.imageUrl}" data-old-url="${c.imageUrl}" class="ms-2 rounded-circle shadow-sm" style="width: 32px; height: 32px; object-fit: cover; border: 1px solid #da5586;">
+                        </div>
+                        <div class="col-md-1 text-end">
+                            <button type="button" class="btn btn-sm btn-light text-danger rounded-circle shadow-sm" onclick="this.parentElement.parentElement.remove()">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    container.appendChild(row);
+                });
+            }
+            
+            if (p.generalImages && p.generalImages.length > 0) {
+                existingGeneralImages = p.generalImages;
+                renderExistingGeneralImages();
+            }
+
+            Swal.close();
+
+        } else {
+            Swal.fire('Error', 'Product not found', 'error');
+        }
+    } catch (error) {
+        console.error(error);
+        Swal.fire('Connection Error', 'Could not fetch product details', 'error');
+    }
+}
+
+function renderExistingGeneralImages() {
+    const container = document.getElementById("generalImagePreviewContainer");
+    
+    existingGeneralImages.forEach((url, index) => {
+        container.innerHTML += `
+            <div class="col-4 mb-2 existing-image-box" id="existing_img_${index}">
+                <div class="position-relative rounded-4 overflow-hidden shadow-sm" style="aspect-ratio: 1/1; border: 2px solid #fce4ec;">
+                    <img src="${url}" class="w-100 h-100" style="object-fit: cover;">
+                    <button type="button" class="btn btn-danger btn-sm rounded-circle position-absolute shadow" 
+                            style="top: 5px; right: 5px; width: 22px; height: 22px; padding: 0; display: flex; align-items: center; justify-content: center; z-index: 10;"
+                            onclick="removeExistingGeneralImage(${index})">
+                        <i class="fas fa-times" style="font-size: 10px;"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+    });
+}
+
+function removeExistingGeneralImage(index) {
+    document.getElementById(`existing_img_${index}`).remove();
+    existingGeneralImages[index] = null;
+}
 
 async function loadInitialDropdownData() {
     const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
