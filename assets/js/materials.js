@@ -1,10 +1,9 @@
-let globalTypes = []; // Types ඔක්කොම තියාගන්න Array එකක් (Filter කරන්න ලේසි වෙන්න)
+let globalTypes = [];
 
 document.addEventListener("DOMContentLoaded", async () => {
     await loadDropdownData();
     loadMaterials();
 
-    // Category එක වෙනස් කරද්දී අදාළ Types ටික විතරක් පෙන්වීමට Event Listeners
     document.getElementById("matCategory").addEventListener("change", function() {
         filterTypesByCategory(this.value, "matType");
     });
@@ -13,16 +12,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         filterTypesByCategory(this.value, "editMatType");
     });
 
-    // Search එකට Event Listener එක
     document.getElementById("searchInput").addEventListener("keyup", searchMaterial);
 });
 
-// --- 1. Load Categories and Types ---
 async function loadDropdownData() {
     const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
     
     try {
-        // Categories ටික ගන්නවා
+        
         const catRes = await fetch("http://localhost:8080/api/categories/all", { headers: { "Authorization": `Bearer ${token}` } });
         const catData = await catRes.json();
         
@@ -40,7 +37,6 @@ async function loadDropdownData() {
             editCatSelect.innerHTML = catOptions;
         }
 
-        // Product Types ටික අරගෙන Global Variable එකේ තියාගන්නවා
         const typeRes = await fetch("http://localhost:8080/api/types/all", { headers: { "Authorization": `Bearer ${token}` } });
         const typeData = await typeRes.json();
         
@@ -53,7 +49,6 @@ async function loadDropdownData() {
     }
 }
 
-// Category එකට අදාළ Types ටික Dropdown එකට දාන ෆන්ක්ෂන් එක
 function filterTypesByCategory(categoryId, typeSelectId, selectedTypeId = "") {
     const typeSelect = document.getElementById(typeSelectId);
     let typeOptions = `<option value="" disabled selected>Choose a type...</option>`;
@@ -68,7 +63,6 @@ function filterTypesByCategory(categoryId, typeSelectId, selectedTypeId = "") {
     typeSelect.innerHTML = typeOptions;
 }
 
-// --- 2. Load Materials Table ---
 async function loadMaterials() {
     const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
     const tableBody = document.getElementById("materialTableBody");
@@ -115,7 +109,6 @@ async function loadMaterials() {
     }
 }
 
-// --- 3. Add New Material ---
 async function saveMaterial() {
     const name = document.getElementById("matName").value.trim();
     const catSelect = document.getElementById("matCategory");
@@ -145,7 +138,7 @@ async function saveMaterial() {
         if (response.ok && result.success) {
             Swal.fire('Saved!', 'Material has been added.', 'success').then(() => {
                 document.getElementById("addMaterialForm").reset();
-                document.getElementById("matType").innerHTML = `<option value="" disabled selected>Choose a type...</option>`; // Type එක Reset කරනවා
+                document.getElementById("matType").innerHTML = `<option value="" disabled selected>Choose a type...</option>`;
                 loadMaterials();
             });
         } else {
@@ -156,7 +149,6 @@ async function saveMaterial() {
     }
 }
 
-// --- 4. Edit Material ---
 async function openEditMaterialModal(id) {
     const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
     try {
@@ -172,7 +164,6 @@ async function openEditMaterialModal(id) {
             document.getElementById("editMatCategory").value = mat.categoryId;
             document.getElementById("editMatStatus").value = mat.status;
 
-            // Category එකට අදාළව Types ටික පෙන්නලා, පරණ Type එක Select කරනවා
             filterTypesByCategory(mat.categoryId, "editMatType", mat.typeId);
 
             new bootstrap.Modal(document.getElementById('editMaterialModal')).show();
@@ -223,7 +214,6 @@ async function updateMaterial() {
     }
 }
 
-// --- 5. Delete and Search ---
 function deleteMaterial(id) {
     Swal.fire({
         title: 'Are you sure?', text: "You won't be able to revert this!", icon: 'warning',
@@ -264,7 +254,7 @@ function searchMaterial() {
         if (rows[i].innerText.includes("Loading") || rows[i].innerText.includes("No materials found")) continue;
 
         const idCol = rows[i].getElementsByTagName("td")[0]; 
-        const nameCol = rows[i].getElementsByTagName("td")[1]; // Material Name 
+        const nameCol = rows[i].getElementsByTagName("td")[1];
         
         if (idCol || nameCol) {
             const text = (idCol.textContent + " " + nameCol.textContent).toLowerCase();
