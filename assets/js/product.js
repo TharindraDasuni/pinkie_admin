@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadProducts();
 });
 
+// --- 1. Load Products and Dashboard Stats ---
 async function loadProducts() {
     const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
     if (!token) return;
@@ -18,10 +19,11 @@ async function loadProducts() {
         if (response.ok && result.success) {
             const products = result.data;
             
+            // Dashboard Cards සඳහා ගණනය කිරීම්
             let total = products.length;
             let published = 0;
-            let lowStock = 0;
-            let outOfStock = 0;
+            let lowStockCount = 0;
+            let outOfStockCount = 0;
 
             if (tableBody) tableBody.innerHTML = ""; 
 
@@ -30,41 +32,90 @@ async function loadProducts() {
             }
 
             products.forEach(p => {
+                
+                // --- 1. අලුත් කෑල්ල: Weight, Length සහ Sizes තියෙනවා නම් ඒවට ලස්සන Badges හදනවා ---
+                let specsHtml = '';
+                
+                if (p.weight) {
+                    specsHtml += `<span class="badge bg-light text-secondary border px-2 py-1 me-1" style="font-size: 10px;" title="Weight"><i class="fas fa-weight-hanging me-1"></i>${p.weight}</span>`;
+                }
+                if (p.length) {
+                    specsHtml += `<span class="badge bg-light text-secondary border px-2 py-1 me-1" style="font-size: 10px;" title="Length/Dimensions"><i class="fas fa-ruler me-1"></i>${p.length}</span>`;
+                }
+                if (p.sizes && p.sizes.length > 0) {
+                    // Sizes ටික කොමා දාලා එක පේළියට ගන්නවා (උදා: Size 6, Size 7)
+                    let sizesText = p.sizes.join(', ');
+                    specsHtml += `<span class="badge bg-light text-secondary border px-2 py-1" style="font-size: 10px;" title="Available Sizes"><i class="fas fa-expand-arrows-alt me-1"></i>${sizesText}</span>`;
+                }
+
+
+                // --- 2. Color Variants වල මිල සහ තොගය හදන කෑල්ල (මේක කලින් එකමයි) ---
+                let priceHtml = '';
+                let stockHtml = '';
+                let totalProductStock = 0; 
+
+                if (p.colors && p.colors.length > 0) {
+                    p.colors.forEach(c => {
+                        let cPrice = c.price ? c.price : p.price; 
+                        priceHtml += `
+                            <div class="mb-1" style="font-size: 12px; white-space: nowrap;">
+                                <span class="text-muted fw-bold">${c.name}:</span> 
+                                <span class="text-dark fw-bold">Rs. ${cPrice.toLocaleString()}</span>
+                            </div>`;
+                        
+                        let qty = c.quantity || 0;
+                        totalProductStock += qty; 
+                        
+                        let stockBadgeClass = qty === 0 ? 'bg-danger text-danger' : (qty <= 5 ? 'bg-warning text-warning' : 'bg-success text-success');
+                        let stockText = qty === 0 ? 'Out' : qty;
+                        
+                        stockHtml += `
+                            <div class="mb-1 d-flex align-items-center justify-content-center" style="font-size: 12px;">
+                                <span class="text-muted fw-bold me-2" style="width: 60px; text-align: right;">${c.name}:</span>
+                                <span class="badge ${stockBadgeClass} bg-opacity-10 rounded-pill" style="width: 40px;">${stockText}</span>
+                            </div>`;
+                    });
+                } else {
+                    priceHtml = `<span class="text-dark fw-bold" style="font-size: 13px;">Rs. ${p.price.toLocaleString()}</span>`;
+                    totalProductStock = p.stock || 0;
+                    
+                    let stockBadgeClass = totalProductStock === 0 ? 'bg-danger text-danger' : (totalProductStock <= 10 ? 'bg-warning text-warning' : 'bg-success text-success');
+                    let stockText = totalProductStock === 0 ? 'Out of Stock' : `${totalProductStock} in stock`;
+                    stockHtml = `<span class="badge ${stockBadgeClass} bg-opacity-10 px-3 py-2 rounded-pill">${stockText}</span>`;
+                }
+
+                // Stats ගණනය කිරීම
                 if (p.status === "Published") published++;
-                if (p.stock === 0) outOfStock++;
-                else if (p.stock <= 10) lowStock++;
+                if (totalProductStock === 0) outOfStockCount++;
+                else if (totalProductStock <= 10) lowStockCount++;
 
                 if (tableBody) {
-                    let stockBadge = "";
-                    if (p.stock === 0) {
-                        stockBadge = `<span class="badge bg-danger bg-opacity-10 text-danger px-3 py-2 rounded-pill">Out of Stock</span>`;
-                    } else if (p.stock <= 10) {
-                        stockBadge = `<span class="badge bg-warning bg-opacity-10 text-warning px-3 py-2 rounded-pill">${p.stock} Low Stock</span>`;
-                    } else {
-                        stockBadge = `<span class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill">${p.stock} in stock</span>`;
-                    }
-
                     let statusBtn = p.status === "Published"
                         ? `<button class="btn btn-sm btn-outline-success rounded-pill px-3 fw-bold dropdown-toggle" type="button" data-bs-toggle="dropdown" style="font-size: 12px;"><i class="fas fa-eye me-1"></i> Published</button>`
                         : `<button class="btn btn-sm btn-outline-secondary rounded-pill px-3 fw-bold dropdown-toggle" type="button" data-bs-toggle="dropdown" style="font-size: 12px;"><i class="fas fa-eye-slash me-1"></i> Hidden</button>`;
 
                     const row = `
-                        <tr>
+                        <tr class="bg-white bg-opacity-50 shadow-sm" style="border-radius: 10px;">
                             <td class="fw-bold text-muted ps-4" style="font-size: 13px;">${p.id}</td>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <div class="product-img-box glass-input-pink rounded-3 p-1 me-3" style="width: 45px; height: 45px;">
+                                    <div class="product-img-box glass-input-pink rounded-3 p-1 me-3" style="width: 45px; height: 45px; flex-shrink: 0;">
                                         <img src="${p.mainImage || 'assets/images/placeholder.jpg'}" class="img-fluid w-100 h-100 rounded-2" style="object-fit: cover;">
                                     </div>
-                                    <div><h6 class="mb-0 fw-bold text-dark" style="font-size: 13px;">${p.title}</h6></div>
+                                    <div>
+                                        <h6 class="mb-0 fw-bold text-dark" style="font-size: 13px;">${p.title}</h6>
+                                        ${specsHtml !== '' ? `<div class="mt-1 d-flex flex-wrap">${specsHtml}</div>` : ''}
+                                    </div>
                                 </div>
                             </td>
                             <td class="text-muted" style="font-size: 13px;">${p.categoryName || '-'}</td>
                             <td class="text-muted" style="font-size: 13px;">${p.typeName || '-'}</td>
                             <td class="text-muted" style="font-size: 13px;">${p.materialName || '-'}</td>
-                            <td class="fw-bold text-dark" style="font-size: 13px;">Rs. ${p.price.toLocaleString()}</td>
-                            <td class="text-center">${stockBadge}</td>
-                            <td class="text-center">
+                            
+                            <td class="align-middle">${priceHtml}</td>
+                            <td class="text-center align-middle">${stockHtml}</td>
+                            
+                            <td class="text-center align-middle">
                                 <div class="dropdown">
                                     ${statusBtn}
                                     <ul class="dropdown-menu shadow-sm rounded-3 border-0" style="font-size: 13px;">
@@ -73,7 +124,7 @@ async function loadProducts() {
                                     </ul>
                                 </div>
                             </td>
-                            <td class="text-end pe-4">
+                            <td class="text-end pe-4 align-middle">
                                 <a href="add-product.html?mode=edit&id=${p.id}" class="btn btn-sm btn-light text-primary shadow-sm rounded-circle me-1" style="width: 32px; height: 32px; padding-top: 5px;" title="Edit"><i class="fas fa-pen"></i></a>
                                 <button class="btn btn-sm btn-light text-danger shadow-sm rounded-circle" style="width: 32px; height: 32px;" title="Delete" onclick="deleteProduct('${p.id}')"><i class="fas fa-trash"></i></button>
                             </td>
@@ -83,12 +134,13 @@ async function loadProducts() {
                 }
             });
 
+            // Update Top Dashboard Cards
             const cardValues = document.querySelectorAll(".dash-card h3");
             if (cardValues.length >= 4) {
                 cardValues[0].innerText = total.toLocaleString();
                 cardValues[1].innerText = published.toLocaleString();
-                cardValues[2].innerText = lowStock.toLocaleString();
-                cardValues[3].innerText = outOfStock.toLocaleString();
+                cardValues[2].innerText = lowStockCount.toLocaleString();
+                cardValues[3].innerText = outOfStockCount.toLocaleString();
             }
         }
     } catch (error) {
@@ -97,6 +149,7 @@ async function loadProducts() {
     }
 }
 
+// --- 2. Change Product Status ---
 async function changeStatus(event, id, newStatus) {
     event.preventDefault();
     const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
@@ -109,7 +162,7 @@ async function changeStatus(event, id, newStatus) {
         const result = await response.json();
         
         if (response.ok && result.success) {
-            loadProducts();
+            loadProducts(); 
         } else {
             Swal.fire('Failed', result.message, 'error');
         }
@@ -118,6 +171,7 @@ async function changeStatus(event, id, newStatus) {
     }
 }
 
+// --- 3. Delete Product ---
 function deleteProduct(id) {
     Swal.fire({
         title: 'Are you sure?', text: "Do you want to delete this product?", icon: 'warning',
