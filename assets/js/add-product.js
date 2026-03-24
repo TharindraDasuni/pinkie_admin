@@ -174,6 +174,16 @@ async function loadInitialDropdownData() {
             globalMaterials = matData.data.filter(m => m.status === 'Active');
         }
 
+        const genderRes = await fetch("http://localhost:8080/api/products/genders", { headers: { "Authorization": `Bearer ${token}` } });
+        const genderData = await genderRes.json();
+        if (genderRes.ok && genderData.success) {
+            const genderSelect = document.getElementById("productGender");
+            genderData.data.forEach(g => {
+                let formatGender = g.charAt(0).toUpperCase() + g.slice(1).toLowerCase();
+                genderSelect.innerHTML += `<option value="${formatGender}">${formatGender}</option>`;
+            });
+        }
+
     } catch (error) {
         console.error("Error loading dropdown data", error);
         Swal.fire({ icon: 'error', title: 'Connection Error', text: 'Could not load categories.' });
