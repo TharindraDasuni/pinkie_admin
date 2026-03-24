@@ -43,6 +43,7 @@ async function loadProductData(id) {
             document.getElementById("productDescription").value = p.description || "";
             document.getElementById("productWeight").value = p.weight || "";
             document.getElementById("productLength").value = p.length || "";
+            document.getElementById("productGender").value = p.gender || "";
 
             if (p.customization && p.customization.isCustomizable) {
                 document.getElementById("customizationSwitch").checked = true;
@@ -368,8 +369,9 @@ async function saveProduct() {
     const catSelect = document.getElementById("productCategory");
     const typeSelect = document.getElementById("productType");
     const matSelect = document.getElementById("productMaterial");
+    const genderSelect = document.getElementById("productGender").value;
 
-    if (!name || !price || !stock || !catSelect.value || !typeSelect.value || !matSelect.value) {
+    if (!name || !price || !stock || !catSelect.value || !typeSelect.value || !matSelect.value || !genderSelect) {
         Swal.fire({ icon: 'warning', title: 'Required Fields', text: 'Please fill all the mandatory (*) fields.' });
         return;
     }
@@ -403,6 +405,7 @@ async function saveProduct() {
     formData.append("materialName", matSelect.options[matSelect.selectedIndex].text);
     formData.append("weight", document.getElementById("productWeight").value.trim());
     formData.append("length", document.getElementById("productLength").value.trim());
+    formData.append("gender", genderSelect);
 
     formData.append("sizes", JSON.stringify(selectedSizes));
     formData.append("existingGeneralImages", JSON.stringify(keptExistingImages));
