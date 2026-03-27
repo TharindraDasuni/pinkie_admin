@@ -1,287 +1,547 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pinkie Admin | Orders</title>
-    <link rel="icon" type="image/png" href="assets/images/logo.png">
+    <link rel="icon" type="image/png" href="assets/images/logo.png" />
 
-    <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/vendor/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="assets/vendor/sweetalert2/sweetalert2.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-</head>
+    <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/vendor/fontawesome/css/all.min.css" />
+    <link
+      rel="stylesheet"
+      href="assets/vendor/sweetalert2/sweetalert2.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
 
-<body>
-
+  <body>
     <div class="d-flex" id="wrapper">
-        <div class="sidebar-overlay" id="sidebar-overlay"></div>
-        <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+      <div id="sidebar-container"></div>
 
-        <div id="page-content-wrapper" class="w-100 d-flex flex-column min-vh-100">
-            <div id="navbar-container"></div>
+      <div
+        id="page-content-wrapper"
+        class="w-100 d-flex flex-column min-vh-100"
+      >
+        <div id="navbar-container"></div>
 
-            <div class="container-fluid px-4 flex-grow-1">
-                
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h5 class="fw-bold text-dark m-0">Orders Management</h5>
-                    <button class="btn btn-pinkie rounded-pill px-4 fw-bold" onclick="exportToCSV();">
-                        <i class="fas fa-file-export me-2"></i> Export CSV
-                    </button>
+        <div class="container-fluid px-4 flex-grow-1">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h5 class="fw-bold text-dark m-0">Orders Management</h5>
+            <button
+              class="btn btn-pinkie rounded-pill px-4 fw-bold"
+              onclick="exportToCSV()"
+            >
+              <i class="fas fa-file-export me-2"></i> Export CSV
+            </button>
+          </div>
+
+          <div class="row g-4 mb-4">
+            <div class="col-md-3">
+              <div class="card dash-card glass-panel rounded-4 p-3 border-0">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <p class="text-muted mb-1 fw-bold" style="font-size: 13px">
+                      New Orders
+                    </p>
+                    <h3 id="count-new" class="fw-bold text-primary m-0">0</h3>
+                  </div>
+                  <div
+                    class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center"
+                    style="width: 50px; height: 50px"
+                  >
+                    <i class="fas fa-shopping-bag fs-4 text-primary"></i>
+                  </div>
                 </div>
-
-                <div class="row g-4 mb-4">
-                    <div class="col-md-3">
-                        <div class="card dash-card glass-panel rounded-4 p-3 border-0">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <p class="text-muted mb-1 fw-bold" style="font-size: 13px;">New Orders</p>
-                                    <h3 id="count-new" class="fw-bold text-primary m-0">0</h3>
-                                </div>
-                                <div class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center" style="width:50px; height:50px;">
-                                    <i class="fas fa-shopping-bag fs-4 text-primary"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-3">
-                        <div class="card dash-card glass-panel rounded-4 p-3 border-0">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <p class="text-muted mb-1 fw-bold" style="font-size: 13px;">Processing</p>
-                                    <h3 id="count-processing" class="fw-bold text-warning m-0">0</h3>
-                                </div>
-                                <div class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center" style="width:50px; height:50px;">
-                                    <i class="fas fa-clock fs-4 text-warning"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="card dash-card glass-panel rounded-4 p-3 border-0">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <p class="text-muted mb-1 fw-bold" style="font-size: 13px;">Delivered</p>
-                                    <h3 id="count-delivered" class="fw-bold text-success m-0">0</h3>
-                                </div>
-                                <div class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center" style="width:50px; height:50px;">
-                                    <i class="fas fa-check-circle fs-4 text-success"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="card dash-card glass-panel rounded-4 p-3 border-0">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <p class="text-muted mb-1 fw-bold" style="font-size: 13px;">Cancelled</p>
-                                    <h3 id="count-cancelled" class="fw-bold text-danger m-0">0</h3>
-                                </div>
-                                <div class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center" style="width:50px; height:50px;">
-                                    <i class="fas fa-times-circle fs-4 text-danger"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card glass-panel rounded-4 p-3 mb-4 border-0">
-                    <div class="row g-2">
-                        <div class="col-md-4">
-                            <div class="input-group">
-                                <span class="input-group-text glass-input-pink border-end-0 bg-transparent rounded-start-pill">
-                                    <i class="fas fa-search text-muted"></i>
-                                </span>
-                                <input type="text" id="filter-search" class="form-control glass-input-pink border-start-0 rounded-end-pill" placeholder="Search Order ID or Customer...">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <select id="filter-status" class="form-select glass-input-pink rounded-pill">
-                                <option value="All" selected>Order Status</option>
-                                <option value="Pending">Pending</option>
-                                <option value="Processing">Processing</option>
-                                <option value="Shipped">Shipped</option>
-                                <option value="Delivered">Delivered</option>
-                                <option value="Cancelled">Cancelled</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <input type="date" id="filter-date" class="form-control glass-input-pink rounded-pill text-muted">
-                        </div>
-                    </div>
-                </div>
-
-                  <div class="card glass-panel rounded-4 p-4 border-0 mb-5">
-                <div class="table-responsive">
-                    <table class="table table-hover glass-table align-middle mb-0" style="border-collapse: separate; border-spacing: 0 8px;">
-                        <thead class="pink-header">
-                            <tr>
-                                <th scope="col" class="ps-3">ORDER ID</th>
-                                <th scope="col">DATE</th>
-                                <th scope="col">CUSTOMER</th>
-                                <th scope="col">AMOUNT</th>
-                                <th scope="col" class="text-center">PAYMENT</th>
-                                <th scope="col" class="text-center">STATUS</th>
-                                <th scope="col" class="text-center pe-3">ACTIONS</th>
-                            </tr>
-                        </thead>
-                        <tbody id="orders-table-body">
-                            <tr style="border-radius: 10px;">
-                                <td class="fw-bold text-dark ps-3">#ORD-5001</td>
-                                <td class="text-muted" style="font-size: 13px;">Oct 24, 2024<br><small>10:30 AM</small></td>
-                                <td>
-                                    <h6 class="mb-0 fw-bold text-dark" style="font-size: 14px;">Sanduni Perera</h6>
-                                    <small class="text-muted" style="font-size: 12px;">+94 77 123 4567</small>
-                                </td>
-                                <td class="text-pinkie fw-bold">Rs. 85,000</td>
-                                <td class="text-center"><span class="badge bg-success bg-opacity-10 text-success border border-success rounded-pill px-3 py-1">Paid</span></td>
-                                <td class="text-center"><span class="badge bg-warning text-dark bg-opacity-75 rounded-pill px-3 py-2">Processing</span></td>
-                                <td class="text-center pe-3">
-                                    <button class="btn btn-sm btn-light text-primary rounded-circle shadow-sm me-1" title="Manage Order" data-bs-toggle="modal" data-bs-target="#orderDetailsModal"><i class="fas fa-eye"></i></button>
-                                    <button class="btn btn-sm btn-light text-pinkie rounded-circle shadow-sm" title="Print Invoice"><i class="fas fa-file-invoice"></i></button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                </div>
-
+              </div>
             </div>
 
-            <div id="footer-container"></div>
+            <div class="col-md-3">
+              <div class="card dash-card glass-panel rounded-4 p-3 border-0">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <p class="text-muted mb-1 fw-bold" style="font-size: 13px">
+                      Processing
+                    </p>
+                    <h3 id="count-processing" class="fw-bold text-warning m-0">
+                      0
+                    </h3>
+                  </div>
+                  <div
+                    class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center"
+                    style="width: 50px; height: 50px"
+                  >
+                    <i class="fas fa-clock fs-4 text-warning"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="card dash-card glass-panel rounded-4 p-3 border-0">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <p class="text-muted mb-1 fw-bold" style="font-size: 13px">
+                      Delivered
+                    </p>
+                    <h3 id="count-delivered" class="fw-bold text-success m-0">
+                      0
+                    </h3>
+                  </div>
+                  <div
+                    class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center"
+                    style="width: 50px; height: 50px"
+                  >
+                    <i class="fas fa-check-circle fs-4 text-success"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="card dash-card glass-panel rounded-4 p-3 border-0">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <p class="text-muted mb-1 fw-bold" style="font-size: 13px">
+                      Cancelled
+                    </p>
+                    <h3 id="count-cancelled" class="fw-bold text-danger m-0">
+                      0
+                    </h3>
+                  </div>
+                  <div
+                    class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center"
+                    style="width: 50px; height: 50px"
+                  >
+                    <i class="fas fa-times-circle fs-4 text-danger"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card glass-panel rounded-4 p-3 mb-4 border-0">
+            <div class="row g-2">
+              <div class="col-md-4">
+                <div class="input-group">
+                  <span
+                    class="input-group-text glass-input-pink border-end-0 bg-transparent rounded-start-pill"
+                  >
+                    <i class="fas fa-search text-muted"></i>
+                  </span>
+                  <input
+                    type="text"
+                    id="filter-search"
+                    class="form-control glass-input-pink border-start-0 rounded-end-pill"
+                    placeholder="Search Order ID or Customer..."
+                  />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <select
+                  id="filter-status"
+                  class="form-select glass-input-pink rounded-pill"
+                >
+                  <option value="All" selected>Order Status</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Processing">Processing</option>
+                  <option value="Shipped">Shipped</option>
+                  <option value="Delivered">Delivered</option>
+                  <option value="Cancelled">Cancelled</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <input
+                  type="date"
+                  id="filter-date"
+                  class="form-control glass-input-pink rounded-pill text-muted"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="card glass-panel rounded-4 p-4 border-0 mb-5">
+            <div class="table-responsive">
+              <table
+                class="table table-hover glass-table align-middle mb-0"
+                style="border-collapse: separate; border-spacing: 0 8px"
+              >
+                <thead class="pink-header">
+                  <tr>
+                    <th scope="col" class="ps-3">ORDER ID</th>
+                    <th scope="col">DATE</th>
+                    <th scope="col">CUSTOMER</th>
+                    <th scope="col">AMOUNT</th>
+                    <th scope="col" class="text-center">PAYMENT</th>
+                    <th scope="col" class="text-center">STATUS</th>
+                    <th scope="col" class="text-center pe-3">ACTIONS</th>
+                  </tr>
+                </thead>
+                <tbody id="orders-table-body">
+                  <tr style="border-radius: 10px">
+                    <td class="fw-bold text-dark ps-3">#ORD-5001</td>
+                    <td class="text-muted" style="font-size: 13px">
+                      Oct 24, 2024<br /><small>10:30 AM</small>
+                    </td>
+                    <td>
+                      <h6
+                        class="mb-0 fw-bold text-dark"
+                        style="font-size: 14px"
+                      >
+                        Sanduni Perera
+                      </h6>
+                      <small class="text-muted" style="font-size: 12px"
+                        >+94 77 123 4567</small
+                      >
+                    </td>
+                    <td class="text-pinkie fw-bold">Rs. 85,000</td>
+                    <td class="text-center">
+                      <span
+                        class="badge bg-success bg-opacity-10 text-success border border-success rounded-pill px-3 py-1"
+                        >Paid</span
+                      >
+                    </td>
+                    <td class="text-center">
+                      <span
+                        class="badge bg-warning text-dark bg-opacity-75 rounded-pill px-3 py-2"
+                        >Processing</span
+                      >
+                    </td>
+                    <td class="text-center pe-3">
+                      <button
+                        class="btn btn-sm btn-light text-primary rounded-circle shadow-sm me-1"
+                        title="Manage Order"
+                        data-bs-toggle="modal"
+                        data-bs-target="#orderDetailsModal"
+                      >
+                        <i class="fas fa-eye"></i>
+                      </button>
+                      <button
+                        class="btn btn-sm btn-light text-pinkie rounded-circle shadow-sm"
+                        title="Print Invoice"
+                      >
+                        <i class="fas fa-file-invoice"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
+
+        <div id="footer-container"></div>
+      </div>
     </div>
 
-    <div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content glass-panel rounded-4 border-0 shadow-lg" style="backdrop-filter: blur(25px);">
-            <div class="modal-header border-bottom-0 pb-2 px-4 pt-4">
-                <div class="d-flex align-items-center">
-                    <div class="bg-white rounded-circle d-flex align-items-center justify-content-center shadow-sm me-3" style="width: 45px; height: 45px;">
-                        <i class="fas fa-shopping-bag text-pinkie fs-5"></i>
-                    </div>
-                    <div>
-                        <h5 id="modal-order-id" class="modal-title fw-bold text-dark m-0">Order #ORD-5001</h5>
-                        <small id="modal-order-date" class="text-muted fw-bold">12th Oct 2026 at 10:30 AM</small>
-                    </div>
+    <div
+      class="modal fade"
+      id="orderDetailsModal"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div
+          class="modal-content glass-panel rounded-4 border-0 shadow-lg"
+          style="backdrop-filter: blur(25px)"
+        >
+          <div class="modal-header border-bottom-0 pb-2 px-4 pt-4">
+            <div class="d-flex align-items-center">
+              <div
+                class="bg-white rounded-circle d-flex align-items-center justify-content-center shadow-sm me-3"
+                style="width: 45px; height: 45px"
+              >
+                <i class="fas fa-shopping-bag text-pinkie fs-5"></i>
+              </div>
+              <div>
+                <h5
+                  id="modal-order-id"
+                  class="modal-title fw-bold text-dark m-0"
+                >
+                  Order #ORD-5001
+                </h5>
+                <small id="modal-order-date" class="text-muted fw-bold"
+                  >12th Oct 2026 at 10:30 AM</small
+                >
+              </div>
+            </div>
+            <button
+              type="button"
+              class="btn-close shadow-none"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+
+          <div class="modal-body px-4 pt-3 pb-4">
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <div
+                  class="card h-100 border-0 rounded-4 p-3 shadow-sm"
+                  style="background: rgba(255, 255, 255, 0.6)"
+                >
+                  <h6
+                    class="fw-bold text-pinkie mb-3"
+                    style="
+                      font-size: 13px;
+                      text-transform: uppercase;
+                      letter-spacing: 0.5px;
+                    "
+                  >
+                    Customer Details
+                  </h6>
+                  <p id="modal-cus-name" class="mb-1 text-dark fw-bold fs-6">
+                    Sanduni Perera
+                  </p>
+                  <p
+                    class="mb-1 text-muted"
+                    id="modal-cus-phone"
+                    style="font-size: 13px"
+                  >
+                    <i class="fas fa-phone-alt me-2 text-secondary"></i>+94 77
+                    123 4567
+                  </p>
                 </div>
-                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="col-md-6">
+                <div
+                  class="card h-100 border-0 rounded-4 p-3 shadow-sm"
+                  style="background: rgba(255, 255, 255, 0.6)"
+                >
+                  <h6
+                    class="fw-bold text-pinkie mb-3"
+                    style="
+                      font-size: 13px;
+                      text-transform: uppercase;
+                      letter-spacing: 0.5px;
+                    "
+                  >
+                    Shipping Address
+                  </h6>
+                  <div class="d-flex align-items-start">
+                    <i
+                      class="fas fa-map-marker-alt text-secondary me-2 mt-1"
+                    ></i>
+                    <p
+                      class="mb-0 text-dark"
+                      id="modal-address"
+                      style="font-size: 13px; line-height: 1.6"
+                    >
+                      No 15, Galle Road,<br />Colombo 03,<br />Sri Lanka.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div class="modal-body px-4 pt-3 pb-4">
-                
-                <div class="row g-3 mb-4">
-                    <div class="col-md-6">
-                        <div class="card h-100 border-0 rounded-4 p-3 shadow-sm" style="background: rgba(255,255,255,0.6);">
-                            <h6 class="fw-bold text-pinkie mb-3" style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Customer Details</h6>
-                            <p id="modal-cus-name" class="mb-1 text-dark fw-bold fs-6">Sanduni Perera</p>
-                            <p class="mb-1 text-muted" id="modal-cus-phone" style="font-size: 13px;"><i class="fas fa-phone-alt me-2 text-secondary"></i>+94 77 123 4567</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card h-100 border-0 rounded-4 p-3 shadow-sm" style="background: rgba(255,255,255,0.6);">
-                            <h6 class="fw-bold text-pinkie mb-3" style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Shipping Address</h6>
-                            <div class="d-flex align-items-start">
-                                <i class="fas fa-map-marker-alt text-secondary me-2 mt-1"></i>
-                                <p class="mb-0 text-dark" id="modal-address" style="font-size: 13px; line-height: 1.6;">No 15, Galle Road,<br>Colombo 03,<br>Sri Lanka.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <h6 class="fw-bold text-dark mb-3">Ordered Items</h6>
-                <div class="card border-0 rounded-4 shadow-sm mb-4 overflow-hidden" style="background: rgba(255,255,255,0.6);">
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle mb-0 glass-table">
-                            <thead style="background: rgba(218,85,134,0.08);">
-                                <tr>
-                                    <th scope="col" class="text-muted ps-3 py-3" style="font-size: 12px;">ITEM DESCRIPTION</th>
-                                    <th scope="col" class="text-center text-muted py-3" style="font-size: 12px;">QTY</th>
-                                    <th scope="col" class="text-end text-muted pe-3 py-3" style="font-size: 12px;">TOTAL</th>
-                                </tr>
-                            </thead>
-                            <tbody id="modal-items-body">
-                            </tbody>
-                            <tfoot style="background: rgba(255,255,255,0.5);">
-                                <tr>
-                                    <td colspan="2" class="text-end fw-bold text-muted py-2" style="font-size: 13px;">Sub Total:</td>
-                                    <td class="text-end fw-bold text-dark pe-3 py-2" id="modal-subtotal" style="font-size: 13px;">Rs. 85,000</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" class="text-end fw-bold text-muted py-2 border-0" style="font-size: 13px;">Shipping:</td>
-                                    <td class="text-end fw-bold text-success pe-3 py-2 border-0" id="modal-shipping" style="font-size: 13px;">Free</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" class="text-end fw-bold text-dark py-3 border-0">Grand Total:</td>
-                                    <td class="text-end fw-bold text-pinkie fs-5 pe-3 py-3 border-0" id="modal-grandtotal">Rs. 85,000</td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
-
-                <h6 class="fw-bold text-dark mb-3">Update Order Status</h6>
-                <div class="row mt-3 glass-panel p-4 rounded-4 shadow-sm mx-0 border" style="border-color: rgba(218,85,134,0.1) !important;">
-                    <div class="col-md-4">
-                        <label class="form-label text-muted fw-bold" style="font-size: 12px;">Order Status</label>
-                        <select id="modal-status-select" class="form-select bg-light border-0 rounded-pill px-3 py-2 fw-bold text-dark shadow-none">
-                            <option value="Pending">Pending</option>
-                            <option value="Processing" selected>Processing</option>
-                            <option value="Shipped">Shipped</option>
-                            <option value="Delivered">Delivered</option>
-                            <option value="Cancelled">Cancelled</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label text-muted fw-bold" style="font-size: 12px;">Courier Service</label>
-                        <select class="form-select bg-light border-0 rounded-pill px-3 py-2 shadow-none">
-                            <option value="" selected disabled>Select Courier...</option>
-                            <option value="Domex">Domex</option>
-                            <option value="PromptX">PromptX</option>
-                            <option value="Certis">Certis</option>
-                            <option value="Pronto">Pronto</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label text-muted fw-bold" style="font-size: 12px;">Tracking Number</label>
-                        <input type="text" class="form-control bg-light border-0 rounded-pill px-3 py-2 shadow-none" placeholder="e.g. DMX12345678">
-                    </div>
-
-                    <div class="col-md-4 mt-3">
-                        <label class="form-label text-muted fw-bold" style="font-size: 12px;">Current Location</label>
-                        <input type="text" id="modal-input-location" class="form-control bg-light border-0 rounded-pill px-3 py-2 shadow-none" placeholder="e.g. Colombo Hub">
-                    </div>
-                    <div class="col-md-4 mt-3">
-                        <label class="form-label text-muted fw-bold" style="font-size: 12px;">Latitude</label>
-                        <input type="number" step="any" id="modal-input-lat" class="form-control bg-light border-0 rounded-pill px-3 py-2 shadow-none" placeholder="e.g. 6.9271">
-                    </div>
-                    <div class="col-md-4 mt-3">
-                        <label class="form-label text-muted fw-bold" style="font-size: 12px;">Longitude</label>
-                        <input type="number" step="any" id="modal-input-lng" class="form-control bg-light border-0 rounded-pill px-3 py-2 shadow-none" placeholder="e.g. 79.8612">
-                    </div>
-                </div>
-
+            <h6 class="fw-bold text-dark mb-3">Ordered Items</h6>
+            <div
+              class="card border-0 rounded-4 shadow-sm mb-4 overflow-hidden"
+              style="background: rgba(255, 255, 255, 0.6)"
+            >
+              <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0 glass-table">
+                  <thead style="background: rgba(218, 85, 134, 0.08)">
+                    <tr>
+                      <th
+                        scope="col"
+                        class="text-muted ps-3 py-3"
+                        style="font-size: 12px"
+                      >
+                        ITEM DESCRIPTION
+                      </th>
+                      <th
+                        scope="col"
+                        class="text-center text-muted py-3"
+                        style="font-size: 12px"
+                      >
+                        QTY
+                      </th>
+                      <th
+                        scope="col"
+                        class="text-end text-muted pe-3 py-3"
+                        style="font-size: 12px"
+                      >
+                        TOTAL
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody id="modal-items-body"></tbody>
+                  <tfoot style="background: rgba(255, 255, 255, 0.5)">
+                    <tr>
+                      <td
+                        colspan="2"
+                        class="text-end fw-bold text-muted py-2"
+                        style="font-size: 13px"
+                      >
+                        Sub Total:
+                      </td>
+                      <td
+                        class="text-end fw-bold text-dark pe-3 py-2"
+                        id="modal-subtotal"
+                        style="font-size: 13px"
+                      >
+                        Rs. 85,000
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        colspan="2"
+                        class="text-end fw-bold text-muted py-2 border-0"
+                        style="font-size: 13px"
+                      >
+                        Shipping:
+                      </td>
+                      <td
+                        class="text-end fw-bold text-success pe-3 py-2 border-0"
+                        id="modal-shipping"
+                        style="font-size: 13px"
+                      >
+                        Free
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        colspan="2"
+                        class="text-end fw-bold text-dark py-3 border-0"
+                      >
+                        Grand Total:
+                      </td>
+                      <td
+                        class="text-end fw-bold text-pinkie fs-5 pe-3 py-3 border-0"
+                        id="modal-grandtotal"
+                      >
+                        Rs. 85,000
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
             </div>
-            
-            <div class="modal-footer border-top-0 pt-0 px-4 pb-4">
-                <button type="button" class="btn btn-light rounded-pill px-4 fw-bold text-muted shadow-sm" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-pinkie rounded-pill px-5 fw-bold shadow" onclick="saveOrderUpdate()">
-                    <i class="fas fa-save me-2"></i> Save Changes
-                </button>
+
+            <h6 class="fw-bold text-dark mb-3">Update Order Status</h6>
+            <div
+              class="row mt-3 glass-panel p-4 rounded-4 shadow-sm mx-0 border"
+              style="border-color: rgba(218, 85, 134, 0.1) !important"
+            >
+              <div class="col-md-4">
+                <label
+                  class="form-label text-muted fw-bold"
+                  style="font-size: 12px"
+                  >Order Status</label
+                >
+                <select
+                  id="modal-status-select"
+                  class="form-select bg-light border-0 rounded-pill px-3 py-2 fw-bold text-dark shadow-none"
+                >
+                  <option value="Pending">Pending</option>
+                  <option value="Processing" selected>Processing</option>
+                  <option value="Shipped">Shipped</option>
+                  <option value="Delivered">Delivered</option>
+                  <option value="Cancelled">Cancelled</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label
+                  class="form-label text-muted fw-bold"
+                  style="font-size: 12px"
+                  >Courier Service</label
+                >
+                <select
+                  id="modal-input-courier"
+                  class="form-select bg-light border-0 rounded-pill px-3 py-2 shadow-none"
+                >
+                  <option value="" selected disabled>Select Courier...</option>
+                  <option value="Domex">Domex</option>
+                  <option value="PromptX">PromptX</option>
+                  <option value="Certis">Certis</option>
+                  <option value="Pronto">Pronto</option>
+                  <option value="LK-SITREK">LK-SITREK</option>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <label
+                  class="form-label text-muted fw-bold"
+                  style="font-size: 12px"
+                  >Tracking Number</label
+                >
+                <input
+                  type="text"
+                  id="modal-input-tracking"
+                  class="form-control bg-light border-0 rounded-pill px-3 py-2 shadow-none"
+                  placeholder="e.g. DMX12345678"
+                />
+              </div>
+
+              <div class="col-md-4 mt-3">
+                <label
+                  class="form-label text-muted fw-bold"
+                  style="font-size: 12px"
+                  >Current Location</label
+                >
+                <input
+                  type="text"
+                  id="modal-input-location"
+                  class="form-control bg-light border-0 rounded-pill px-3 py-2 shadow-none"
+                  placeholder="e.g. Colombo Hub"
+                />
+              </div>
+              <div class="col-md-4 mt-3">
+                <label
+                  class="form-label text-muted fw-bold"
+                  style="font-size: 12px"
+                  >Latitude</label
+                >
+                <input
+                  type="number"
+                  step="any"
+                  id="modal-input-lat"
+                  class="form-control bg-light border-0 rounded-pill px-3 py-2 shadow-none"
+                  placeholder="e.g. 6.9271"
+                />
+              </div>
+              <div class="col-md-4 mt-3">
+                <label
+                  class="form-label text-muted fw-bold"
+                  style="font-size: 12px"
+                  >Longitude</label
+                >
+                <input
+                  type="number"
+                  step="any"
+                  id="modal-input-lng"
+                  class="form-control bg-light border-0 rounded-pill px-3 py-2 shadow-none"
+                  placeholder="e.g. 79.8612"
+                />
+              </div>
             </div>
+          </div>
+
+          <div class="modal-footer border-top-0 pt-0 px-4 pb-4">
+            <button
+              type="button"
+              class="btn btn-light rounded-pill px-4 fw-bold text-muted shadow-sm"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-pinkie rounded-pill px-5 fw-bold shadow"
+              onclick="saveOrderUpdate()"
+            >
+              <i class="fas fa-save me-2"></i> Save Changes
+            </button>
+          </div>
         </div>
+      </div>
     </div>
-</div>
 
     <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
     <script src="assets/js/script.js"></script>
     <script src="assets/js/orders.js"></script>
-
-</body>
-
+  </body>
 </html>
