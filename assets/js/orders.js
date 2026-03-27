@@ -2,6 +2,7 @@ const API_URL = 'http://localhost:8080/api/admin/orders';
 
 let allOrders = [];
 let currentViewingOrderId = null;
+let currentFilteredOrders = [];
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchOrders();
@@ -29,6 +30,7 @@ async function fetchOrders() {
         if (!response.ok) throw new Error('Failed to fetch orders');
         
         allOrders = await response.json();
+        currentFilteredOrders = allOrders;
         updateDashboardCounters(allOrders);
         renderOrdersTable(allOrders);
     } catch (error) {
@@ -209,5 +211,64 @@ function applyFilters() {
         return matchSearch && matchStatus && matchDate;
     });
 
+    currentFilteredOrders = filteredOrders;
     renderOrdersTable(filteredOrders);
+}
+
+function exportToCSV() {
+    if (currentFilteredOrders.length === 0) {
+        Swal.fire('Info', 'No orders to export.', 'info');
+        return;
+    }
+
+    const headers = [
+        'Order ID', 'Order Date', 'Customer Name', 'Phone', 'Address', 
+        'Subtotal (Rs)', 'Shipping Fee (Rs)', 'Discount (Rs)', 'Final Total (Rs)', 
+        'Payment Method', 'Status'
+    ];
+
+    const csvRows = [];
+    csvRows.push(headers.join(','));
+
+    currentFilteredOrders.forEach(order => {
+        const dateObj = new Date(order.orderDate);
+        const dateStr = dateObj.toLocaleString(); 
+
+        const cusName = order.shippingAddress ? order.shippingAddress.fullName : 'N/A';
+        const phone = order.shippingAddress ? order.shippingAddress.phone : 'N/A';
+        const address = order.shippingAddress ? `${order.shippingAddress.streetAddress}, ${order.shippingAddress.city}, ${order.shippingAddress.province}` : 'N/A';
+
+        const escapeCSV = (text) => `"${String(text).replace(/"/g, '""')}"`;
+
+        const row = [
+            escapeCSV(order.orderId),
+            escapeCSV(dateStr),
+            escapeCSV(cusName),
+            escapeCSV(phone),
+            escapeCSV(address),
+            order.subtotal,
+            order.shippingFee,
+            order.discount,
+            order.finalTotal,
+            escapeCSV(order.paymentMethod),
+            escapeCSV(order.status)
+        ];
+
+        csvRows.push(row.join(','));
+    });
+
+    const csvString = csvRows.join('\n');
+    const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    
+    const today = new Date().toISOString().split('T')[0];
+    
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `Pinkie_Orders_${today}.csv`);
+    link.style.visibility = 'hidden';
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
