@@ -9,7 +9,49 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('filter-search').addEventListener('input', applyFilters);
     document.getElementById('filter-status').addEventListener('change', applyFilters);
     document.getElementById('filter-date').addEventListener('change', applyFilters);
+
+    // ================= අලුතින් දැම්ම කෑල්ල =================
+    // Location එක Type කරලා ඉවර වුණාම ඉබේම Coordinates හොයනවා
+    const locInput = document.getElementById('modal-input-location');
+    if(locInput) {
+        locInput.addEventListener('change', autoFetchCoordinates);
+    }
+    // ======================================================
 });
+
+// Location එකෙන් Latitude/Longitude හොයන Function එක
+async function autoFetchCoordinates() {
+    const locName = document.getElementById('modal-input-location').value.trim();
+    const latInput = document.getElementById('modal-input-lat');
+    const lngInput = document.getElementById('modal-input-lng');
+
+    if(locName.length > 2) {
+        // හොයනකල් Placeholder එක මාරු කරනවා
+        latInput.value = "";
+        lngInput.value = "";
+        latInput.placeholder = "Searching...";
+        lngInput.placeholder = "Searching...";
+
+        try {
+            // ලංකාව ඇතුළේ තැන් වඩාත් නිවැරදිව හොයන්න ', Sri Lanka' කියලා එකතු කරනවා
+            const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locName + ', Sri Lanka')}`);
+            const data = await response.json();
+
+            if(data && data.length > 0) {
+                // හොයාගත්තොත් කොටු දෙකට අගයන් දානවා (දශමස්ථාන 4කට)
+                latInput.value = parseFloat(data[0].lat).toFixed(4);
+                lngInput.value = parseFloat(data[0].lon).toFixed(4);
+            } else {
+                latInput.placeholder = "Not found (Type manually)";
+                lngInput.placeholder = "Not found (Type manually)";
+            }
+        } catch (error) {
+            console.error("Error fetching coordinates:", error);
+            latInput.placeholder = "e.g. 6.9271";
+            lngInput.placeholder = "e.g. 79.8612";
+        }
+    }
+}
 
 async function fetchOrders() {
     const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
@@ -114,6 +156,13 @@ function viewOrderDetails(orderId) {
     }
 
     document.getElementById('modal-status-select').value = order.status;
+    
+    const locInput = document.getElementById('modal-input-location');
+    const latInput = document.getElementById('modal-input-lat');
+    const lngInput = document.getElementById('modal-input-lng');
+    if(locInput) locInput.value = '';
+    if(latInput) { latInput.value = ''; latInput.placeholder = "e.g. 6.9271"; }
+    if(lngInput) { lngInput.value = ''; lngInput.placeholder = "e.g. 79.8612"; }
 
     const itemsBody = document.getElementById('modal-items-body');
     itemsBody.innerHTML = '';
@@ -147,13 +196,23 @@ function viewOrderDetails(orderId) {
 }
 
 async function saveOrderUpdate() {
-    const newStatus = document.getElementById('modal-status-select').value;
     const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
-
     if (!token) {
         Swal.fire('Error', 'Authentication token not found.', 'error');
         return;
     }
+
+    const newStatus = document.getElementById('modal-status-select').value;
+    const locationName = document.getElementById('modal-input-location').value;
+    const lat = parseFloat(document.getElementById('modal-input-lat').value);
+    const lng = parseFloat(document.getElementById('modal-input-lng').value);
+
+    const payload = {
+        status: newStatus,
+        location: locationName || "",
+        latitude: isNaN(lat) ? 0.0 : lat,
+        longitude: isNaN(lng) ? 0.0 : lng
+    };
 
     try {
         const response = await fetch(`${API_URL}/${currentViewingOrderId}/status`, {
@@ -162,7 +221,7 @@ async function saveOrderUpdate() {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({ status: newStatus })
+            body: JSON.stringify(payload)
         });
 
         if (response.ok) {
@@ -180,13 +239,11 @@ async function saveOrderUpdate() {
 }
 
 function applyFilters() {
-    
     const searchText = document.getElementById('filter-search').value.toLowerCase().trim();
     const statusValue = document.getElementById('filter-status').value;
     const dateValue = document.getElementById('filter-date').value;
 
     const filteredOrders = allOrders.filter(order => {
-        
         const orderIdStr = order.orderId ? order.orderId.toLowerCase() : '';
         const customerName = order.shippingAddress && order.shippingAddress.fullName ? order.shippingAddress.fullName.toLowerCase() : '';
         const customerPhone = order.shippingAddress && order.shippingAddress.phone ? order.shippingAddress.phone.toLowerCase() : '';
