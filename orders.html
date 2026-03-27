@@ -170,8 +170,8 @@
                         <i class="fas fa-shopping-bag text-pinkie fs-5"></i>
                     </div>
                     <div>
-                        <h5 class="modal-title fw-bold text-dark m-0">Order #ORD-5001</h5>
-                        <small class="text-muted fw-bold">12th Oct 2026 at 10:30 AM</small>
+                        <h5 id="modal-order-id" class="modal-title fw-bold text-dark m-0">Order #ORD-5001</h5>
+                        <small id="modal-order-date" class="text-muted fw-bold">12th Oct 2026 at 10:30 AM</small>
                     </div>
                 </div>
                 <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -183,9 +183,8 @@
                     <div class="col-md-6">
                         <div class="card h-100 border-0 rounded-4 p-3 shadow-sm" style="background: rgba(255,255,255,0.6);">
                             <h6 class="fw-bold text-pinkie mb-3" style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Customer Details</h6>
-                            <p class="mb-1 text-dark fw-bold fs-6">Sanduni Perera</p>
-                            <p class="mb-1 text-muted" style="font-size: 13px;"><i class="fas fa-phone-alt me-2 text-secondary"></i>+94 77 123 4567</p>
-                            <p class="mb-0 text-muted" style="font-size: 13px;"><i class="fas fa-envelope me-2 text-secondary"></i>sanduni@email.com</p>
+                            <p id="modal-cus-name" class="mb-1 text-dark fw-bold fs-6">Sanduni Perera</p>
+                            <p class="mb-1 text-muted" id="modal-cus-phone" style="font-size: 13px;"><i class="fas fa-phone-alt me-2 text-secondary"></i>+94 77 123 4567</p>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -193,7 +192,7 @@
                             <h6 class="fw-bold text-pinkie mb-3" style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Shipping Address</h6>
                             <div class="d-flex align-items-start">
                                 <i class="fas fa-map-marker-alt text-secondary me-2 mt-1"></i>
-                                <p class="mb-0 text-dark" style="font-size: 13px; line-height: 1.6;">No 15, Galle Road,<br>Colombo 03,<br>Sri Lanka.</p>
+                                <p class="mb-0 text-dark" id="modal-address" style="font-size: 13px; line-height: 1.6;">No 15, Galle Road,<br>Colombo 03,<br>Sri Lanka.</p>
                             </div>
                         </div>
                     </div>
@@ -210,8 +209,8 @@
                                     <th scope="col" class="text-end text-muted pe-3 py-3" style="font-size: 12px;">TOTAL</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
+                            <tbody id="modal-items-body">
+                                <!-- <tr>
                                     <td class="ps-3 py-3">
                                         <div class="d-flex align-items-center">
                                             <div class="product-img-box bg-white rounded-3 p-1 me-3 shadow-sm" style="width: 45px; height: 45px;">
@@ -240,20 +239,20 @@
                                     </td>
                                     <td class="text-center align-middle fw-bold text-dark">1</td>
                                     <td class="text-end align-middle fw-bold text-dark pe-3">Rs. 40,000</td>
-                                </tr>
+                                </tr> -->
                             </tbody>
                             <tfoot style="background: rgba(255,255,255,0.5);">
                                 <tr>
                                     <td colspan="2" class="text-end fw-bold text-muted py-2" style="font-size: 13px;">Sub Total:</td>
-                                    <td class="text-end fw-bold text-dark pe-3 py-2" style="font-size: 13px;">Rs. 85,000</td>
+                                    <td class="text-end fw-bold text-dark pe-3 py-2" id="modal-subtotal" style="font-size: 13px;">Rs. 85,000</td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" class="text-end fw-bold text-muted py-2 border-0" style="font-size: 13px;">Shipping:</td>
-                                    <td class="text-end fw-bold text-success pe-3 py-2 border-0" style="font-size: 13px;">Free</td>
+                                    <td class="text-end fw-bold text-success pe-3 py-2 border-0" id="modal-shipping" style="font-size: 13px;">Free</td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" class="text-end fw-bold text-dark py-3 border-0">Grand Total:</td>
-                                    <td class="text-end fw-bold text-pinkie fs-5 pe-3 py-3 border-0">Rs. 85,000</td>
+                                    <td class="text-end fw-bold text-pinkie fs-5 pe-3 py-3 border-0" id="modal-grandtotal">Rs. 85,000</td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -264,7 +263,7 @@
                 <div class="row mt-3 glass-panel p-4 rounded-4 shadow-sm mx-0 border" style="border-color: rgba(218,85,134,0.1) !important;">
                     <div class="col-md-4">
                         <label class="form-label text-muted fw-bold" style="font-size: 12px;">Order Status</label>
-                        <select class="form-select bg-light border-0 rounded-pill px-3 py-2 fw-bold text-dark shadow-none">
+                        <select id="modal-status-select" class="form-select bg-light border-0 rounded-pill px-3 py-2 fw-bold text-dark shadow-none">
                             <option value="Pending">Pending</option>
                             <option value="Processing" selected>Processing</option>
                             <option value="Shipped">Shipped</option>
