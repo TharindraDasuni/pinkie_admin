@@ -96,26 +96,21 @@
                                 <span class="input-group-text glass-input-pink border-end-0 bg-transparent rounded-start-pill">
                                     <i class="fas fa-search text-muted"></i>
                                 </span>
-                                <input type="text" class="form-control glass-input-pink border-start-0 rounded-end-pill" placeholder="Search Order ID or Customer...">
+                                <input type="text" id="filter-search" class="form-control glass-input-pink border-start-0 rounded-end-pill" placeholder="Search Order ID or Customer...">
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <select class="form-select glass-input-pink rounded-pill">
-                                <option selected>Order Status</option>
-                                <option value="1">Pending</option>
-                                <option value="2">Processing</option>
-                                <option value="3">Shipped</option>
-                                <option value="4">Delivered</option>
-                                <option value="5">Cancelled</option>
+                            <select id="filter-status" class="form-select glass-input-pink rounded-pill">
+                                <option value="All" selected>Order Status</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Processing">Processing</option>
+                                <option value="Shipped">Shipped</option>
+                                <option value="Delivered">Delivered</option>
+                                <option value="Cancelled">Cancelled</option>
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <input type="date" class="form-control glass-input-pink rounded-pill text-muted">
-                        </div>
-                        <div class="col-md-2">
-                            <button class="btn btn-outline-pinkie rounded-pill w-100 fw-bold">
-                                <i class="fas fa-filter me-1"></i> Filter
-                            </button>
+                            <input type="date" id="filter-date" class="form-control glass-input-pink rounded-pill text-muted">
                         </div>
                     </div>
                 </div>
@@ -210,36 +205,6 @@
                                 </tr>
                             </thead>
                             <tbody id="modal-items-body">
-                                <!-- <tr>
-                                    <td class="ps-3 py-3">
-                                        <div class="d-flex align-items-center">
-                                            <div class="product-img-box bg-white rounded-3 p-1 me-3 shadow-sm" style="width: 45px; height: 45px;">
-                                                <img src="https://cdn-icons-png.flaticon.com/512/879/879793.png" class="img-fluid" style="opacity: 0.9;">
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-0 text-dark fw-bold" style="font-size: 14px;">Premium Rose Gold Ring</h6>
-                                                <small class="text-muted">SKU: RNG-001</small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-center align-middle fw-bold text-dark">1</td>
-                                    <td class="text-end align-middle fw-bold text-dark pe-3">Rs. 45,000</td>
-                                </tr>
-                                <tr>
-                                    <td class="ps-3 py-3">
-                                        <div class="d-flex align-items-center">
-                                            <div class="product-img-box bg-white rounded-3 p-1 me-3 shadow-sm" style="width: 45px; height: 45px;">
-                                                <img src="https://cdn-icons-png.flaticon.com/512/1155/1155093.png" class="img-fluid" style="opacity: 0.9;">
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-0 text-dark fw-bold" style="font-size: 14px;">Diamond Shine Necklace</h6>
-                                                <small class="text-muted">SKU: NCK-042</small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-center align-middle fw-bold text-dark">1</td>
-                                    <td class="text-end align-middle fw-bold text-dark pe-3">Rs. 40,000</td>
-                                </tr> -->
                             </tbody>
                             <tfoot style="background: rgba(255,255,255,0.5);">
                                 <tr>
