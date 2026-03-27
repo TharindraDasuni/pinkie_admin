@@ -37,7 +37,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
                                     <p class="text-muted mb-1 fw-bold" style="font-size: 13px;">New Orders</p>
-                                    <h3 class="fw-bold text-primary m-0">12</h3>
+                                    <h3 id="count-new" class="fw-bold text-primary m-0">0</h3>
                                 </div>
                                 <div class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center" style="width:50px; height:50px;">
                                     <i class="fas fa-shopping-bag fs-4 text-primary"></i>
@@ -51,7 +51,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
                                     <p class="text-muted mb-1 fw-bold" style="font-size: 13px;">Processing</p>
-                                    <h3 class="fw-bold text-warning m-0">5</h3>
+                                    <h3 id="count-processing" class="fw-bold text-warning m-0">0</h3>
                                 </div>
                                 <div class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center" style="width:50px; height:50px;">
                                     <i class="fas fa-clock fs-4 text-warning"></i>
@@ -65,7 +65,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
                                     <p class="text-muted mb-1 fw-bold" style="font-size: 13px;">Delivered</p>
-                                    <h3 class="fw-bold text-success m-0">128</h3>
+                                    <h3 id="count-delivered" class="fw-bold text-success m-0">0</h3>
                                 </div>
                                 <div class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center" style="width:50px; height:50px;">
                                     <i class="fas fa-check-circle fs-4 text-success"></i>
@@ -79,7 +79,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
                                     <p class="text-muted mb-1 fw-bold" style="font-size: 13px;">Cancelled</p>
-                                    <h3 class="fw-bold text-danger m-0">2</h3>
+                                    <h3 id="count-cancelled" class="fw-bold text-danger m-0">0</h3>
                                 </div>
                                 <div class="glass-icon-box rounded-circle d-flex align-items-center justify-content-center" style="width:50px; height:50px;">
                                     <i class="fas fa-times-circle fs-4 text-danger"></i>
@@ -134,7 +134,7 @@
                                 <th scope="col" class="text-center pe-3">ACTIONS</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="orders-table-body">
                             <tr style="border-radius: 10px;">
                                 <td class="fw-bold text-dark ps-3">#ORD-5001</td>
                                 <td class="text-muted" style="font-size: 13px;">Oct 24, 2024<br><small>10:30 AM</small></td>
