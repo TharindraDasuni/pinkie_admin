@@ -206,12 +206,16 @@ async function saveOrderUpdate() {
     const locationName = document.getElementById('modal-input-location').value;
     const lat = parseFloat(document.getElementById('modal-input-lat').value);
     const lng = parseFloat(document.getElementById('modal-input-lng').value);
+    const courier = document.getElementById('modal-input-courier').value;
+    const trackingNo = document.getElementById('modal-input-tracking').value;
 
     const payload = {
         status: newStatus,
         location: locationName || "",
         latitude: isNaN(lat) ? 0.0 : lat,
-        longitude: isNaN(lng) ? 0.0 : lng
+        longitude: isNaN(lng) ? 0.0 : lng,
+        courierService: courier || "",  
+        trackingNumber: trackingNo || ""
     };
 
     try {
