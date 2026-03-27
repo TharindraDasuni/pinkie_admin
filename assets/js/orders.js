@@ -1,19 +1,3 @@
-// function saveOrderUpdate() {
-//     var myModalEl = document.getElementById('orderDetailsModal');
-//     var modal = bootstrap.Modal.getInstance(myModalEl);
-//     modal.hide();
-
-//     Swal.fire({
-//         icon: 'success',
-//         title: 'Order Updated!',
-//         text: 'Order status and tracking information have been saved successfully.',
-//         confirmButtonColor: '#da5586',
-//         timer: 2000,
-//         showConfirmButton: false
-//     });
-// }
-
-// Spring Boot Backend URL එක
 const API_URL = 'http://localhost:8080/api/admin/orders'; 
 
 let allOrders = [];
@@ -21,12 +5,27 @@ let currentViewingOrderId = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchOrders();
+    document.getElementById('filter-search').addEventListener('input', applyFilters);
+    document.getElementById('filter-status').addEventListener('change', applyFilters);
+    document.getElementById('filter-date').addEventListener('change', applyFilters);
 });
 
-// 1. Spring Boot එකෙන් Orders අරන් එනවා
 async function fetchOrders() {
+    const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
+    
+    if (!token) {
+        Swal.fire('Error', 'Authentication token not found. Please login again.', 'error');
+        return;
+    }
+
     try {
-        const response = await fetch(API_URL);
+        const response = await fetch(API_URL, {
+            method: 'GET',
+            headers: { 
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        
         if (!response.ok) throw new Error('Failed to fetch orders');
         
         allOrders = await response.json();
@@ -38,7 +37,6 @@ async function fetchOrders() {
     }
 }
 
-// 2. Dashboard එකේ ගණන් Update කරනවා
 function updateDashboardCounters(orders) {
     let newCount = 0, processingCount = 0, deliveredCount = 0, cancelledCount = 0;
 
@@ -55,31 +53,35 @@ function updateDashboardCounters(orders) {
     document.getElementById('count-cancelled').textContent = cancelledCount;
 }
 
-// 3. Table එකට Data දානවා
 function renderOrdersTable(orders) {
     const tbody = document.getElementById('orders-table-body');
     tbody.innerHTML = '';
+
+    if (orders.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center py-5 text-muted">No orders found</td></tr>`;
+        return;
+    }
 
     orders.forEach(order => {
         const dateObj = new Date(order.orderDate);
         const dateStr = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
         const timeStr = dateObj.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
 
-        // Status Badge වර්ණය
         let statusBadge = '';
         if (order.status === 'Pending') statusBadge = '<span class="badge bg-secondary text-white rounded-pill px-3 py-2">Pending</span>';
         else if (order.status === 'Processing') statusBadge = '<span class="badge bg-warning text-dark bg-opacity-75 rounded-pill px-3 py-2">Processing</span>';
         else if (order.status === 'Shipped') statusBadge = '<span class="badge bg-info text-dark rounded-pill px-3 py-2">Shipped</span>';
         else if (order.status === 'Delivered') statusBadge = '<span class="badge bg-success text-white rounded-pill px-3 py-2">Delivered</span>';
         else if (order.status === 'Cancelled') statusBadge = '<span class="badge bg-danger text-white rounded-pill px-3 py-2">Cancelled</span>';
+        else statusBadge = `<span class="badge bg-secondary text-white rounded-pill px-3 py-2">${order.status}</span>`;
 
         const row = `
             <tr style="border-radius: 10px;">
                 <td class="fw-bold text-dark ps-3">#${order.orderId}</td>
                 <td class="text-muted" style="font-size: 13px;">${dateStr}<br><small>${timeStr}</small></td>
                 <td>
-                    <h6 class="mb-0 fw-bold text-dark" style="font-size: 14px;">${order.shippingAddress.fullName}</h6>
-                    <small class="text-muted" style="font-size: 12px;">${order.shippingAddress.phone}</small>
+                    <h6 class="mb-0 fw-bold text-dark" style="font-size: 14px;">${order.shippingAddress ? order.shippingAddress.fullName : 'N/A'}</h6>
+                    <small class="text-muted" style="font-size: 12px;">${order.shippingAddress ? order.shippingAddress.phone : 'N/A'}</small>
                 </td>
                 <td class="text-pinkie fw-bold">Rs. ${order.finalTotal.toLocaleString()}</td>
                 <td class="text-center"><span class="badge bg-success bg-opacity-10 text-success border border-success rounded-pill px-3 py-1">${order.paymentMethod}</span></td>
@@ -93,7 +95,6 @@ function renderOrdersTable(orders) {
     });
 }
 
-// 4. Modal එකට විස්තර දානවා
 function viewOrderDetails(orderId) {
     const order = allOrders.find(o => o.orderId === orderId);
     if (!order) return;
@@ -103,52 +104,62 @@ function viewOrderDetails(orderId) {
     document.getElementById('modal-order-id').textContent = `Order #${order.orderId}`;
     document.getElementById('modal-order-date').textContent = new Date(order.orderDate).toLocaleString();
     
-    document.getElementById('modal-cus-name').textContent = order.shippingAddress.fullName;
-    document.getElementById('modal-cus-phone').innerHTML = `<i class="fas fa-phone-alt me-2 text-secondary"></i>${order.shippingAddress.phone}`;
-    
-    const addressStr = `${order.shippingAddress.streetAddress},<br>${order.shippingAddress.city},<br>${order.shippingAddress.province}`;
-    document.getElementById('modal-address').innerHTML = addressStr;
+    if (order.shippingAddress) {
+        document.getElementById('modal-cus-name').textContent = order.shippingAddress.fullName;
+        document.getElementById('modal-cus-phone').innerHTML = `<i class="fas fa-phone-alt me-2 text-secondary"></i>${order.shippingAddress.phone}`;
+        const addressStr = `${order.shippingAddress.streetAddress},<br>${order.shippingAddress.city},<br>${order.shippingAddress.province}`;
+        document.getElementById('modal-address').innerHTML = addressStr;
+    }
 
     document.getElementById('modal-status-select').value = order.status;
 
-    // Items දානවා
     const itemsBody = document.getElementById('modal-items-body');
     itemsBody.innerHTML = '';
-    order.items.forEach(item => {
-        const itemRow = `
-            <tr>
-                <td class="ps-3 py-3">
-                    <div class="d-flex align-items-center">
-                        <div class="product-img-box bg-white rounded-3 p-1 me-3 shadow-sm" style="width: 45px; height: 45px;">
-                            <img src="${item.imageUrl || 'assets/images/placeholder.png'}" class="img-fluid" style="opacity: 0.9; object-fit: cover;">
+    
+    if(order.items && order.items.length > 0) {
+        order.items.forEach(item => {
+            const itemRow = `
+                <tr>
+                    <td class="ps-3 py-3">
+                        <div class="d-flex align-items-center">
+                            <div class="product-img-box bg-white rounded-3 p-1 me-3 shadow-sm" style="width: 45px; height: 45px;">
+                                <img src="${item.imageUrl || 'assets/images/placeholder.jpg'}" class="img-fluid" style="opacity: 0.9; object-fit: cover;">
+                            </div>
+                            <div>
+                                <h6 class="mb-0 text-dark fw-bold" style="font-size: 14px;">${item.title}</h6>
+                                <small class="text-muted">${item.variant || '-'}</small>
+                            </div>
                         </div>
-                        <div>
-                            <h6 class="mb-0 text-dark fw-bold" style="font-size: 14px;">${item.title}</h6>
-                            <small class="text-muted">${item.variant}</small>
-                        </div>
-                    </div>
-                </td>
-                <td class="text-center align-middle fw-bold text-dark">${item.quantity}</td>
-                <td class="text-end align-middle fw-bold text-dark pe-3">Rs. ${(item.price * item.quantity).toLocaleString()}</td>
-            </tr>
-        `;
-        itemsBody.insertAdjacentHTML('beforeend', itemRow);
-    });
+                    </td>
+                    <td class="text-center align-middle fw-bold text-dark">${item.quantity}</td>
+                    <td class="text-end align-middle fw-bold text-dark pe-3">Rs. ${(item.price * item.quantity).toLocaleString()}</td>
+                </tr>
+            `;
+            itemsBody.insertAdjacentHTML('beforeend', itemRow);
+        });
+    }
 
     document.getElementById('modal-subtotal').textContent = `Rs. ${order.subtotal.toLocaleString()}`;
     document.getElementById('modal-shipping').textContent = `Rs. ${order.shippingFee.toLocaleString()}`;
     document.getElementById('modal-grandtotal').textContent = `Rs. ${order.finalTotal.toLocaleString()}`;
 }
 
-// 5. Spring Boot එකට Update එක යවනවා
 async function saveOrderUpdate() {
     const newStatus = document.getElementById('modal-status-select').value;
-    // (අවශ්‍ය නම් Courier, Tracking අගයන් අරන් යවන්නත් පුළුවන්)
+    const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
+
+    if (!token) {
+        Swal.fire('Error', 'Authentication token not found.', 'error');
+        return;
+    }
 
     try {
         const response = await fetch(`${API_URL}/${currentViewingOrderId}/status`, {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
             body: JSON.stringify({ status: newStatus })
         });
 
@@ -156,7 +167,7 @@ async function saveOrderUpdate() {
             Swal.fire('Updated!', 'Order status has been updated.', 'success');
             const modal = bootstrap.Modal.getInstance(document.getElementById('orderDetailsModal'));
             modal.hide();
-            fetchOrders(); // ආයෙත් Data අරන් UI එක Update කරනවා
+            fetchOrders();
         } else {
             throw new Error('Update failed');
         }
@@ -164,4 +175,39 @@ async function saveOrderUpdate() {
         console.error('Error:', error);
         Swal.fire('Error', 'Failed to update order.', 'error');
     }
+}
+
+function applyFilters() {
+    
+    const searchText = document.getElementById('filter-search').value.toLowerCase().trim();
+    const statusValue = document.getElementById('filter-status').value;
+    const dateValue = document.getElementById('filter-date').value;
+
+    const filteredOrders = allOrders.filter(order => {
+        
+        const orderIdStr = order.orderId ? order.orderId.toLowerCase() : '';
+        const customerName = order.shippingAddress && order.shippingAddress.fullName ? order.shippingAddress.fullName.toLowerCase() : '';
+        const customerPhone = order.shippingAddress && order.shippingAddress.phone ? order.shippingAddress.phone.toLowerCase() : '';
+        
+        const matchSearch = orderIdStr.includes(searchText) || 
+                            customerName.includes(searchText) || 
+                            customerPhone.includes(searchText);
+
+        const matchStatus = (statusValue === 'All' || statusValue === 'Order Status') ? true : order.status === statusValue;
+
+        let matchDate = true;
+        if (dateValue) {
+            const dateObj = new Date(order.orderDate);
+            const year = dateObj.getFullYear();
+            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const day = String(dateObj.getDate()).padStart(2, '0');
+            const orderDateString = `${year}-${month}-${day}`;
+            
+            matchDate = (orderDateString === dateValue);
+        }
+
+        return matchSearch && matchStatus && matchDate;
+    });
+
+    renderOrdersTable(filteredOrders);
 }
