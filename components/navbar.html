@@ -5,7 +5,6 @@
 
         <h4 class="m-0 fw-bold text-dark" id="page-title">Overview</h4>
 
-
         <div class="input-group ms-auto d-none d-md-flex me-4" style="max-width: 300px;">
             <input type="text" class="form-control border-end-0 glass-input-pink" placeholder="Search..."
                 style="border-radius: 10px 0 0 10px;">
@@ -13,19 +12,30 @@
                 <i class="fas fa-search text-muted"></i>
             </span>
         </div>
+        
         <button class="btn btn-light rounded-circle shadow-sm me-3" id="themeToggle" onclick="toggleTheme()"
             style="width: 40px; height: 40px;">
             <i class="fas fa-moon text-dark" id="themeIcon"></i>
         </button>
 
         <div class="ms-auto ms-md-0 d-flex align-items-center">
-            <div class="position-relative me-3">
+            
+            <a href="messages.html" class="position-relative me-4 text-decoration-none" title="Messages">
+                <i class="fas fa-comment-dots fs-5 text-muted"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill" style="background-color: #da5586; font-size: 0.6rem; padding: 0.3em 0.5em;">
+                    3
+                </span>
+            </a>
+
+            <div class="position-relative me-4" style="cursor: pointer;" title="Notifications">
                 <i class="fas fa-bell fs-5 text-muted"></i>
                 <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger rounded-circle"></span>
             </div>
+            
             <span class="me-3 fw-bold text-dark d-none d-sm-block">Pinkie Admin</span>
             <img src="https://ui-avatars.com/api/?name=Pinkie+Admin&background=da5586&color=fff" class="rounded-circle"
                 width="40">
         </div>
+        
     </div>
 </nav>
