@@ -535,3 +535,95 @@ body.dark-mode .cat-upload-square {
       .cropper-line {
         background-color: #da5586;
       }
+
+      /*------------------------------------------------------------------------
+  Messages / Chat Page 
+------------------------------------------------------------------------*/
+
+.chat-list-container {
+    height: calc(100vh - 220px);
+    overflow-y: auto;
+}
+
+.chat-list-container::-webkit-scrollbar,
+.chat-window-body::-webkit-scrollbar {
+    width: 5px;
+}
+
+.chat-list-container::-webkit-scrollbar-thumb,
+.chat-window-body::-webkit-scrollbar-thumb {
+    background: rgba(218, 85, 134, 0.2);
+    border-radius: 10px;
+}
+
+.chat-contact {
+    transition: 0.3s ease;
+    cursor: pointer;
+    border-left: 4px solid transparent;
+}
+
+.chat-contact:hover {
+    background: rgba(255, 255, 255, 0.6) !important;
+}
+
+.chat-contact.active {
+    background: rgba(255, 255, 255, 0.8) !important;
+    border-left: 4px solid #da5586;
+    box-shadow: 0 4px 10px rgba(218, 85, 134, 0.05);
+}
+
+.chat-window-body {
+    height: calc(100vh - 300px);
+    overflow-y: auto;
+    background: rgba(252, 235, 241, 0.3);
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.chat-bubble {
+    max-width: 75%;
+    padding: 12px 16px;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.chat-bubble-admin {
+    background: #da5586;
+    color: white;
+    border-radius: 18px 18px 0 18px; /* පහළ දකුණු කෙළවර උල් වීම */
+}
+
+.chat-bubble-customer {
+    background: #ffffff;
+    color: #333;
+    border-radius: 18px 18px 18px 0; /* පහළ වම් කෙළවර උල් වීම */
+}
+
+.chat-product-card {
+    background: #ffffff;
+    border: 1px solid rgba(218, 85, 134, 0.2);
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 5px;
+    width: 280px;
+}
+
+.chat-product-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.chat-input-area {
+    background: #ffffff;
+    border-radius: 30px;
+    padding: 5px 10px 5px 20px;
+    box-shadow: 0 4px 15px rgba(218, 85, 134, 0.1);
+}
+
+.chat-input-field {
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
