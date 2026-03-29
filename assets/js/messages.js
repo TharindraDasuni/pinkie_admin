@@ -26,8 +26,9 @@ let currentChatUserName = "";
 let currentChatUserPhoto = "";
 let unsubscribeMessages = null;
 let userMessageListeners = {}; 
+let globalUnreadCount = 0; // මුළු Unread ගාණ තියාගන්න
 
-// Default Avatar URL (පින්තූරයක් නැත්නම් මේක පෙන්වයි)
+// Default Avatar URL
 const defaultAvatar = "https://ui-avatars.com/api/?background=DA5586&color=fff&name=";
 
 // DOM Elements
@@ -37,8 +38,9 @@ const messageInput = document.getElementById('messageInput');
 const noChatSelected = document.getElementById('noChatSelected');
 const activeChatArea = document.getElementById('activeChatArea');
 
+
 // =========================================================
-// 1. Load Chat List
+// 1. Load Chat List & Calculate Unread Counts
 // =========================================================
 function loadChatUsers() {
     db.collection("users").where("role", "==", "customer").onSnapshot(snapshot => {
@@ -46,22 +48,42 @@ function loadChatUsers() {
             const user = doc.data();
             const userId = doc.id;
             const userName = `${user.firstName || 'Unknown'} ${user.lastName || ''}`.trim();
-            
-            // පින්තූරයක් නැත්නම් නමේ මුල් අකුරු වලින් Avatar එකක් හදනවා
             const photoUrl = user.photoUrl && user.photoUrl.trim() !== "" ? user.photoUrl : (defaultAvatar + encodeURIComponent(userName));
 
             if (userMessageListeners[userId]) return;
 
+            // මේ User ගේ මැසේජ් අල්ලනවා (Unread ගාණත් එක්කම)
             userMessageListeners[userId] = db.collection("chats").doc(userId).collection("messages")
-                .orderBy("timestamp", "desc").limit(1).onSnapshot(msgSnapshot => {
+                .orderBy("timestamp", "asc").onSnapshot(msgSnapshot => {
                     
+                    let unreadCountForUser = 0;
+                    let lastMsg = null;
+
+                    msgSnapshot.forEach(msgDoc => {
+                        const msgData = msgDoc.data();
+                        lastMsg = msgData; 
+
+                        // Admin නොවන, සහ Admin තාම කියවපු නැති ඒවා
+                        if (msgData.senderId !== 'admin' && !msgData.readByAdmin) {
+                            unreadCountForUser++;
+                        }
+                    });
+
+                    // දැනටමත් මේ User ව Open කරගෙන ඉන්නවා නම් ඉබේම Read වෙනවා
+                    if (currentChatUserId === userId && unreadCountForUser > 0) {
+                        markMessagesAsRead(userId, msgSnapshot);
+                        unreadCountForUser = 0;
+                    }
+
+                    updateGlobalUnreadCount();
+
                     const existingContact = document.getElementById(`contact-${userId}`);
                     if (existingContact) {
                         existingContact.remove();
                     }
 
-                    if (!msgSnapshot.empty) {
-                        const lastMsg = msgSnapshot.docs[0].data();
+                    // මැසේජ් එකක් තියෙනවා නම් UI එකට දානවා
+                    if (lastMsg) {
                         const time = new Date(lastMsg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                         
                         let msgPreview = lastMsg.text;
@@ -72,11 +94,16 @@ function loadChatUsers() {
                         }
 
                         const isActive = (currentChatUserId === userId) ? 'active bg-opacity-50' : 'bg-opacity-25';
+                        
+                        const unreadBadgeHtml = unreadCountForUser > 0 
+                            ? `<span class="badge bg-pinkie rounded-pill ms-2">${unreadCountForUser}</span>` 
+                            : '';
 
                         const userHtml = `
                             <div class="chat-contact p-3 mb-2 rounded-4 d-flex align-items-center bg-white ${isActive}" 
                                  id="contact-${userId}" 
                                  data-timestamp="${lastMsg.timestamp}"
+                                 data-unread="${unreadCountForUser}"
                                  style="cursor: pointer;"
                                  onclick="openChat('${userId}', '${userName}', '${photoUrl}')">
                                 
@@ -89,8 +116,9 @@ function loadChatUsers() {
                                     <h6 class="mb-0 fw-bold text-dark" style="font-size: 14px;">${userName}</h6>
                                     <small class="text-muted text-truncate d-block" style="font-size: 12px;">${msgPreview}</small>
                                 </div>
-                                <div class="text-end">
+                                <div class="text-end d-flex flex-column align-items-end">
                                     <small class="text-muted d-block mb-1" style="font-size: 10px;">${time}</small>
+                                    ${unreadBadgeHtml}
                                 </div>
                             </div>
                         `;
@@ -103,6 +131,51 @@ function loadChatUsers() {
     });
 }
 
+// =========================================================
+// Global Badge එක හදන එක (Navbar Load වුණාට පස්සේ ආරක්ෂිතව අල්ලනවා)
+// =========================================================
+function updateGlobalUnreadCount() {
+    globalUnreadCount = 0;
+    
+    const contacts = document.querySelectorAll('.chat-contact');
+    contacts.forEach(contact => {
+        const count = parseInt(contact.getAttribute('data-unread') || 0);
+        globalUnreadCount += count;
+    });
+
+    // Navbar එක Dynamic නිසා මේක හැමතිස්සෙම හොයලා බලනවා (Error එන්නේ නෑ)
+    const commentIcon = document.querySelector('.fa-comment-dots');
+    if (commentIcon) {
+        const navbarBadge = commentIcon.nextElementSibling;
+        if (navbarBadge && navbarBadge.tagName.toLowerCase() === 'span') {
+            if (globalUnreadCount > 0) {
+                navbarBadge.innerText = globalUnreadCount;
+                navbarBadge.style.display = 'inline-block';
+            } else {
+                navbarBadge.style.display = 'none'; 
+            }
+        }
+    }
+}
+
+function markMessagesAsRead(userId, snapshot) {
+    const batch = db.batch();
+    let hasUnread = false;
+
+    snapshot.forEach(doc => {
+        const msg = doc.data();
+        if (msg.senderId !== 'admin' && !msg.readByAdmin) {
+            const msgRef = db.collection("chats").doc(userId).collection("messages").doc(doc.id);
+            batch.update(msgRef, { readByAdmin: true });
+            hasUnread = true;
+        }
+    });
+
+    if (hasUnread) {
+        batch.commit().catch(err => console.error("Error marking as read: ", err));
+    }
+}
+
 function sortChatList() {
     const items = Array.from(chatListContainer.children);
     items.sort((a, b) => {
@@ -112,6 +185,7 @@ function sortChatList() {
     });
     chatListContainer.innerHTML = '';
     items.forEach(item => chatListContainer.appendChild(item));
+    updateGlobalUnreadCount(); 
 }
 
 // =========================================================
@@ -122,7 +196,6 @@ window.openChat = function(userId, userName, photoUrl) {
     currentChatUserName = userName;
     currentChatUserPhoto = photoUrl;
 
-    // Placeholder එක හංගලා Chat Area එක පෙන්වනවා
     noChatSelected.classList.add('d-none');
     activeChatArea.classList.remove('d-none');
     activeChatArea.classList.add('d-flex');
@@ -135,6 +208,11 @@ window.openChat = function(userId, userName, photoUrl) {
     if (activeContact) {
         activeContact.classList.remove('bg-opacity-25');
         activeContact.classList.add('active', 'bg-opacity-50');
+        
+        const badge = activeContact.querySelector('.badge');
+        if (badge) badge.remove();
+        activeContact.setAttribute('data-unread', '0');
+        updateGlobalUnreadCount();
     }
 
     document.getElementById('chatHeaderName').innerText = userName;
@@ -148,6 +226,8 @@ window.openChat = function(userId, userName, photoUrl) {
         .orderBy("timestamp", "asc")
         .onSnapshot(snapshot => {
             chatBody.innerHTML = ''; 
+
+            markMessagesAsRead(userId, snapshot);
 
             snapshot.forEach(doc => {
                 const msg = doc.data();
@@ -245,7 +325,9 @@ window.sendMessage = function(event) {
         productTitle: null,
         productPrice: 0.0,
         productImage: null,
-        orderId: null
+        orderId: null,
+        readByAdmin: true,
+        readByCustomer: false
     };
 
     db.collection("chats").doc(currentChatUserId).collection("messages").doc(msgId).set(chatMessage)
