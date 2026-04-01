@@ -92,11 +92,11 @@ function renderCustomersTable(customers) {
         const joinedDate = cus.createdAt ? new Date(cus.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' }) : "N/A";
         
         let avatarHtml = "";
-        if (cus.profile_img && cus.profile_img !== "null" && cus.profile_img.trim() !== "") {
-            avatarHtml = `<img src="${cus.profile_img}" class="rounded-circle" width="40" height="40" style="object-fit: cover;">`;
+        if (cus.photoUrl && cus.photoUrl !== "null" && cus.photoUrl.trim() !== "") {
+            avatarHtml = `<img src="${cus.photoUrl}" class="rounded-circle" width="40" height="40" style="object-fit: cover;">`;
         } else {
-            const initial = (cus.fname ? cus.fname.charAt(0).toUpperCase() : "U");
-            avatarHtml = `<div class="bg-white rounded-circle d-flex align-items-center justify-content-center border shadow-sm" style="width: 40px; height: 40px;"><span class="fw-bold text-pinkie">${initial}</span></div>`;
+            const formattedName = encodeURIComponent((cus.fname || "U") + " " + (cus.lname || ""));
+            avatarHtml = `<img src="https://ui-avatars.com/api/?name=${formattedName}&background=da5586&color=fff" class="rounded-circle" width="40" height="40" style="object-fit: cover;">`;
         }
 
         const isActive = (!cus.status || cus.status === "Active");
@@ -174,9 +174,35 @@ window.viewCustomer = function(customerId) {
     const cus = allCustomers.find(c => c.id === customerId);
     if (!cus) return;
 
+    let avatarHtml = "";
+    if (cus.photoUrl && cus.photoUrl !== "null" && cus.photoUrl.trim() !== "") {
+        avatarHtml = `<img src="${cus.photoUrl}" class="rounded-circle shadow-sm mx-auto mb-3" width="80" height="80" style="object-fit: cover;">`;
+    } else {
+        const formattedName = encodeURIComponent((cus.fname || "U") + " " + (cus.lname || ""));
+        avatarHtml = `<img src="https://ui-avatars.com/api/?name=${formattedName}&background=da5586&color=fff" class="rounded-circle shadow-sm mx-auto mb-3" width="80" height="80" style="object-fit: cover;">`;
+    }
+    
+    const profileImageContainer = document.querySelector("#customerProfileModal .col-lg-4 .bg-white.rounded-circle");
+    if(profileImageContainer){
+        profileImageContainer.outerHTML = avatarHtml;
+    }
+
+
     document.querySelector("#customerProfileModal h5.mb-1").innerText = `${cus.fname || ""} ${cus.lname || ""}`;
     document.querySelector("#customerProfileModal p.text-muted.mb-3").innerText = `Customer ID: #${cus.id.substring(0,8)}`;
     
+    const statusBadge = document.querySelector("#customerProfileModal .col-lg-4 .badge");
+    if(statusBadge){
+         const isActive = (!cus.status || cus.status === "Active");
+         if(isActive){
+             statusBadge.className = "badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill mb-4";
+             statusBadge.innerText = "Active Member";
+         } else {
+             statusBadge.className = "badge bg-danger bg-opacity-10 text-danger px-3 py-2 rounded-pill mb-4";
+             statusBadge.innerText = "Banned Member";
+         }
+    }
+
     const infoParagraphs = document.querySelectorAll("#customerProfileModal .text-start p");
     infoParagraphs[0].innerHTML = `<i class="fas fa-envelope text-secondary me-2"></i> ${cus.email || "N/A"}`;
     infoParagraphs[1].innerHTML = `<i class="fas fa-phone-alt text-secondary me-2"></i> ${cus.contact_no || "N/A"}`;
