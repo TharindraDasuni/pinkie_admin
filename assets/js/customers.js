@@ -89,16 +89,19 @@ function renderCustomersTable(customers) {
 
     customers.forEach(cus => {
         
+        const cusFName = cus.firstName || cus.fname || "";
+        const cusLName = cus.lastName || cus.lname || "";
+        const cusPhone = cus.mobile || cus.contact_no || cus.phone || "No Phone";
+
         const joinedDate = cus.createdAt ? new Date(cus.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' }) : "N/A";
         
-        // Database එකේ image එක තියෙන නම මොකක් වුණත් අල්ලගන්න පුළුවන් වෙන්න හැදුවා
+        let avatarHtml = "";
         const cusImage = cus.profile_img || cus.photoUrl || cus.photo_url || cus.image;
 
-        let avatarHtml = "";
         if (cusImage && cusImage !== "null" && cusImage.trim() !== "") {
             avatarHtml = `<img src="${cusImage}" class="rounded-circle shadow-sm border" width="40" height="40" style="object-fit: cover;">`;
         } else {
-            const formattedName = encodeURIComponent((cus.fname || "U") + " " + (cus.lname || ""));
+            const formattedName = encodeURIComponent((cusFName || "U") + " " + cusLName);
             avatarHtml = `<img src="https://ui-avatars.com/api/?name=${formattedName}&background=da5586&color=fff" class="rounded-circle shadow-sm border" width="40" height="40">`;
         }
 
@@ -119,8 +122,8 @@ function renderCustomersTable(customers) {
                     <div class="d-flex align-items-center">
                         <div class="me-3">${avatarHtml}</div>
                         <div>
-                            <h6 class="mb-0 fw-bold text-dark" style="font-size: 14px;">${cus.fname || ""} ${cus.lname || ""}</h6>
-                            <small class="text-muted" style="font-size: 12px;">${cus.email || "No Email"} | ${cus.contact_no || "No Phone"}</small>
+                            <h6 class="mb-0 fw-bold text-dark" style="font-size: 14px;">${cusFName} ${cusLName}</h6>
+                            <small class="text-muted" style="font-size: 12px;">${cus.email || "No Email"} | ${cusPhone}</small>
                         </div>
                     </div>
                 </td>
@@ -132,7 +135,7 @@ function renderCustomersTable(customers) {
                     <button class="btn btn-sm btn-light text-primary rounded-circle shadow-sm me-1" title="View Profile" onclick="viewCustomer('${cus.id}')">
                         <i class="fas fa-eye"></i>
                     </button>
-                    <button class="btn btn-sm btn-light ${banButtonColor} rounded-circle shadow-sm" title="${banButtonTitle}" onclick="toggleCustomerStatus('${cus.id}', '${targetStatus}', '${cus.fname}')">
+                    <button class="btn btn-sm btn-light ${banButtonColor} rounded-circle shadow-sm" title="${banButtonTitle}" onclick="toggleCustomerStatus('${cus.id}', '${targetStatus}', '${cusFName}')">
                         <i class="fas ${banButtonIcon}"></i>
                     </button>
                 </td>
@@ -149,9 +152,9 @@ function setupSearchAndSort() {
     searchInput.addEventListener("input", function (e) {
         const query = e.target.value.toLowerCase();
         const filtered = allCustomers.filter(cus => {
-            const fullName = `${cus.fname || ""} ${cus.lname || ""}`.toLowerCase();
+            const fullName = `${cus.firstName || cus.fname || ""} ${cus.lastName || cus.lname || ""}`.toLowerCase();
             const email = (cus.email || "").toLowerCase();
-            const phone = (cus.contact_no || "").toLowerCase();
+            const phone = (cus.mobile || cus.contact_no || "").toLowerCase();
             return fullName.includes(query) || email.includes(query) || phone.includes(query);
         });
         renderCustomersTable(filtered);
@@ -173,15 +176,16 @@ function setupSearchAndSort() {
     });
 }
 
-// ==========================================
-// Modal එකට දත්ත යවන කොටස 
-// ==========================================
 window.viewCustomer = function(customerId) {
     const cus = allCustomers.find(c => c.id === customerId);
     if (!cus) return;
 
-    // 1. Profile පින්තූරය 
+    const cusFName = cus.firstName || cus.fname || "";
+    const cusLName = cus.lastName || cus.lname || "";
+    const cusPhone = cus.mobile || cus.contact_no || cus.phone || "N/A";
+
     const cusImage = cus.profile_img || cus.photoUrl || cus.photo_url || cus.image;
+
     const imageWrapper = document.querySelector("#customerProfileModal .col-lg-4 .bg-white.rounded-circle") || 
                          document.querySelector("#customerProfileModal .col-lg-4 .mx-auto.mb-3");
                          
@@ -191,16 +195,14 @@ window.viewCustomer = function(customerId) {
         if (cusImage && cusImage !== "null" && cusImage.trim() !== "") {
             imageWrapper.innerHTML = `<img src="${cusImage}" style="width: 100%; height: 100%; object-fit: cover;">`;
         } else {
-            const formattedName = encodeURIComponent((cus.fname || "U") + " " + (cus.lname || ""));
+            const formattedName = encodeURIComponent((cusFName || "U") + " " + cusLName);
             imageWrapper.innerHTML = `<img src="https://ui-avatars.com/api/?name=${formattedName}&background=da5586&color=fff" style="width: 100%; height: 100%; object-fit: cover;">`;
         }
     }
 
-    // 2. නම සහ ID එක
-    document.querySelector("#customerProfileModal h5.mb-1").innerText = `${cus.fname || ""} ${cus.lname || ""}`;
+    document.querySelector("#customerProfileModal h5.mb-1").innerText = `${cusFName} ${cusLName}`;
     document.querySelector("#customerProfileModal p.text-muted.mb-3").innerText = `Customer ID: #${cus.id.substring(0,8)}`;
     
-    // 3. Status Badge එක
     const statusBadge = document.querySelector("#customerProfileModal .col-lg-4 .badge");
     if(statusBadge){
          const isActive = (!cus.status || cus.status === "Active");
@@ -213,47 +215,29 @@ window.viewCustomer = function(customerId) {
          }
     }
 
-    // 4. Contact Details සහ Address (මෙතනයි Address Logic එක හැදුවේ)
     const infoParagraphs = document.querySelectorAll("#customerProfileModal .text-start p");
     if(infoParagraphs.length >= 4) {
         infoParagraphs[0].innerHTML = `<i class="fas fa-envelope text-secondary me-2"></i> ${cus.email || "N/A"}`;
-        infoParagraphs[1].innerHTML = `<i class="fas fa-phone-alt text-secondary me-2"></i> ${cus.contact_no || cus.phone || "N/A"}`;
+        infoParagraphs[1].innerHTML = `<i class="fas fa-phone-alt text-secondary me-2"></i> ${cusPhone}`;
         
         const joinedDate = cus.createdAt ? new Date(cus.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' }) : "N/A";
         infoParagraphs[2].innerHTML = `<i class="fas fa-calendar-alt text-secondary me-2"></i> Joined: ${joinedDate}`;
 
-        // Address එක ලෝඩ් කරන අලුත් කේතය
+        // Address එක අලුත් addressMap එකෙන් ගන්නවා
         let addressText = "Address not provided.";
-
-        if (typeof cus.address === 'object' && cus.address !== null) {
-            // Address එක Database එකේ Object/Map එකක් විදිහට තියෙනවා නම්
+        if (cus.addressMap) {
             let parts = [];
-            if (cus.address.addressLine1) parts.push(cus.address.addressLine1);
-            if (cus.address.street) parts.push(cus.address.street);
-            if (cus.address.city) parts.push(cus.address.city);
-            if (cus.address.district) parts.push(cus.address.district);
+            if (cus.addressMap.streetAddress) parts.push(cus.addressMap.streetAddress);
+            if (cus.addressMap.city) parts.push(cus.addressMap.city);
+            if (cus.addressMap.district) parts.push(cus.addressMap.district);
+            if (cus.addressMap.province) parts.push(cus.addressMap.province);
+            if (cus.addressMap.postalCode) parts.push(cus.addressMap.postalCode);
             
             if (parts.length > 0) addressText = parts.join(",<br>");
-        } else {
-            // Address එක වෙනම field විදිහට තියෙනවා නම් (street, city, ආදිය)
-            const street = cus.address || cus.street || cus.addressLine1 || "";
-            const city = cus.city || cus.district || "";
-            const province = cus.province || cus.state || "";
-            
-            let addressParts = [];
-            if (street && typeof street === 'string' && street.trim() !== "") addressParts.push(street);
-            if (city && typeof city === 'string' && city.trim() !== "") addressParts.push(city);
-            if (province && typeof province === 'string' && province.trim() !== "") addressParts.push(province);
-            
-            if (addressParts.length > 0) {
-                addressText = addressParts.join(",<br>");
-            }
-        }
-        
+        } 
         infoParagraphs[3].innerHTML = addressText;
     }
 
-    // 5. Total Orders & Spent
     const statCards = document.querySelectorAll("#customerProfileModal .col-lg-8 .row h4");
     if (statCards.length >= 3) {
         statCards[0].innerText = cus.totalOrders || 0;
@@ -263,7 +247,6 @@ window.viewCustomer = function(customerId) {
         statCards[2].innerText = `Rs. ${avg.toLocaleString()}`;
     }
 
-    // 6. Recent Orders
     const recentOrdersTbody = document.querySelector("#customerProfileModal .table tbody");
     if(recentOrdersTbody) {
         recentOrdersTbody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-muted" style="font-size: 13px;">Please check the Orders Management page for full order history.</td></tr>`;
