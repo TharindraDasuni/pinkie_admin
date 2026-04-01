@@ -45,7 +45,6 @@ async function signIn() {
 
         if (response.ok && result.success) {
             // Save JWT Token and Admin Name
-            const profileImg = result.data.profileImage || null;
             if (rememberMe) {
                 localStorage.setItem("adminToken", result.data.token);
                 localStorage.setItem("adminName", result.data.name);
