@@ -57,30 +57,9 @@
             <i class="fas fa-cog" style="font-size: 17px; margin-right: 10px !important; width: 20px; text-align: center;"></i> <span>Settings</span>
         </a>
         
-        <a href="#" class="list-group-item list-group-item-action rounded glass-item sidebar-link d-flex align-items-center mt-0" onclick="logoutAdmin()" style="padding: 9px 17px !important; font-size: 15px;">
+        <a href="javascript:void(0)" class="list-group-item list-group-item-action rounded glass-item sidebar-link d-flex align-items-center mt-0" id="logout-btn" style="padding: 9px 17px !important; font-size: 15px;">
             <i class="fas fa-sign-out-alt" style="font-size: 17px; margin-right: 10px !important; width: 20px; text-align: center;"></i> <span>Logout</span>
         </a>
     </div>
 
 </div>
-
-<script>
-    function logoutAdmin() {
-        Swal.fire({
-            title: 'Ready to Leave?',
-            text: 'You are about to logout from the admin panel.',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#da5586',
-            cancelButtonColor: '#6c757d',
-            confirmButtonText: 'Yes, Logout'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Clear tokens before logging out
-                localStorage.removeItem("adminToken");
-                sessionStorage.removeItem("adminToken");
-                window.location.href = 'index.html';
-            }
-        });
-    }
-</script>
