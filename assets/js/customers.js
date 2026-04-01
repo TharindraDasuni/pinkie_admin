@@ -32,15 +32,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
 let allCustomers = []; // ඔක්කොම Customers ලා සේව් කරගන්න තැන
 
-// ==========================================
 // 1. API එකෙන් Customers ලා අරන් එනවා
-// ==========================================
 async function loadCustomers() {
     try {
+        const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken"); // Token එක ගන්නවා
+
         const response = await fetch("http://localhost:8080/api/customers", {
             method: "GET",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}` // Token එක Backend එකට යවනවා
             }
         });
 
@@ -49,7 +50,6 @@ async function loadCustomers() {
         if (response.ok && result.success) {
             allCustomers = result.data.customers;
             
-            // Dashboard Metrics (උඩින් තියෙන කොටු 3) අප්ඩේට් කරනවා
             document.querySelectorAll(".dash-card h3")[0].innerText = result.data.totalCount;
             document.querySelectorAll(".dash-card h3")[1].innerText = "+" + result.data.newThisMonth;
             document.querySelectorAll(".dash-card h3")[2].innerText = result.data.activeCount;
@@ -61,6 +61,50 @@ async function loadCustomers() {
     } catch (error) {
         console.error("Connection error:", error);
     }
+}
+
+// 4. Ban / Unban කිරීමේ ලොජික් එක
+function toggleCustomerStatus(customerId, newStatus, customerName) {
+    const actionWord = newStatus === "Banned" ? "ban" : "unban";
+
+    Swal.fire({
+        title: `Are you sure?`,
+        text: `Do you really want to ${actionWord} ${customerName || "this customer"}?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: newStatus === "Banned" ? '#dc3545' : '#28a745',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: `Yes, ${actionWord}!`
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            
+            Swal.fire({ title: 'Updating...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+            try {
+                const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken"); // Token එක ගන්නවා
+
+                const response = await fetch(`http://localhost:8080/api/customers/${customerId}/toggle-status`, {
+                    method: "POST",
+                    headers: { 
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}` // Token එක යවනවා
+                    },
+                    body: JSON.stringify({ status: newStatus })
+                });
+
+                const resData = await response.json();
+
+                if (response.ok && resData.success) {
+                    Swal.fire('Success!', `Customer has been ${newStatus.toLowerCase()}.`, 'success');
+                    loadCustomers(); 
+                } else {
+                    Swal.fire('Error!', resData.message || 'Failed to update status.', 'error');
+                }
+            } catch (error) {
+                Swal.fire('Error!', 'Connection error.', 'error');
+            }
+        }
+    });
 }
 
 // ==========================================
@@ -166,46 +210,46 @@ function setupSearchAndSort() {
     });
 }
 
-// ==========================================
-// 4. Ban / Unban කිරීමේ ලොජික් එක
-// ==========================================
-function toggleCustomerStatus(customerId, newStatus, customerName) {
-    const actionWord = newStatus === "Banned" ? "ban" : "unban";
+// // ==========================================
+// // 4. Ban / Unban කිරීමේ ලොජික් එක
+// // ==========================================
+// function toggleCustomerStatus(customerId, newStatus, customerName) {
+//     const actionWord = newStatus === "Banned" ? "ban" : "unban";
 
-    Swal.fire({
-        title: `Are you sure?`,
-        text: `Do you really want to ${actionWord} ${customerName || "this customer"}?`,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: newStatus === "Banned" ? '#dc3545' : '#28a745',
-        cancelButtonColor: '#6c757d',
-        confirmButtonText: `Yes, ${actionWord}!`
-    }).then(async (result) => {
-        if (result.isConfirmed) {
+//     Swal.fire({
+//         title: `Are you sure?`,
+//         text: `Do you really want to ${actionWord} ${customerName || "this customer"}?`,
+//         icon: 'warning',
+//         showCancelButton: true,
+//         confirmButtonColor: newStatus === "Banned" ? '#dc3545' : '#28a745',
+//         cancelButtonColor: '#6c757d',
+//         confirmButtonText: `Yes, ${actionWord}!`
+//     }).then(async (result) => {
+//         if (result.isConfirmed) {
             
-            Swal.fire({ title: 'Updating...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+//             Swal.fire({ title: 'Updating...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
 
-            try {
-                const response = await fetch(`http://localhost:8080/api/customers/${customerId}/toggle-status`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ status: newStatus })
-                });
+//             try {
+//                 const response = await fetch(`http://localhost:8080/api/customers/${customerId}/toggle-status`, {
+//                     method: "POST",
+//                     headers: { "Content-Type": "application/json" },
+//                     body: JSON.stringify({ status: newStatus })
+//                 });
 
-                const resData = await response.json();
+//                 const resData = await response.json();
 
-                if (response.ok && resData.success) {
-                    Swal.fire('Success!', `Customer has been ${newStatus.toLowerCase()}.`, 'success');
-                    loadCustomers(); // Table එක ආයෙත් රීලෝඩ් කරනවා අලුත් Status එක පේන්න
-                } else {
-                    Swal.fire('Error!', resData.message || 'Failed to update status.', 'error');
-                }
-            } catch (error) {
-                Swal.fire('Error!', 'Connection error.', 'error');
-            }
-        }
-    });
-}
+//                 if (response.ok && resData.success) {
+//                     Swal.fire('Success!', `Customer has been ${newStatus.toLowerCase()}.`, 'success');
+//                     loadCustomers(); // Table එක ආයෙත් රීලෝඩ් කරනවා අලුත් Status එක පේන්න
+//                 } else {
+//                     Swal.fire('Error!', resData.message || 'Failed to update status.', 'error');
+//                 }
+//             } catch (error) {
+//                 Swal.fire('Error!', 'Connection error.', 'error');
+//             }
+//         }
+//     });
+// }
 
 // ==========================================
 // 5. Customer ව View කිරීම (Modal එකට Data දානවා)
