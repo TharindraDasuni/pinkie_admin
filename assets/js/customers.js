@@ -173,13 +173,15 @@ function setupSearchAndSort() {
     });
 }
 
+// ==========================================
+// Modal එකට දත්ත යවන කොටස 
+// ==========================================
 window.viewCustomer = function(customerId) {
     const cus = allCustomers.find(c => c.id === customerId);
     if (!cus) return;
 
+    // 1. Profile පින්තූරය 
     const cusImage = cus.profile_img || cus.photoUrl || cus.photo_url || cus.image;
-
-    // Modal Image Container එක ආරක්ෂිතව Update කිරීම (දෙවැනි පාර එබුවත් වැඩ කරනවා)
     const imageWrapper = document.querySelector("#customerProfileModal .col-lg-4 .bg-white.rounded-circle") || 
                          document.querySelector("#customerProfileModal .col-lg-4 .mx-auto.mb-3");
                          
@@ -194,9 +196,11 @@ window.viewCustomer = function(customerId) {
         }
     }
 
+    // 2. නම සහ ID එක
     document.querySelector("#customerProfileModal h5.mb-1").innerText = `${cus.fname || ""} ${cus.lname || ""}`;
     document.querySelector("#customerProfileModal p.text-muted.mb-3").innerText = `Customer ID: #${cus.id.substring(0,8)}`;
     
+    // 3. Status Badge එක
     const statusBadge = document.querySelector("#customerProfileModal .col-lg-4 .badge");
     if(statusBadge){
          const isActive = (!cus.status || cus.status === "Active");
@@ -209,22 +213,47 @@ window.viewCustomer = function(customerId) {
          }
     }
 
+    // 4. Contact Details සහ Address (මෙතනයි Address Logic එක හැදුවේ)
     const infoParagraphs = document.querySelectorAll("#customerProfileModal .text-start p");
     if(infoParagraphs.length >= 4) {
         infoParagraphs[0].innerHTML = `<i class="fas fa-envelope text-secondary me-2"></i> ${cus.email || "N/A"}`;
-        infoParagraphs[1].innerHTML = `<i class="fas fa-phone-alt text-secondary me-2"></i> ${cus.contact_no || "N/A"}`;
+        infoParagraphs[1].innerHTML = `<i class="fas fa-phone-alt text-secondary me-2"></i> ${cus.contact_no || cus.phone || "N/A"}`;
         
         const joinedDate = cus.createdAt ? new Date(cus.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' }) : "N/A";
         infoParagraphs[2].innerHTML = `<i class="fas fa-calendar-alt text-secondary me-2"></i> Joined: ${joinedDate}`;
 
+        // Address එක ලෝඩ් කරන අලුත් කේතය
         let addressText = "Address not provided.";
-        if (cus.address && cus.address.trim() !== "") {
-            addressText = cus.address;
-            if(cus.city) addressText += `<br>${cus.city}`;
-        } 
+
+        if (typeof cus.address === 'object' && cus.address !== null) {
+            // Address එක Database එකේ Object/Map එකක් විදිහට තියෙනවා නම්
+            let parts = [];
+            if (cus.address.addressLine1) parts.push(cus.address.addressLine1);
+            if (cus.address.street) parts.push(cus.address.street);
+            if (cus.address.city) parts.push(cus.address.city);
+            if (cus.address.district) parts.push(cus.address.district);
+            
+            if (parts.length > 0) addressText = parts.join(",<br>");
+        } else {
+            // Address එක වෙනම field විදිහට තියෙනවා නම් (street, city, ආදිය)
+            const street = cus.address || cus.street || cus.addressLine1 || "";
+            const city = cus.city || cus.district || "";
+            const province = cus.province || cus.state || "";
+            
+            let addressParts = [];
+            if (street && typeof street === 'string' && street.trim() !== "") addressParts.push(street);
+            if (city && typeof city === 'string' && city.trim() !== "") addressParts.push(city);
+            if (province && typeof province === 'string' && province.trim() !== "") addressParts.push(province);
+            
+            if (addressParts.length > 0) {
+                addressText = addressParts.join(",<br>");
+            }
+        }
+        
         infoParagraphs[3].innerHTML = addressText;
     }
 
+    // 5. Total Orders & Spent
     const statCards = document.querySelectorAll("#customerProfileModal .col-lg-8 .row h4");
     if (statCards.length >= 3) {
         statCards[0].innerText = cus.totalOrders || 0;
@@ -234,6 +263,7 @@ window.viewCustomer = function(customerId) {
         statCards[2].innerText = `Rs. ${avg.toLocaleString()}`;
     }
 
+    // 6. Recent Orders
     const recentOrdersTbody = document.querySelector("#customerProfileModal .table tbody");
     if(recentOrdersTbody) {
         recentOrdersTbody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-muted" style="font-size: 13px;">Please check the Orders Management page for full order history.</td></tr>`;
