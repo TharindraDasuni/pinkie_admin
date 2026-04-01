@@ -50,6 +50,52 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     updateAdminProfileUI();
 
+    // ========================================================
+    // 3. Logout Button Logic (100% Working for Dynamic HTML)
+    // ========================================================
+    document.addEventListener("click", function (e) {
+        // Click කරපු තැන 'logout-btn' එකක් තියෙනවද කියලා බලනවා
+        const logoutBtn = e.target.closest("#logout-btn");
+        
+        if (logoutBtn) {
+            e.preventDefault(); // අනවශ්‍ය Refresh වීම් නවත්වනවා
+
+            Swal.fire({
+                title: 'Ready to Leave?',
+                text: 'Are you sure you want to logout from the admin panel?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#da5586',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Yes, Logout!',
+                heightAuto: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    
+                    Swal.fire({
+                        title: 'Logging Out...',
+                        allowOutsideClick: false,
+                        showConfirmButton: false,
+                        heightAuto: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    setTimeout(() => {
+                        // Storage එකේ තියෙන ඔක්කොම දත්ත මකා දැමීම
+                        localStorage.clear();
+                        sessionStorage.clear();
+
+                        // Login පිටුවට යැවීම
+                        window.location.replace("index.html");
+                    }, 500); 
+                }
+            });
+        }
+    });
+    // ========================================================
+
     const currentPage = window.location.pathname.split("/").pop();
 
     if (currentPage === "dashboard.html" || currentPage === "") {
@@ -156,69 +202,4 @@ document.addEventListener('DOMContentLoaded', () => {
             icon.classList.add('fa-sun', 'text-warning');
         }
     }
-});
-
-document.addEventListener("DOMContentLoaded", async function () {
-
-    // 1. මුලින්ම HTML Components ටික ලෝඩ් කරනවා
-    await loadComponent("sidebar-container", "components/sidebar.html");
-    await loadComponent("navbar-container", "components/navbar.html");
-    await loadComponent("footer-container", "components/footer.html");
-
-    // 2. Navbar එකට Name සහ Image එක දානවා
-    updateAdminProfileUI();
-
-    // ========================================================
-    // 3. Logout Button Logic එක (මෙතන තමයි අලුත් කෑල්ල)
-    // ========================================================
-    const logoutBtn = document.getElementById("logout-btn");
-    if (logoutBtn) {
-        logoutBtn.addEventListener("click", function (e) {
-            e.preventDefault(); // අනවශ්‍ය Refresh වීම් නවත්වනවා
-
-            Swal.fire({
-                title: 'Ready to Leave?',
-                text: 'Are you sure you want to logout from the admin panel?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#da5586',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Yes, Logout!',
-                heightAuto: false
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    
-                    Swal.fire({
-                        title: 'Logging Out...',
-                        allowOutsideClick: false,
-                        showConfirmButton: false,
-                        heightAuto: false,
-                        didOpen: () => {
-                            Swal.showLoading();
-                        }
-                    });
-
-                    setTimeout(() => {
-                        // Storage එකේ තියෙන ඔක්කොම දත්ත මකා දැමීම
-                        localStorage.clear();
-                        sessionStorage.clear();
-
-                        // Login පිටුවට යැවීම
-                        window.location.replace("index.html");
-                    }, 500); 
-                }
-            });
-        });
-    }
-    // ========================================================
-
-    // 4. Page Active Nav Logic (ඔයාගේ කලින් කේතය)
-    const currentPage = window.location.pathname.split("/").pop();
-
-    if (currentPage === "dashboard.html" || currentPage === "") {
-        document.querySelector('.nav-dashboard').classList.add('active-nav');
-        document.getElementById('page-title').innerText = "Overview";
-    }
-    // ... (ඔයාගේ ඉතුරු if-else ටික එහෙම්මම තියෙන්න අරින්න) ...
-
 });
