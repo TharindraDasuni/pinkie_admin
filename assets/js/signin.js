@@ -49,9 +49,11 @@ async function signIn() {
             if (rememberMe) {
                 localStorage.setItem("adminToken", result.data.token);
                 localStorage.setItem("adminName", result.data.name);
+                localStorage.setItem("adminImage", profileImg);
             } else {
                 sessionStorage.setItem("adminToken", result.data.token);
                 sessionStorage.setItem("adminName", result.data.name);
+                sessionStorage.setItem("adminImage", profileImg);
             }
 
             window.location.href = "dashboard.html";
