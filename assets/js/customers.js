@@ -174,11 +174,9 @@ window.viewCustomer = function(customerId) {
     const cus = allCustomers.find(c => c.id === customerId);
     if (!cus) return;
 
-    // Modal එකේ දත්ත වෙනස් කරනවා
     document.querySelector("#customerProfileModal h5.mb-1").innerText = `${cus.fname || ""} ${cus.lname || ""}`;
     document.querySelector("#customerProfileModal p.text-muted.mb-3").innerText = `Customer ID: #${cus.id.substring(0,8)}`;
     
-    // Email & Phone Update
     const infoParagraphs = document.querySelectorAll("#customerProfileModal .text-start p");
     infoParagraphs[0].innerHTML = `<i class="fas fa-envelope text-secondary me-2"></i> ${cus.email || "N/A"}`;
     infoParagraphs[1].innerHTML = `<i class="fas fa-phone-alt text-secondary me-2"></i> ${cus.contact_no || "N/A"}`;
@@ -186,7 +184,6 @@ window.viewCustomer = function(customerId) {
     const joinedDate = cus.createdAt ? new Date(cus.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' }) : "N/A";
     infoParagraphs[2].innerHTML = `<i class="fas fa-calendar-alt text-secondary me-2"></i> Joined: ${joinedDate}`;
 
-    // Stats Update
     const statCards = document.querySelectorAll("#customerProfileModal .col-lg-8 .row h4");
     statCards[0].innerText = cus.totalOrders || 0;
     statCards[1].innerText = `Rs. ${(cus.totalSpent || 0).toLocaleString()}`;
@@ -194,7 +191,6 @@ window.viewCustomer = function(customerId) {
     const avg = cus.totalOrders > 0 ? (cus.totalSpent / cus.totalOrders) : 0;
     statCards[2].innerText = `Rs. ${avg.toLocaleString()}`;
 
-    // Modal එක පෙන්වනවා
     const modal = new bootstrap.Modal(document.getElementById('customerProfileModal'));
     modal.show();
 }
