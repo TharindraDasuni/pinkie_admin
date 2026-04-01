@@ -1,8 +1,16 @@
 document.addEventListener("DOMContentLoaded", function() {
+    
     const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
-    if (!token) {
+    const currentPage = window.location.pathname.split("/").pop();
+
+    if (!token && currentPage !== "index.html" && currentPage !== "") {
         window.location.replace("index.html");
     }
+
+    if (token && (currentPage === "index.html" || currentPage === "")) {
+        window.location.replace("dashboard.html");
+    }
+    
 });
 
 async function loadComponent(elementId, filePath) {
