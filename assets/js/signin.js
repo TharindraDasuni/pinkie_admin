@@ -45,12 +45,15 @@ async function signIn() {
 
         if (response.ok && result.success) {
             // Save JWT Token and Admin Name
+            const profileImg = result.data.profileImage || null;
             if (rememberMe) {
                 localStorage.setItem("adminToken", result.data.token);
                 localStorage.setItem("adminName", result.data.name);
+                localStorage.setItem("adminImage", result.data.photoUrl);
             } else {
                 sessionStorage.setItem("adminToken", result.data.token);
                 sessionStorage.setItem("adminName", result.data.name);
+                sessionStorage.setItem("adminImage", result.data.photoUrl);
             }
 
             window.location.href = "dashboard.html";

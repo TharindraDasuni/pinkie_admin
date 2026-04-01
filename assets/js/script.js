@@ -134,3 +134,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Storage එකෙන් නම සහ පින්තූරය ගන්නවා
+    const adminName = localStorage.getItem("adminName") || sessionStorage.getItem("adminName") || "Admin User";
+    const adminImage = localStorage.getItem("adminImage") || sessionStorage.getItem("adminImage");
+
+    // නම Update කරනවා
+    document.getElementById("adminNameDisplay").innerText = adminName;
+
+    // පින්තූරය Update කරනවා
+    const imgElement = document.getElementById("adminImageDisplay");
+    
+    if (adminImage && adminImage.trim() !== "") {
+        // Database එකේ පින්තූරයක් තිබුණොත් ඒක දානවා
+        imgElement.src = adminImage;
+    } else {
+        // පින්තූරයක් නැත්නම් නමේ අකුරු වලින් UI Avatar එකක් හදලා දානවා
+        const formattedName = encodeURIComponent(adminName);
+        imgElement.src = `https://ui-avatars.com/api/?name=${formattedName}&background=da5586&color=fff`;
+    }
+});
