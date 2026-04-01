@@ -1,47 +1,19 @@
-// function banCustomer(name) {
-//     Swal.fire({
-//         title: 'Ban Customer?',
-//         text: `Are you sure you want to ban ${name}? They will no longer be able to place orders.`,
-//         icon: 'warning',
-//         showCancelButton: true,
-//         confirmButtonColor: '#dc3545',
-//         cancelButtonColor: '#6c757d',
-//         confirmButtonText: 'Yes, Ban',
-//         customClass: {
-//             popup: 'glass-panel rounded-4'
-//         }
-//     }).then((result) => {
-//         if (result.isConfirmed) {
-//             Swal.fire({
-//                 title: 'Banned!',
-//                 text: `${name} has been banned successfully.`,
-//                 icon: 'success',
-//                 confirmButtonColor: '#da5586',
-//                 customClass: {
-//                     popup: 'glass-panel rounded-4'
-//                 }
-//             });
-//         }
-//     });
-// }
-
 document.addEventListener("DOMContentLoaded", function () {
     loadCustomers();
     setupSearchAndSort();
 });
 
-let allCustomers = []; // ඔක්කොම Customers ලා සේව් කරගන්න තැන
+let allCustomers = [];
 
-// 1. API එකෙන් Customers ලා අරන් එනවා
 async function loadCustomers() {
     try {
-        const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken"); // Token එක ගන්නවා
+        const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
 
         const response = await fetch("http://localhost:8080/api/customers", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}` // Token එක Backend එකට යවනවා
+                "Authorization": `Bearer ${token}`
             }
         });
 
@@ -63,7 +35,6 @@ async function loadCustomers() {
     }
 }
 
-// 4. Ban / Unban කිරීමේ ලොජික් එක
 function toggleCustomerStatus(customerId, newStatus, customerName) {
     const actionWord = newStatus === "Banned" ? "ban" : "unban";
 
@@ -81,13 +52,13 @@ function toggleCustomerStatus(customerId, newStatus, customerName) {
             Swal.fire({ title: 'Updating...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
 
             try {
-                const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken"); // Token එක ගන්නවා
+                const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken"); 
 
                 const response = await fetch(`http://localhost:8080/api/customers/${customerId}/toggle-status`, {
                     method: "POST",
                     headers: { 
                         "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}` // Token එක යවනවා
+                        "Authorization": `Bearer ${token}`
                     },
                     body: JSON.stringify({ status: newStatus })
                 });
@@ -107,12 +78,9 @@ function toggleCustomerStatus(customerId, newStatus, customerName) {
     });
 }
 
-// ==========================================
-// 2. Table එකට Data ටික දානවා (HTML හදනවා)
-// ==========================================
 function renderCustomersTable(customers) {
     const tbody = document.querySelector(".glass-table tbody");
-    tbody.innerHTML = ""; // පරණ දත්ත මකනවා
+    tbody.innerHTML = "";
 
     if (customers.length === 0) {
         tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-muted">No customers found.</td></tr>`;
@@ -120,10 +88,9 @@ function renderCustomersTable(customers) {
     }
 
     customers.forEach(cus => {
-        // දිනය හදාගන්නවා
+        
         const joinedDate = cus.createdAt ? new Date(cus.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' }) : "N/A";
         
-        // පින්තූරය හදනවා
         let avatarHtml = "";
         if (cus.profile_img && cus.profile_img !== "null" && cus.profile_img.trim() !== "") {
             avatarHtml = `<img src="${cus.profile_img}" class="rounded-circle" width="40" height="40" style="object-fit: cover;">`;
@@ -132,13 +99,11 @@ function renderCustomersTable(customers) {
             avatarHtml = `<div class="bg-white rounded-circle d-flex align-items-center justify-content-center border shadow-sm" style="width: 40px; height: 40px;"><span class="fw-bold text-pinkie">${initial}</span></div>`;
         }
 
-        // Status Badge එක
         const isActive = (!cus.status || cus.status === "Active");
         const statusBadge = isActive 
             ? `<span class="badge bg-success bg-opacity-75 rounded-pill px-3 py-2">Active</span>`
             : `<span class="badge bg-danger bg-opacity-75 rounded-pill px-3 py-2">Banned</span>`;
 
-        // Ban/Unban බොත්තම
         const banButtonTitle = isActive ? "Ban User" : "Unban User";
         const banButtonIcon = isActive ? "fa-ban" : "fa-unlock";
         const banButtonColor = isActive ? "text-danger" : "text-success";
@@ -174,14 +139,10 @@ function renderCustomersTable(customers) {
     });
 }
 
-// ==========================================
-// 3. Search සහ Sort කිරීමේ ලොජික් එක
-// ==========================================
 function setupSearchAndSort() {
     const searchInput = document.querySelector("input[placeholder='Search by name, email or phone...']");
     const sortSelect = document.querySelector("select.form-select");
 
-    // Search කරද්දී
     searchInput.addEventListener("input", function (e) {
         const query = e.target.value.toLowerCase();
         const filtered = allCustomers.filter(cus => {
@@ -193,16 +154,15 @@ function setupSearchAndSort() {
         renderCustomersTable(filtered);
     });
 
-    // Sort කරද්දී (Dropdown එක මාරු කරද්දී)
     sortSelect.addEventListener("change", function (e) {
         const val = e.target.value;
         let sorted = [...allCustomers];
 
-        if (val === "1") { // Newest First
+        if (val === "1") {
             sorted.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-        } else if (val === "2") { // Highest Spender
+        } else if (val === "2") {
             sorted.sort((a, b) => (b.totalSpent || 0) - (a.totalSpent || 0));
-        } else if (val === "3") { // Most Orders
+        } else if (val === "3") {
             sorted.sort((a, b) => (b.totalOrders || 0) - (a.totalOrders || 0));
         }
 
@@ -210,50 +170,6 @@ function setupSearchAndSort() {
     });
 }
 
-// // ==========================================
-// // 4. Ban / Unban කිරීමේ ලොජික් එක
-// // ==========================================
-// function toggleCustomerStatus(customerId, newStatus, customerName) {
-//     const actionWord = newStatus === "Banned" ? "ban" : "unban";
-
-//     Swal.fire({
-//         title: `Are you sure?`,
-//         text: `Do you really want to ${actionWord} ${customerName || "this customer"}?`,
-//         icon: 'warning',
-//         showCancelButton: true,
-//         confirmButtonColor: newStatus === "Banned" ? '#dc3545' : '#28a745',
-//         cancelButtonColor: '#6c757d',
-//         confirmButtonText: `Yes, ${actionWord}!`
-//     }).then(async (result) => {
-//         if (result.isConfirmed) {
-            
-//             Swal.fire({ title: 'Updating...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-
-//             try {
-//                 const response = await fetch(`http://localhost:8080/api/customers/${customerId}/toggle-status`, {
-//                     method: "POST",
-//                     headers: { "Content-Type": "application/json" },
-//                     body: JSON.stringify({ status: newStatus })
-//                 });
-
-//                 const resData = await response.json();
-
-//                 if (response.ok && resData.success) {
-//                     Swal.fire('Success!', `Customer has been ${newStatus.toLowerCase()}.`, 'success');
-//                     loadCustomers(); // Table එක ආයෙත් රීලෝඩ් කරනවා අලුත් Status එක පේන්න
-//                 } else {
-//                     Swal.fire('Error!', resData.message || 'Failed to update status.', 'error');
-//                 }
-//             } catch (error) {
-//                 Swal.fire('Error!', 'Connection error.', 'error');
-//             }
-//         }
-//     });
-// }
-
-// ==========================================
-// 5. Customer ව View කිරීම (Modal එකට Data දානවා)
-// ==========================================
 window.viewCustomer = function(customerId) {
     const cus = allCustomers.find(c => c.id === customerId);
     if (!cus) return;
