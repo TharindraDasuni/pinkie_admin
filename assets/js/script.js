@@ -1,3 +1,13 @@
+document.addEventListener("DOMContentLoaded", function() {
+    
+    const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
+
+    if (!token) {
+        window.location.replace("index.html");
+    }
+    
+});
+
 async function loadComponent(elementId, filePath) {
     try {
         const response = await fetch(filePath);
