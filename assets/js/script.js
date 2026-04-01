@@ -1,11 +1,8 @@
 document.addEventListener("DOMContentLoaded", function() {
-    
     const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
-
     if (!token) {
         window.location.replace("index.html");
     }
-    
 });
 
 async function loadComponent(elementId, filePath) {
@@ -44,56 +41,59 @@ function updateAdminProfileUI() {
 
 document.addEventListener("DOMContentLoaded", async function () {
 
+    // 1. මුලින්ම HTML Components ටික ලෝඩ් කරනවා (මේවා Load වෙලා ඉවර වෙනකම් පල්ලෙහාට යන්නේ නෑ)
     await loadComponent("sidebar-container", "components/sidebar.html");
     await loadComponent("navbar-container", "components/navbar.html");
     await loadComponent("footer-container", "components/footer.html");
 
+    // 2. Navbar එකට Name සහ Image එක දානවා
     updateAdminProfileUI();
 
     // ========================================================
-    // 3. Logout Button Logic (100% Working for Dynamic HTML)
+    // 3. Logout Button Logic (100% Working Guaranteed)
     // ========================================================
-    document.addEventListener("click", function (e) {
-        // Click කරපු තැන 'logout-btn' එකක් තියෙනවද කියලා බලනවා
-        const logoutBtn = e.target.closest("#logout-btn");
-        
-        if (logoutBtn) {
-            e.preventDefault(); // අනවශ්‍ය Refresh වීම් නවත්වනවා
+    const logoutBtn = document.getElementById("logout-btn");
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", function (e) {
+            e.preventDefault(); 
 
-            Swal.fire({
-                title: 'Ready to Leave?',
-                text: 'Are you sure you want to logout from the admin panel?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#da5586',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Yes, Logout!',
-                heightAuto: false
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    
-                    Swal.fire({
-                        title: 'Logging Out...',
-                        allowOutsideClick: false,
-                        showConfirmButton: false,
-                        heightAuto: false,
-                        didOpen: () => {
-                            Swal.showLoading();
-                        }
-                    });
-
-                    setTimeout(() => {
-                        // Storage එකේ තියෙන ඔක්කොම දත්ත මකා දැමීම
-                        localStorage.clear();
-                        sessionStorage.clear();
-
-                        // Login පිටුවට යැවීම
-                        window.location.replace("index.html");
-                    }, 500); 
+            // SweetAlert තියෙනවද කියලා බලනවා (dashboard.html එකේ ලින්ක් එක දාලා නම්)
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    title: 'Ready to Leave?',
+                    text: 'Are you sure you want to logout from the admin panel?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#da5586',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Yes, Logout!',
+                    heightAuto: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Logging Out...',
+                            allowOutsideClick: false,
+                            showConfirmButton: false,
+                            heightAuto: false,
+                            didOpen: () => { Swal.showLoading(); }
+                        });
+                        setTimeout(() => {
+                            localStorage.clear();
+                            sessionStorage.clear();
+                            window.location.replace("index.html");
+                        }, 500); 
+                    }
+                });
+            } else {
+                // SweetAlert ලින්ක් එක නැත්නම්, සාමාන්‍ය Alert එකක් පෙන්නලා Logout කරනවා
+                if (confirm("Are you sure you want to logout from the admin panel?")) {
+                    localStorage.clear();
+                    sessionStorage.clear();
+                    window.location.replace("index.html");
                 }
-            });
-        }
-    });
+            }
+        });
+    }
     // ========================================================
 
     const currentPage = window.location.pathname.split("/").pop();
