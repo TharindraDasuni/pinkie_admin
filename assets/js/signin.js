@@ -3,7 +3,6 @@ async function signIn() {
     const password = document.getElementById("password").value;
     const rememberMe = document.getElementById("remember_me").checked;
 
-    // Frontend Validation
     if (email === "" || password === "") {
         Swal.fire({
             icon: 'warning',
@@ -15,7 +14,6 @@ async function signIn() {
         return;
     }
 
-    // Loading Alert
     Swal.fire({
         title: 'Signing In...',
         text: 'Please wait while we authenticate your credentials.',
@@ -28,7 +26,6 @@ async function signIn() {
     });
 
     try {
-        // Call Spring Boot Backend API
         const response = await fetch("http://localhost:8080/api/auth/login", {
             method: "POST",
             headers: {
@@ -44,7 +41,6 @@ async function signIn() {
         const result = await response.json();
 
         if (response.ok && result.success) {
-            // Save JWT Token and Admin Name
             if (rememberMe) {
                 localStorage.setItem("adminToken", result.data.token);
                 localStorage.setItem("adminName", result.data.name);
@@ -58,9 +54,7 @@ async function signIn() {
             window.location.href = "dashboard.html";
 
         } else {
-            // Handle Backend Errors (Validation or Invalid Credentials)
             if (result.data && typeof result.data === "object" && Object.keys(result.data).length > 0) {
-                // Spring Boot Validation Errors 
                 let errorHtml = '<ul style="text-align: left; list-style-type: disc; padding-left: 20px;">';
                 for (const field in result.data) {
                     errorHtml += `<li style="margin-bottom: 5px;">${result.data[field]}</li>`;
@@ -75,7 +69,6 @@ async function signIn() {
                     heightAuto: false
                 });
             } else {
-                // Invalid Password or Email
                 Swal.fire({
                     icon: 'error',
                     title: 'Access Denied',
@@ -86,7 +79,6 @@ async function signIn() {
             }
         }
     } catch (error) {
-        // Handle Network Errors (Server down)
         console.error("Login Error:", error);
         Swal.fire({
             icon: 'error',
@@ -98,7 +90,6 @@ async function signIn() {
     }
 }
 
-// Step 1: Send OTP Logic
 async function sendOTP() {
     const email = document.getElementById("resetEmail").value;
 
@@ -113,7 +104,6 @@ async function sendOTP() {
         return;
     }
 
-    // Show Loading Alert
     Swal.fire({
         title: 'Sending OTP...',
         text: 'Please wait while we send the code to your email.',
@@ -126,7 +116,6 @@ async function sendOTP() {
     });
 
     try {
-        // Backend API Call (OTP යැවීම)
         const response = await fetch("http://localhost:8080/api/forgot-password/send-otp", {
             method: "POST",
             headers: {
@@ -140,15 +129,12 @@ async function sendOTP() {
         if (response.ok && result.success) {
             Swal.close();
 
-            // UI එක මාරු කිරීම (Email එක හංගලා, Reset කොටස පෙන්නනවා)
             document.getElementById("emailSection").classList.add("d-none");
             document.getElementById("resetSection").classList.remove("d-none");
 
-            // Modal එකේ Title එකයි විස්තරෙයි මාරු කරනවා
             document.getElementById("modalTitle").innerText = "Enter OTP";
             document.getElementById("modalDesc").innerHTML = `We have sent a 6-digit OTP to <b>${email}</b>. Please enter it below.`;
         } else {
-            // Email එක Database එකේ නැත්නම් Error එක පෙන්වීම
             Swal.fire({
                 icon: 'error',
                 title: 'Failed!',
@@ -169,9 +155,8 @@ async function sendOTP() {
     }
 }
 
-// Step 2: Update Password Logic
 async function updatePassword() {
-    const email = document.getElementById("resetEmail").value; // කලින් ගහපු Email එක මෙතනින් ගන්නවා
+    const email = document.getElementById("resetEmail").value;
     const otp = document.getElementById("otpCode").value;
     const newPassword = document.getElementById("newPassword").value;
     const confirmPassword = document.getElementById("confirmNewPassword").value;
@@ -209,7 +194,7 @@ async function updatePassword() {
     });
 
     try {
-        // Backend API Call (Password එක Reset කිරීම)
+        
         const response = await fetch("http://localhost:8080/api/forgot-password/reset", {
             method: "POST",
             headers: {
@@ -232,13 +217,11 @@ async function updatePassword() {
                 confirmButtonColor: '#da5586',
                 heightAuto: false
             }).then(() => {
-                // Modal එක වහලා ආයෙත් මුල් තත්ත්වයට පත් කරනවා
                 const modal = bootstrap.Modal.getInstance(document.getElementById('forgotPasswordModal'));
                 modal.hide();
                 resetModalUI();
             });
         } else {
-            // OTP එක වැරදි නම් හෝ Expire වෙලා නම් Error එකක් පෙන්වීම
             Swal.fire({
                 icon: 'error',
                 title: 'Reset Failed',
@@ -259,7 +242,6 @@ async function updatePassword() {
     }
 }
 
-// Modal එක ආපහු මුල් (Email ගහන) තත්ත්වයට පත් කිරීම
 function resetModalUI() {
     document.getElementById("emailSection").classList.remove("d-none");
     document.getElementById("resetSection").classList.add("d-none");
@@ -267,7 +249,6 @@ function resetModalUI() {
     document.getElementById("modalTitle").innerText = "Forgot Password?";
     document.getElementById("modalDesc").innerText = "Enter the email address associated with your admin account. We'll send an OTP to reset your password.";
     
-    // Inputs හිස් කිරීම
     document.getElementById("resetEmail").value = "";
     document.getElementById("otpCode").value = "";
     document.getElementById("newPassword").value = "";

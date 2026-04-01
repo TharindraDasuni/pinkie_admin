@@ -49,23 +49,17 @@ function updateAdminProfileUI() {
 
 document.addEventListener("DOMContentLoaded", async function () {
 
-    // 1. මුලින්ම HTML Components ටික ලෝඩ් කරනවා (මේවා Load වෙලා ඉවර වෙනකම් පල්ලෙහාට යන්නේ නෑ)
     await loadComponent("sidebar-container", "components/sidebar.html");
     await loadComponent("navbar-container", "components/navbar.html");
     await loadComponent("footer-container", "components/footer.html");
 
-    // 2. Navbar එකට Name සහ Image එක දානවා
     updateAdminProfileUI();
 
-    // ========================================================
-    // 3. Logout Button Logic (100% Working Guaranteed)
-    // ========================================================
     const logoutBtn = document.getElementById("logout-btn");
     if (logoutBtn) {
         logoutBtn.addEventListener("click", function (e) {
             e.preventDefault(); 
 
-            // SweetAlert තියෙනවද කියලා බලනවා (dashboard.html එකේ ලින්ක් එක දාලා නම්)
             if (typeof Swal !== 'undefined') {
                 Swal.fire({
                     title: 'Ready to Leave?',
@@ -93,7 +87,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                     }
                 });
             } else {
-                // SweetAlert ලින්ක් එක නැත්නම්, සාමාන්‍ය Alert එකක් පෙන්නලා Logout කරනවා
                 if (confirm("Are you sure you want to logout from the admin panel?")) {
                     localStorage.clear();
                     sessionStorage.clear();
@@ -102,7 +95,6 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
         });
     }
-    // ========================================================
 
     const currentPage = window.location.pathname.split("/").pop();
 
