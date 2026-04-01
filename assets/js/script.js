@@ -136,22 +136,26 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener("DOMContentLoaded", function() {
-    // Storage එකෙන් නම සහ පින්තූරය ගන්නවා
+    // 1. Storage එකෙන් Admin ගේ නම සහ පින්තූරය ගන්නවා
     const adminName = localStorage.getItem("adminName") || sessionStorage.getItem("adminName") || "Admin User";
     const adminImage = localStorage.getItem("adminImage") || sessionStorage.getItem("adminImage");
 
-    // නම Update කරනවා
-    document.getElementById("adminNameDisplay").innerText = adminName;
+    // 2. HTML එකේ නම Update කරනවා
+    const nameElement = document.getElementById("adminNameDisplay");
+    if (nameElement) {
+        nameElement.innerText = adminName;
+    }
 
-    // පින්තූරය Update කරනවා
+    // 3. HTML එකේ පින්තූරය Update කරනවා
     const imgElement = document.getElementById("adminImageDisplay");
-    
-    if (adminImage && adminImage.trim() !== "") {
-        // Database එකේ පින්තූරයක් තිබුණොත් ඒක දානවා
-        imgElement.src = adminImage;
-    } else {
-        // පින්තූරයක් නැත්නම් නමේ අකුරු වලින් UI Avatar එකක් හදලා දානවා
-        const formattedName = encodeURIComponent(adminName);
-        imgElement.src = `https://ui-avatars.com/api/?name=${formattedName}&background=da5586&color=fff`;
+    if (imgElement) {
+        if (adminImage && adminImage !== "null" && adminImage.trim() !== "") {
+            // Database එකේ පින්තූරයක් තිබුණොත් (Link එකක්), ඒක දානවා
+            imgElement.src = adminImage;
+        } else {
+            // DB එකේ profile_img එක 'null' නිසා, නමේ අකුරු වලින් ලස්සන Avatar එකක් හදලා දානවා
+            const formattedName = encodeURIComponent(adminName);
+            imgElement.src = `https://ui-avatars.com/api/?name=${formattedName}&background=da5586&color=fff`;
+        }
     }
 });
