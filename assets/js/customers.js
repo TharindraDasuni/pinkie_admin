@@ -92,11 +92,12 @@ function renderCustomersTable(customers) {
         const joinedDate = cus.createdAt ? new Date(cus.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' }) : "N/A";
         
         let avatarHtml = "";
-        if (cus.photoUrl && cus.photoUrl !== "null" && cus.photoUrl.trim() !== "") {
-            avatarHtml = `<img src="${cus.photoUrl}" class="rounded-circle" width="40" height="40" style="object-fit: cover;">`;
+        // මෙතන profile_img කියලා හැදුවා
+        if (cus.profile_img && cus.profile_img !== "null" && cus.profile_img.trim() !== "") {
+            avatarHtml = `<img src="${cus.profile_img}" class="rounded-circle" width="40" height="40" style="object-fit: cover;">`;
         } else {
             const formattedName = encodeURIComponent((cus.fname || "U") + " " + (cus.lname || ""));
-            avatarHtml = `<img src="https://ui-avatars.com/api/?name=${formattedName}&background=da5586&color=fff" class="rounded-circle" width="40" height="40" style="object-fit: cover;">`;
+            avatarHtml = `<div class="bg-white rounded-circle d-flex align-items-center justify-content-center border shadow-sm" style="width: 40px; height: 40px;"><img src="https://ui-avatars.com/api/?name=${formattedName}&background=da5586&color=fff" class="rounded-circle" width="40" height="40"></div>`;
         }
 
         const isActive = (!cus.status || cus.status === "Active");
@@ -170,27 +171,34 @@ function setupSearchAndSort() {
     });
 }
 
+// ==========================================
+// Modal එකට දත්ත යවන කොටස (මෙතනයි සම්පූර්ණයෙන්ම හැදුවේ)
+// ==========================================
 window.viewCustomer = function(customerId) {
     const cus = allCustomers.find(c => c.id === customerId);
     if (!cus) return;
 
+    // 1. Profile පින්තූරය හැදීම
     let avatarHtml = "";
-    if (cus.photoUrl && cus.photoUrl !== "null" && cus.photoUrl.trim() !== "") {
-        avatarHtml = `<img src="${cus.photoUrl}" class="rounded-circle shadow-sm mx-auto mb-3" width="80" height="80" style="object-fit: cover;">`;
+    if (cus.profile_img && cus.profile_img !== "null" && cus.profile_img.trim() !== "") {
+        avatarHtml = `<img src="${cus.profile_img}" class="rounded-circle shadow-sm mx-auto mb-3" width="80" height="80" style="object-fit: cover;">`;
     } else {
         const formattedName = encodeURIComponent((cus.fname || "U") + " " + (cus.lname || ""));
         avatarHtml = `<img src="https://ui-avatars.com/api/?name=${formattedName}&background=da5586&color=fff" class="rounded-circle shadow-sm mx-auto mb-3" width="80" height="80" style="object-fit: cover;">`;
     }
     
-    const profileImageContainer = document.querySelector("#customerProfileModal .col-lg-4 .bg-white.rounded-circle");
-    if(profileImageContainer){
-        profileImageContainer.outerHTML = avatarHtml;
+    // පින්තූරය HTML එකට දැමීම (මේකෙන් කවදාවත් error එන්නේ නෑ)
+    let imgContainer = document.querySelector("#customerProfileModal .col-lg-4 .card > div.rounded-circle") || 
+                       document.querySelector("#customerProfileModal .col-lg-4 .card > img.rounded-circle");
+    if(imgContainer){
+        imgContainer.outerHTML = avatarHtml;
     }
 
-
+    // 2. නම සහ ID එක
     document.querySelector("#customerProfileModal h5.mb-1").innerText = `${cus.fname || ""} ${cus.lname || ""}`;
     document.querySelector("#customerProfileModal p.text-muted.mb-3").innerText = `Customer ID: #${cus.id.substring(0,8)}`;
     
+    // 3. Status Badge එක
     const statusBadge = document.querySelector("#customerProfileModal .col-lg-4 .badge");
     if(statusBadge){
          const isActive = (!cus.status || cus.status === "Active");
@@ -203,20 +211,41 @@ window.viewCustomer = function(customerId) {
          }
     }
 
+    // 4. Contact Details සහ Address
     const infoParagraphs = document.querySelectorAll("#customerProfileModal .text-start p");
-    infoParagraphs[0].innerHTML = `<i class="fas fa-envelope text-secondary me-2"></i> ${cus.email || "N/A"}`;
-    infoParagraphs[1].innerHTML = `<i class="fas fa-phone-alt text-secondary me-2"></i> ${cus.contact_no || "N/A"}`;
-    
-    const joinedDate = cus.createdAt ? new Date(cus.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' }) : "N/A";
-    infoParagraphs[2].innerHTML = `<i class="fas fa-calendar-alt text-secondary me-2"></i> Joined: ${joinedDate}`;
+    if(infoParagraphs.length >= 4) {
+        infoParagraphs[0].innerHTML = `<i class="fas fa-envelope text-secondary me-2"></i> ${cus.email || "N/A"}`;
+        infoParagraphs[1].innerHTML = `<i class="fas fa-phone-alt text-secondary me-2"></i> ${cus.contact_no || "N/A"}`;
+        
+        const joinedDate = cus.createdAt ? new Date(cus.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' }) : "N/A";
+        infoParagraphs[2].innerHTML = `<i class="fas fa-calendar-alt text-secondary me-2"></i> Joined: ${joinedDate}`;
 
+        // Address එක Update කිරීම (DB එකේ Address එකක් නැත්නම් "Not provided" වැටෙනවා)
+        let addressText = "Address not provided.";
+        if (cus.address && cus.address.trim() !== "") {
+            addressText = cus.address;
+            if(cus.city) addressText += `<br>${cus.city}`;
+        } 
+        infoParagraphs[3].innerHTML = addressText;
+    }
+
+    // 5. Total Orders, Spent සහ Average
     const statCards = document.querySelectorAll("#customerProfileModal .col-lg-8 .row h4");
-    statCards[0].innerText = cus.totalOrders || 0;
-    statCards[1].innerText = `Rs. ${(cus.totalSpent || 0).toLocaleString()}`;
-    
-    const avg = cus.totalOrders > 0 ? (cus.totalSpent / cus.totalOrders) : 0;
-    statCards[2].innerText = `Rs. ${avg.toLocaleString()}`;
+    if (statCards.length >= 3) {
+        statCards[0].innerText = cus.totalOrders || 0;
+        statCards[1].innerText = `Rs. ${(cus.totalSpent || 0).toLocaleString()}`;
+        
+        const avg = cus.totalOrders > 0 ? (cus.totalSpent / cus.totalOrders) : 0;
+        statCards[2].innerText = `Rs. ${avg.toLocaleString()}`;
+    }
 
+    // 6. Recent Orders Table (බොරු දත්ත අයින් කරලා හරියටම පණිවිඩයක් දෙනවා)
+    const recentOrdersTbody = document.querySelector("#customerProfileModal .table tbody");
+    if(recentOrdersTbody) {
+        recentOrdersTbody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-muted" style="font-size: 13px;">Please check the Orders Management page for full order history.</td></tr>`;
+    }
+
+    // Modal එක පෙන්වනවා
     const modal = new bootstrap.Modal(document.getElementById('customerProfileModal'));
     modal.show();
 }
