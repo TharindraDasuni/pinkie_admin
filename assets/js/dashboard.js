@@ -1,8 +1,32 @@
 document.addEventListener('DOMContentLoaded', function () {
+    setupMonthSelect();
     loadDashboardStats();
 });
 
 let salesChart;
+
+// මාස Dropdown එකට Current Data දාන Function එක
+function setupMonthSelect() {
+    const monthSelect = document.querySelector("select.form-select.glass-input-pink");
+    if (!monthSelect) return;
+
+    monthSelect.innerHTML = ""; // Clear Dummy Options
+    const today = new Date();
+    
+    for (let i = 0; i < 5; i++) {
+        const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
+        const monthName = d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+        const option = document.createElement("option");
+        option.value = monthName;
+        option.text = monthName;
+        monthSelect.appendChild(option);
+    }
+
+    // Dropdown එක වෙනස් කරද්දි Chart එක පොඩ්ඩක් animate වෙනවා පෙන්නන්න
+    monthSelect.addEventListener("change", function() {
+        loadDashboardStats(); 
+    });
+}
 
 async function loadDashboardStats() {
     try {
@@ -21,7 +45,7 @@ async function loadDashboardStats() {
         if (response.ok && result.success) {
             const data = result.data;
 
-            // 1. Update Summary Cards (H3 tags)
+            // 1. Update H3 tags (Summary Cards)
             const statCards = document.querySelectorAll(".dash-card h3");
             if (statCards.length >= 4) {
                 statCards[0].innerText = `Rs. ${(data.totalRevenue || 0).toLocaleString()}`;
@@ -30,7 +54,7 @@ async function loadDashboardStats() {
                 statCards[3].innerText = (data.pendingOrders || 0).toLocaleString();
             }
 
-            // 2. Update Percentages (Growth)
+            // 2. Update Growth Percentages
             updateGrowthUI(0, data.revGrowth);
             updateGrowthUI(1, data.ordGrowth);
             updateGrowthUI(2, data.cusGrowth);
@@ -57,14 +81,12 @@ async function loadDashboardStats() {
     }
 }
 
-// Function to update the percentage arrow and color
 function updateGrowthUI(index, growthValue) {
     const spanElements = document.querySelectorAll(".dash-card p.mb-0 span.fw-bold");
     if(spanElements[index]) {
         const span = spanElements[index];
         const isPositive = growthValue >= 0;
         
-        // Use specific colors: Green for up, Red for down
         const textClass = isPositive ? "text-success" : "text-danger";
         const iconClass = isPositive ? "fa-arrow-up" : "fa-arrow-down";
         
@@ -118,14 +140,9 @@ function renderSalesChart(labels, dataPoints) {
             scales: {
                 y: {
                     beginAtZero: true,
-                    grid: {
-                        borderDash: [5, 5],
-                        color: 'rgba(0, 0, 0, 0.05)'
-                    },
+                    grid: { borderDash: [5, 5], color: 'rgba(0, 0, 0, 0.05)' },
                     ticks: {
-                        callback: function (value) {
-                            return value >= 1000 ? (value / 1000) + 'k' : value;
-                        },
+                        callback: function (value) { return value >= 1000 ? (value / 1000) + 'k' : value; },
                         color: '#6c757d'
                     },
                     border: { display: false }
@@ -147,7 +164,7 @@ function renderTopProducts(products) {
     topProductsContainer.innerHTML = ""; 
 
     if (!products || products.length === 0) {
-        topProductsContainer.innerHTML = `<p class="text-muted text-center w-100">No product sales data available yet.</p>`;
+        topProductsContainer.innerHTML = `<div class="col-12 py-4"><p class="text-muted m-0">No product sales data available yet.</p></div>`;
         return;
     }
 
@@ -158,7 +175,7 @@ function renderTopProducts(products) {
                     <img src="${prod.image}" class="img-fluid" style="max-height: 80px; object-fit: contain;">
                 </div>
                 <h6 class="fw-bold text-dark mb-1 text-truncate" style="font-size: 14px;" title="${prod.name}">${prod.name}</h6>
-                <p class="text-muted m-0" style="font-size: 12px;">${prod.qty} Sold</p>
+                <p class="text-muted m-0" style="font-size: 12px;">${prod.qty} Pcs Sold</p>
             </div>
         `;
         topProductsContainer.innerHTML += prodHtml;
