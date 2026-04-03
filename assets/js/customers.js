@@ -223,7 +223,6 @@ window.viewCustomer = function(customerId) {
         const joinedDate = cus.createdAt ? new Date(cus.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' }) : "N/A";
         infoParagraphs[2].innerHTML = `<i class="fas fa-calendar-alt text-secondary me-2"></i> Joined: ${joinedDate}`;
 
-        // Address එක අලුත් addressMap එකෙන් ගන්නවා
         let addressText = "Address not provided.";
         if (cus.addressMap) {
             let parts = [];
@@ -247,9 +246,43 @@ window.viewCustomer = function(customerId) {
         statCards[2].innerText = `Rs. ${avg.toLocaleString()}`;
     }
 
+    // අලුතින් ලිව්ව Recent Orders Load වෙන කොටස
     const recentOrdersTbody = document.querySelector("#customerProfileModal .table tbody");
     if(recentOrdersTbody) {
-        recentOrdersTbody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-muted" style="font-size: 13px;">Please check the Orders Management page for full order history.</td></tr>`;
+        recentOrdersTbody.innerHTML = ""; // පරණ dummy data clear කරනවා
+
+        if (cus.recentOrders && cus.recentOrders.length > 0) {
+            cus.recentOrders.forEach(order => {
+                const orderId = order.orderId || "N/A";
+                const orderDate = order.orderDate ? new Date(order.orderDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' }) : "N/A";
+                const itemsCount = order.items && Array.isArray(order.items) ? order.items.length : 0;
+                const total = order.finalTotal || order.total || order.subtotal || 0;
+                
+                let statusClass = "bg-warning text-dark"; // Default - Pending/Processing
+                const statusStr = order.status || "Pending";
+                
+                if (statusStr.toLowerCase() === "delivered" || statusStr.toLowerCase() === "completed") {
+                    statusClass = "bg-success text-white";
+                } else if (statusStr.toLowerCase() === "cancelled") {
+                    statusClass = "bg-danger text-white";
+                }
+
+                const rowHtml = `
+                    <tr>
+                        <td class="ps-3 py-2 fw-bold text-dark" style="font-size: 13px;">#${orderId.substring(0,8)}</td>
+                        <td class="py-2 text-muted" style="font-size: 13px;">${orderDate}</td>
+                        <td class="py-2 text-muted" style="font-size: 13px;">${itemsCount} Items</td>
+                        <td class="py-2 fw-bold text-pinkie" style="font-size: 13px;">Rs. ${total.toLocaleString()}</td>
+                        <td class="py-2 text-center">
+                            <span class="badge ${statusClass} px-2 rounded-pill" style="font-size: 11px;">${statusStr}</span>
+                        </td>
+                    </tr>
+                `;
+                recentOrdersTbody.innerHTML += rowHtml;
+            });
+        } else {
+            recentOrdersTbody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-muted" style="font-size: 13px;">No recent orders found for this customer.</td></tr>`;
+        }
     }
 
     const modal = new bootstrap.Modal(document.getElementById('customerProfileModal'));
