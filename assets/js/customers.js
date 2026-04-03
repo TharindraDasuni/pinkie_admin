@@ -246,10 +246,9 @@ window.viewCustomer = function(customerId) {
         statCards[2].innerText = `Rs. ${avg.toLocaleString()}`;
     }
 
-    // අලුතින් ලිව්ව Recent Orders Load වෙන කොටස
     const recentOrdersTbody = document.querySelector("#customerProfileModal .table tbody");
     if(recentOrdersTbody) {
-        recentOrdersTbody.innerHTML = ""; // පරණ dummy data clear කරනවා
+        recentOrdersTbody.innerHTML = "";
 
         if (cus.recentOrders && cus.recentOrders.length > 0) {
             cus.recentOrders.forEach(order => {
@@ -258,7 +257,7 @@ window.viewCustomer = function(customerId) {
                 const itemsCount = order.items && Array.isArray(order.items) ? order.items.length : 0;
                 const total = order.finalTotal || order.total || order.subtotal || 0;
                 
-                let statusClass = "bg-warning text-dark"; // Default - Pending/Processing
+                let statusClass = "bg-warning text-dark";
                 const statusStr = order.status || "Pending";
                 
                 if (statusStr.toLowerCase() === "delivered" || statusStr.toLowerCase() === "completed") {
@@ -295,25 +294,20 @@ window.exportToPDF = function() {
         return;
     }
 
-    // Initialize jsPDF
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    // Report Title
     doc.setFontSize(18);
     doc.setTextColor(40, 40, 40);
     doc.text("Pinkie Store - Customers Report", 14, 22);
 
-    // Current Date
     doc.setFontSize(11);
     doc.setTextColor(100);
     const dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
     doc.text(`Generated on: ${dateStr}`, 14, 30);
 
-    // Define Table Columns
     const tableColumns = ["ID", "Full Name", "Email", "Phone", "Joined Date", "Orders", "Spent (Rs.)", "Status"];
     
-    // Define Table Rows by mapping allCustomers array
     const tableRows = allCustomers.map(cus => {
         const cusFName = cus.firstName || cus.fname || "";
         const cusLName = cus.lastName || cus.lname || "";
@@ -332,14 +326,13 @@ window.exportToPDF = function() {
         ];
     });
 
-    // Generate Table using AutoTable plugin
     doc.autoTable({
         startY: 36,
         head: [tableColumns],
         body: tableRows,
         theme: 'grid',
         headStyles: { 
-            fillColor: [218, 85, 134], // Pinkie theme color
+            fillColor: [218, 85, 134],
             textColor: 255,
             fontStyle: 'bold'
         },
@@ -348,10 +341,9 @@ window.exportToPDF = function() {
             cellPadding: 3
         },
         alternateRowStyles: {
-            fillColor: [250, 240, 245] // Very light pink for alternate rows
+            fillColor: [250, 240, 245]
         }
     });
 
-    // Save the PDF
     doc.save(`Pinkie_Customers_${dateStr.replace(/ /g, "_")}.pdf`);
 }
