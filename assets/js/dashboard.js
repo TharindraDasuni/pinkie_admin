@@ -181,7 +181,7 @@ function renderTopProducts(products) {
                 <div class="product-img-box glass-input-pink rounded-4 mb-3 p-3 border-0 d-flex justify-content-center align-items-center" style="height: 110px;">
                     <img src="${prod.image}" class="img-fluid" style="max-height: 80px; object-fit: contain;">
                 </div>
-                <h6 class="fw-bold text-dark mb-1 text-truncate" style="font-size: 14px;" title="${prod.name}">${prod.name}</h6>
+                <h6 class="fw-bold text-dark mb-1 text-truncate" style="font-size: 14px;" title="${prod.title}">${prod.title}</h6>
                 <p class="text-muted m-0" style="font-size: 12px;">${prod.qty} Pcs Sold</p>
             </div>
         `;
