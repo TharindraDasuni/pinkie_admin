@@ -246,10 +246,9 @@ window.viewCustomer = function(customerId) {
         statCards[2].innerText = `Rs. ${avg.toLocaleString()}`;
     }
 
-    // අලුතින් ලිව්ව Recent Orders Load වෙන කොටස
     const recentOrdersTbody = document.querySelector("#customerProfileModal .table tbody");
     if(recentOrdersTbody) {
-        recentOrdersTbody.innerHTML = ""; // පරණ dummy data clear කරනවා
+        recentOrdersTbody.innerHTML = "";
 
         if (cus.recentOrders && cus.recentOrders.length > 0) {
             cus.recentOrders.forEach(order => {
@@ -258,7 +257,7 @@ window.viewCustomer = function(customerId) {
                 const itemsCount = order.items && Array.isArray(order.items) ? order.items.length : 0;
                 const total = order.finalTotal || order.total || order.subtotal || 0;
                 
-                let statusClass = "bg-warning text-dark"; // Default - Pending/Processing
+                let statusClass = "bg-warning text-dark";
                 const statusStr = order.status || "Pending";
                 
                 if (statusStr.toLowerCase() === "delivered" || statusStr.toLowerCase() === "completed") {
@@ -287,4 +286,64 @@ window.viewCustomer = function(customerId) {
 
     const modal = new bootstrap.Modal(document.getElementById('customerProfileModal'));
     modal.show();
+}
+
+window.exportToPDF = function() {
+    if (allCustomers.length === 0) {
+        Swal.fire('Info', 'No customers data available to export.', 'info');
+        return;
+    }
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.setTextColor(40, 40, 40);
+    doc.text("Pinkie Store - Customers Report", 14, 22);
+
+    doc.setFontSize(11);
+    doc.setTextColor(100);
+    const dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
+    doc.text(`Generated on: ${dateStr}`, 14, 30);
+
+    const tableColumns = ["ID", "Full Name", "Email", "Phone", "Joined Date", "Orders", "Spent (Rs.)", "Status"];
+    
+    const tableRows = allCustomers.map(cus => {
+        const cusFName = cus.firstName || cus.fname || "";
+        const cusLName = cus.lastName || cus.lname || "";
+        const joinedDate = cus.createdAt ? new Date(cus.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' }) : "N/A";
+        const statusStr = (!cus.status || cus.status === "Active") ? "Active" : "Banned";
+
+        return [
+            cus.id.substring(0, 8),
+            `${cusFName} ${cusLName}`.trim(),
+            cus.email || "N/A",
+            cus.mobile || cus.contact_no || cus.phone || "N/A",
+            joinedDate,
+            cus.totalOrders || 0,
+            (cus.totalSpent || 0).toLocaleString(),
+            statusStr
+        ];
+    });
+
+    doc.autoTable({
+        startY: 36,
+        head: [tableColumns],
+        body: tableRows,
+        theme: 'grid',
+        headStyles: { 
+            fillColor: [218, 85, 134],
+            textColor: 255,
+            fontStyle: 'bold'
+        },
+        styles: { 
+            fontSize: 9,
+            cellPadding: 3
+        },
+        alternateRowStyles: {
+            fillColor: [250, 240, 245]
+        }
+    });
+
+    doc.save(`Pinkie_Customers_${dateStr.replace(/ /g, "_")}.pdf`);
 }
