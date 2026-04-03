@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
     setupMonthSelect();
+    setupViewAllButton(); // View all button එකට පණ දෙනවා
 });
 
 let salesChart;
+let allTopProducts = []; // සියලුම භාණ්ඩ තබාගන්නා Variable එක
 
 function setupMonthSelect() {
     const monthSelect = document.querySelector("select.form-select.glass-input-pink");
@@ -20,25 +22,32 @@ function setupMonthSelect() {
         monthSelect.appendChild(option);
     }
 
-    // Dropdown එක වෙනස් කල ගමන් Data අලුතෙන් Load වෙනවා
     monthSelect.addEventListener("change", function() {
         loadDashboardStats(); 
     });
 
-    // Initial Load
     loadDashboardStats();
+}
+
+// "View All" Button Click Event එක
+function setupViewAllButton() {
+    const viewAllBtn = document.querySelector(".card.dash-card a.text-decoration-none");
+    if (viewAllBtn) {
+        viewAllBtn.addEventListener("click", function(e) {
+            e.preventDefault(); // පිටුව උඩට පනින එක නවත්තනවා
+            showAllProductsModal(); // Modal එක Open කරනවා
+        });
+    }
 }
 
 async function loadDashboardStats() {
     try {
         const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
         
-        // තෝරාගත් මාසය අරගන්නවා
         const monthSelect = document.querySelector("select.form-select.glass-input-pink");
         let selectedMonth = monthSelect ? monthSelect.value : "";
         let queryParams = selectedMonth ? `?monthYear=${encodeURIComponent(selectedMonth)}` : "";
 
-        // URL එකට මාසය යවනවා
         const response = await fetch(`http://localhost:8080/api/dashboard/stats${queryParams}`, {
             method: "GET",
             headers: {
@@ -52,7 +61,9 @@ async function loadDashboardStats() {
         if (response.ok && result.success) {
             const data = result.data;
 
-            // 1. Update H3 tags (Summary Cards)
+            // Global variable එකට සියලුම භාණ්ඩ ටික සේව් කරනවා
+            allTopProducts = data.allProducts || [];
+
             const statCards = document.querySelectorAll(".dash-card h3");
             if (statCards.length >= 4) {
                 statCards[0].innerText = `Rs. ${(data.totalRevenue || 0).toLocaleString()}`;
@@ -61,12 +72,10 @@ async function loadDashboardStats() {
                 statCards[3].innerText = (data.pendingOrders || 0).toLocaleString();
             }
 
-            // 2. Update Percentages
             updateGrowthUI(0, data.revGrowth);
             updateGrowthUI(1, data.ordGrowth);
             updateGrowthUI(2, data.cusGrowth);
 
-            // 3. Update Income, Expenses, Balance
             const analyticValues = document.querySelectorAll(".card .row.mb-3 h4.fw-bold");
             if(analyticValues.length >= 3) {
                 analyticValues[0].innerText = `Rs. ${(data.income || 0).toLocaleString()}`;
@@ -74,11 +83,8 @@ async function loadDashboardStats() {
                 analyticValues[2].innerText = `Rs. ${(data.balance || 0).toLocaleString()}`;
             }
 
-            // 4. Render Chart
             renderSalesChart(data.chartLabels, data.chartData);
-
-            // 5. Render Top Products
-            renderTopProducts(data.topProducts);
+            renderTopProducts(data.topProducts); // Card වලට Top 6 විතරක් යවනවා
 
         } else {
             console.error("Failed to load dashboard stats", result.message);
@@ -136,27 +142,18 @@ function renderSalesChart(labels, dataPoints) {
             maintainAspectRatio: false,
             plugins: {
                 legend: { display: false },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            return ' Rs. ' + context.raw.toLocaleString();
-                        }
-                    }
-                }
+                tooltip: { callbacks: { label: function(context) { return ' Rs. ' + context.raw.toLocaleString(); } } }
             },
             scales: {
                 y: {
                     beginAtZero: true,
                     grid: { borderDash: [5, 5], color: 'rgba(0, 0, 0, 0.05)' },
-                    ticks: {
-                        callback: function (value) { return value >= 1000 ? (value / 1000) + 'k' : value; },
-                        color: '#6c757d'
-                    },
+                    ticks: { callback: function (value) { return value >= 1000 ? (value / 1000) + 'k' : value; }, color: '#6c757d' },
                     border: { display: false }
                 },
                 x: {
                     grid: { display: false },
-                    ticks: { color: '#6c757d', maxTicksLimit: 10 }, // දවස් 30ක් නිසා ටිකක් අඩු කරලා පෙන්නනවා
+                    ticks: { color: '#6c757d', maxTicksLimit: 10 },
                     border: { display: false }
                 }
             }
@@ -171,12 +168,11 @@ function renderTopProducts(products) {
     topProductsContainer.innerHTML = ""; 
 
     if (!products || products.length === 0) {
-        topProductsContainer.innerHTML = `<div class="col-12 py-4"><p class="text-muted m-0">No product sales data available yet.</p></div>`;
+        topProductsContainer.innerHTML = `<div class="col-12 py-4"><p class="text-muted m-0">No product sales data available.</p></div>`;
         return;
     }
 
     products.forEach(prod => {
-        // Backend එකෙන් කෙලින්ම name, image සහ qty අරගන්නවා
         const prodName = prod.name || "Unknown Item";
         const prodImage = prod.image || "https://cdn-icons-png.flaticon.com/512/1004/1004389.png";
         const prodQty = prod.qty || 0;
@@ -192,4 +188,74 @@ function renderTopProducts(products) {
         `;
         topProductsContainer.innerHTML += prodHtml;
     });
+}
+
+// Javascript මගින් Modal එක නිර්මාණය කර පෙන්වීම
+function showAllProductsModal() {
+    let modalEl = document.getElementById('allProductsModal');
+    
+    // Modal එක කලින් හදලා නැත්නම් විතරක් අලුතින් හදනවා
+    if (!modalEl) {
+        const modalHtml = `
+        <div class="modal fade" id="allProductsModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content glass-panel rounded-4 border-0 shadow-lg" style="backdrop-filter: blur(25px);">
+                    <div class="modal-header border-bottom-0 pb-2 px-4 pt-4">
+                        <h5 class="modal-title fw-bold text-dark m-0"><i class="fas fa-gem text-pinkie me-2"></i> All Selling Jewelry</h5>
+                        <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body px-4 pt-2 pb-4">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0 glass-table">
+                                <thead style="background: rgba(218,85,134,0.08);">
+                                    <tr>
+                                        <th scope="col" class="text-muted ps-3 py-2" style="font-size: 12px;">PRODUCT INFO</th>
+                                        <th scope="col" class="text-center text-muted py-2" style="font-size: 12px;">TOTAL SOLD</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="allProductsTableBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        modalEl = document.getElementById('allProductsModal');
+    }
+
+    // Modal එකේ Table එකට Data පුරවනවා
+    const tbody = document.getElementById('allProductsTableBody');
+    tbody.innerHTML = "";
+
+    if (allTopProducts.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="2" class="text-center py-4 text-muted">No products found.</td></tr>`;
+    } else {
+        allTopProducts.forEach((prod, index) => {
+            const prodName = prod.name || "Unknown Item";
+            const prodImage = prod.image || "https://cdn-icons-png.flaticon.com/512/1004/1004389.png";
+            const prodQty = prod.qty || 0;
+            
+            const row = `
+                <tr>
+                    <td class="ps-3 py-2">
+                        <div class="d-flex align-items-center">
+                            <span class="text-muted me-3 fw-bold" style="font-size: 14px;">#${index + 1}</span>
+                            <div class="product-img-box glass-input-pink rounded-3 p-2 me-3 border-0 d-flex justify-content-center align-items-center" style="width: 50px; height: 50px;">
+                                <img src="${prodImage}" style="max-height: 40px; object-fit: contain;">
+                            </div>
+                            <h6 class="fw-bold text-dark mb-0" style="font-size: 14px;">${prodName}</h6>
+                        </div>
+                    </td>
+                    <td class="text-center py-2 fw-bold text-pinkie" style="font-size: 14px;">${prodQty} Pcs</td>
+                </tr>
+            `;
+            tbody.innerHTML += row;
+        });
+    }
+
+    // Modal එක Open කරනවා
+    const modal = new bootstrap.Modal(modalEl);
+    modal.show();
 }
