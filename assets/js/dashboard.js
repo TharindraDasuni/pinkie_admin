@@ -171,17 +171,24 @@ function renderTopProducts(products) {
     topProductsContainer.innerHTML = ""; 
 
     if (!products || products.length === 0) {
-        topProductsContainer.innerHTML = `<div class="col-12 py-4"><p class="text-muted m-0">No product sales data available for this month.</p></div>`;
+        topProductsContainer.innerHTML = `<div class="col-12 py-4"><p class="text-muted m-0">No product sales data available yet.</p></div>`;
         return;
     }
 
+    // Console එකේ බලන්න දත්ත එන විදිහ
+    console.log("Top Products Data From Backend:", products);
+
     products.forEach(prod => {
+        // ඔයාගේ DB එකේ තියෙන්න පුළුවන් නම් ඔක්කොම මෙතනට දාලා තියෙන්නේ
+        const prodName = prod.name || prod.productName || prod.title || prod.item_name || "Unknown Item";
+        const prodImage = prod.image && prod.image !== "null" ? prod.image : "https://cdn-icons-png.flaticon.com/512/1004/1004389.png";
+        
         const prodHtml = `
             <div class="col-md-2 col-6">
                 <div class="product-img-box glass-input-pink rounded-4 mb-3 p-3 border-0 d-flex justify-content-center align-items-center" style="height: 110px;">
-                    <img src="${prod.image}" class="img-fluid" style="max-height: 80px; object-fit: contain;">
+                    <img src="${prodImage}" class="img-fluid" style="max-height: 80px; object-fit: contain;">
                 </div>
-                <h6 class="fw-bold text-dark mb-1 text-truncate" style="font-size: 14px;" title="${prod.title}">${prod.title}</h6>
+                <h6 class="fw-bold text-dark mb-1 text-truncate" style="font-size: 14px;" title="${prodName}">${prodName}</h6>
                 <p class="text-muted m-0" style="font-size: 12px;">${prod.qty} Pcs Sold</p>
             </div>
         `;
