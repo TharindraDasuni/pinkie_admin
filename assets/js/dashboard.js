@@ -175,13 +175,11 @@ function renderTopProducts(products) {
         return;
     }
 
-    // Console එකේ බලන්න දත්ත එන විදිහ
-    console.log("Top Products Data From Backend:", products);
-
     products.forEach(prod => {
-        // ඔයාගේ DB එකේ තියෙන්න පුළුවන් නම් ඔක්කොම මෙතනට දාලා තියෙන්නේ
-        const prodName = prod.name || prod.productName || prod.title || prod.item_name || "Unknown Item";
-        const prodImage = prod.image && prod.image !== "null" ? prod.image : "https://cdn-icons-png.flaticon.com/512/1004/1004389.png";
+        // Backend එකෙන් කෙලින්ම name, image සහ qty අරගන්නවා
+        const prodName = prod.name || "Unknown Item";
+        const prodImage = prod.image || "https://cdn-icons-png.flaticon.com/512/1004/1004389.png";
+        const prodQty = prod.qty || 0;
         
         const prodHtml = `
             <div class="col-md-2 col-6">
@@ -189,7 +187,7 @@ function renderTopProducts(products) {
                     <img src="${prodImage}" class="img-fluid" style="max-height: 80px; object-fit: contain;">
                 </div>
                 <h6 class="fw-bold text-dark mb-1 text-truncate" style="font-size: 14px;" title="${prodName}">${prodName}</h6>
-                <p class="text-muted m-0" style="font-size: 12px;">${prod.qty} Pcs Sold</p>
+                <p class="text-muted m-0" style="font-size: 12px;">${prodQty} Pcs Sold</p>
             </div>
         `;
         topProductsContainer.innerHTML += prodHtml;
