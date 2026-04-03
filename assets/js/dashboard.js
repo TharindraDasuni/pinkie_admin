@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     loadDashboardStats();
 });
 
-let salesChart; // Global variable for the chart
+let salesChart;
 
 async function loadDashboardStats() {
     try {
@@ -21,7 +21,7 @@ async function loadDashboardStats() {
         if (response.ok && result.success) {
             const data = result.data;
 
-            // 1. Update Summary Cards (Total Revenue, Orders, Customers, Pending)
+            // 1. Update Summary Cards (H3 tags)
             const statCards = document.querySelectorAll(".dash-card h3");
             if (statCards.length >= 4) {
                 statCards[0].innerText = `Rs. ${(data.totalRevenue || 0).toLocaleString()}`;
@@ -30,10 +30,23 @@ async function loadDashboardStats() {
                 statCards[3].innerText = (data.pendingOrders || 0).toLocaleString();
             }
 
-            // 2. Render Chart with real data
+            // 2. Update Percentages (Growth)
+            updateGrowthUI(0, data.revGrowth);
+            updateGrowthUI(1, data.ordGrowth);
+            updateGrowthUI(2, data.cusGrowth);
+
+            // 3. Update Income, Expenses, Balance
+            const analyticValues = document.querySelectorAll(".card .row.mb-3 h4.fw-bold");
+            if(analyticValues.length >= 3) {
+                analyticValues[0].innerText = `Rs. ${(data.income || 0).toLocaleString()}`;
+                analyticValues[1].innerText = `Rs. ${(data.expenses || 0).toLocaleString()}`;
+                analyticValues[2].innerText = `Rs. ${(data.balance || 0).toLocaleString()}`;
+            }
+
+            // 4. Render Chart 
             renderSalesChart(data.chartLabels, data.chartData);
 
-            // 3. Render Top Products
+            // 5. Render Top Products
             renderTopProducts(data.topProducts);
 
         } else {
@@ -44,10 +57,25 @@ async function loadDashboardStats() {
     }
 }
 
+// Function to update the percentage arrow and color
+function updateGrowthUI(index, growthValue) {
+    const spanElements = document.querySelectorAll(".dash-card p.mb-0 span.fw-bold");
+    if(spanElements[index]) {
+        const span = spanElements[index];
+        const isPositive = growthValue >= 0;
+        
+        // Use specific colors: Green for up, Red for down
+        const textClass = isPositive ? "text-success" : "text-danger";
+        const iconClass = isPositive ? "fa-arrow-up" : "fa-arrow-down";
+        
+        span.className = `${textClass} fw-bold`;
+        span.innerHTML = `<i class="fas ${iconClass}"></i> ${Math.abs(growthValue).toFixed(1)}%`;
+    }
+}
+
 function renderSalesChart(labels, dataPoints) {
     const ctx = document.getElementById('salesChart').getContext('2d');
 
-    // Destroy existing chart if it exists (to prevent overlap when reloading)
     if (salesChart) {
         salesChart.destroy();
     }
@@ -59,10 +87,10 @@ function renderSalesChart(labels, dataPoints) {
     salesChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: labels, // Data from Backend (e.g. ['22 July', '23 July'...])
+            labels: labels, 
             datasets: [{
                 label: 'Income (Rs.)',
-                data: dataPoints, // Data from Backend
+                data: dataPoints,
                 borderColor: '#da5586',
                 backgroundColor: gradient,
                 borderWidth: 3,
@@ -113,11 +141,10 @@ function renderSalesChart(labels, dataPoints) {
 }
 
 function renderTopProducts(products) {
-    // HTML එකේ Top Products පෙන්නන Row එක හොයාගන්නවා
     const topProductsContainer = document.querySelector(".row.g-4.text-center");
     if (!topProductsContainer) return;
 
-    topProductsContainer.innerHTML = ""; // පරණ dummy data මකනවා
+    topProductsContainer.innerHTML = ""; 
 
     if (!products || products.length === 0) {
         topProductsContainer.innerHTML = `<p class="text-muted text-center w-100">No product sales data available yet.</p>`;
