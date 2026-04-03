@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
     setupMonthSelect();
-    setupViewAllButton(); // View all button එකට පණ දෙනවා
+    setupViewAllButton();
 });
 
 let salesChart;
-let allTopProducts = []; // සියලුම භාණ්ඩ තබාගන්නා Variable එක
+let allTopProducts = [];
 
 function setupMonthSelect() {
     const monthSelect = document.querySelector("select.form-select.glass-input-pink");
@@ -29,13 +29,12 @@ function setupMonthSelect() {
     loadDashboardStats();
 }
 
-// "View All" Button Click Event එක
 function setupViewAllButton() {
     const viewAllBtn = document.querySelector(".card.dash-card a.text-decoration-none");
     if (viewAllBtn) {
         viewAllBtn.addEventListener("click", function(e) {
-            e.preventDefault(); // පිටුව උඩට පනින එක නවත්තනවා
-            showAllProductsModal(); // Modal එක Open කරනවා
+            e.preventDefault();
+            showAllProductsModal();
         });
     }
 }
@@ -61,7 +60,6 @@ async function loadDashboardStats() {
         if (response.ok && result.success) {
             const data = result.data;
 
-            // Global variable එකට සියලුම භාණ්ඩ ටික සේව් කරනවා
             allTopProducts = data.allProducts || [];
 
             const statCards = document.querySelectorAll(".dash-card h3");
@@ -84,7 +82,7 @@ async function loadDashboardStats() {
             }
 
             renderSalesChart(data.chartLabels, data.chartData);
-            renderTopProducts(data.topProducts); // Card වලට Top 6 විතරක් යවනවා
+            renderTopProducts(data.topProducts);
 
         } else {
             console.error("Failed to load dashboard stats", result.message);
@@ -190,11 +188,9 @@ function renderTopProducts(products) {
     });
 }
 
-// Javascript මගින් Modal එක නිර්මාණය කර පෙන්වීම
 function showAllProductsModal() {
     let modalEl = document.getElementById('allProductsModal');
     
-    // Modal එක කලින් හදලා නැත්නම් විතරක් අලුතින් හදනවා
     if (!modalEl) {
         const modalHtml = `
         <div class="modal fade" id="allProductsModal" tabindex="-1" aria-hidden="true">
@@ -225,7 +221,6 @@ function showAllProductsModal() {
         modalEl = document.getElementById('allProductsModal');
     }
 
-    // Modal එකේ Table එකට Data පුරවනවා
     const tbody = document.getElementById('allProductsTableBody');
     tbody.innerHTML = "";
 
@@ -255,7 +250,6 @@ function showAllProductsModal() {
         });
     }
 
-    // Modal එක Open කරනවා
     const modal = new bootstrap.Modal(modalEl);
     modal.show();
 }
