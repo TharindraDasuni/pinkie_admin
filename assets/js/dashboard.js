@@ -1,16 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
     setupMonthSelect();
-    loadDashboardStats();
 });
 
 let salesChart;
 
-// මාස Dropdown එකට Current Data දාන Function එක
 function setupMonthSelect() {
     const monthSelect = document.querySelector("select.form-select.glass-input-pink");
     if (!monthSelect) return;
 
-    monthSelect.innerHTML = ""; // Clear Dummy Options
+    monthSelect.innerHTML = ""; 
     const today = new Date();
     
     for (let i = 0; i < 5; i++) {
@@ -22,17 +20,26 @@ function setupMonthSelect() {
         monthSelect.appendChild(option);
     }
 
-    // Dropdown එක වෙනස් කරද්දි Chart එක පොඩ්ඩක් animate වෙනවා පෙන්නන්න
+    // Dropdown එක වෙනස් කල ගමන් Data අලුතෙන් Load වෙනවා
     monthSelect.addEventListener("change", function() {
         loadDashboardStats(); 
     });
+
+    // Initial Load
+    loadDashboardStats();
 }
 
 async function loadDashboardStats() {
     try {
         const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
+        
+        // තෝරාගත් මාසය අරගන්නවා
+        const monthSelect = document.querySelector("select.form-select.glass-input-pink");
+        let selectedMonth = monthSelect ? monthSelect.value : "";
+        let queryParams = selectedMonth ? `?monthYear=${encodeURIComponent(selectedMonth)}` : "";
 
-        const response = await fetch("http://localhost:8080/api/dashboard/stats", {
+        // URL එකට මාසය යවනවා
+        const response = await fetch(`http://localhost:8080/api/dashboard/stats${queryParams}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -54,7 +61,7 @@ async function loadDashboardStats() {
                 statCards[3].innerText = (data.pendingOrders || 0).toLocaleString();
             }
 
-            // 2. Update Growth Percentages
+            // 2. Update Percentages
             updateGrowthUI(0, data.revGrowth);
             updateGrowthUI(1, data.ordGrowth);
             updateGrowthUI(2, data.cusGrowth);
@@ -67,7 +74,7 @@ async function loadDashboardStats() {
                 analyticValues[2].innerText = `Rs. ${(data.balance || 0).toLocaleString()}`;
             }
 
-            // 4. Render Chart 
+            // 4. Render Chart
             renderSalesChart(data.chartLabels, data.chartData);
 
             // 5. Render Top Products
@@ -149,7 +156,7 @@ function renderSalesChart(labels, dataPoints) {
                 },
                 x: {
                     grid: { display: false },
-                    ticks: { color: '#6c757d' },
+                    ticks: { color: '#6c757d', maxTicksLimit: 10 }, // දවස් 30ක් නිසා ටිකක් අඩු කරලා පෙන්නනවා
                     border: { display: false }
                 }
             }
@@ -164,7 +171,7 @@ function renderTopProducts(products) {
     topProductsContainer.innerHTML = ""; 
 
     if (!products || products.length === 0) {
-        topProductsContainer.innerHTML = `<div class="col-12 py-4"><p class="text-muted m-0">No product sales data available yet.</p></div>`;
+        topProductsContainer.innerHTML = `<div class="col-12 py-4"><p class="text-muted m-0">No product sales data available for this month.</p></div>`;
         return;
     }
 
