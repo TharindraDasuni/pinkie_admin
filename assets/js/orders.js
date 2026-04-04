@@ -333,3 +333,104 @@ function exportToCSV() {
     link.click();
     document.body.removeChild(link);
 }
+
+// PDF Download Function for Orders
+window.exportToPDF = function() {
+    if (currentFilteredOrders.length === 0) {
+        Swal.fire('Info', 'No orders available to export.', 'info');
+        return;
+    }
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('landscape'); // Landscape mode for wider table
+
+    // Report Header
+    doc.setFontSize(18);
+    doc.setTextColor(40, 40, 40);
+    doc.text("Pinkie Store - Orders Report", 14, 22);
+
+    doc.setFontSize(11);
+    doc.setTextColor(100);
+    const dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
+    doc.text(`Generated on: ${dateStr}`, 14, 30);
+    
+    // Add active filters info
+    const statusFilter = document.getElementById('filter-status').value;
+    const dateFilter = document.getElementById('filter-date').value;
+    let filterText = "Filters applied: ";
+    filterText += statusFilter !== 'All' ? `Status - ${statusFilter}, ` : "Status - All, ";
+    filterText += dateFilter ? `Date - ${dateFilter}` : "Date - All";
+    
+    doc.setFontSize(9);
+    doc.setTextColor(150);
+    doc.text(filterText, 14, 36);
+
+    // Table Columns
+    const tableColumns = ["Order ID", "Date & Time", "Customer Name", "Phone", "Location", "Items", "Total (Rs.)", "Payment", "Status"];
+    
+    // Table Rows
+    const tableRows = currentFilteredOrders.map(order => {
+        const dateObj = new Date(order.orderDate);
+        const dateStr = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        const timeStr = dateObj.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+        
+        const cusName = order.shippingAddress ? order.shippingAddress.fullName : 'N/A';
+        const phone = order.shippingAddress ? order.shippingAddress.phone : 'N/A';
+        const city = order.shippingAddress ? order.shippingAddress.city : 'N/A';
+        
+        const itemsCount = order.items ? order.items.length : 0;
+        
+        return [
+            "#" + order.orderId.substring(0, 8),
+            `${dateStr}\n${timeStr}`,
+            cusName,
+            phone,
+            city,
+            itemsCount,
+            (order.finalTotal || 0).toLocaleString(),
+            order.paymentMethod || "N/A",
+            order.status || "Pending"
+        ];
+    });
+
+    // Generate Table using AutoTable
+    doc.autoTable({
+        startY: 42,
+        head: [tableColumns],
+        body: tableRows,
+        theme: 'grid',
+        headStyles: { 
+            fillColor: [218, 85, 134], // Pinkie theme color
+            textColor: 255,
+            fontStyle: 'bold',
+            halign: 'center'
+        },
+        columnStyles: {
+            0: { fontStyle: 'bold' },
+            6: { halign: 'right', fontStyle: 'bold', textColor: [218, 85, 134] },
+            7: { halign: 'center' },
+            8: { halign: 'center' }
+        },
+        styles: { 
+            fontSize: 9,
+            cellPadding: 3,
+            valign: 'middle'
+        },
+        alternateRowStyles: {
+            fillColor: [250, 240, 245] 
+        }
+    });
+
+    // Save File
+    const fileName = `Pinkie_Orders_${dateStr.replace(/ /g, "_")}.pdf`;
+    doc.save(fileName);
+
+    Swal.fire({
+        icon: 'success',
+        title: 'PDF Exported!',
+        text: 'Orders list downloaded successfully.',
+        confirmButtonColor: '#da5586',
+        timer: 2000,
+        showConfirmButton: false
+    });
+}
