@@ -32,51 +32,6 @@
 
                     <div class="col-lg-8">
 
-                        <div class="card glass-panel rounded-4 p-4 border-0 mb-4">
-                            <h6 class="fw-bold text-dark mb-4"><i class="fas fa-store text-pinkie me-2"></i>Store
-                                Information</h6>
-                            <form>
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label text-muted fw-bold" style="font-size: 13px;">Store
-                                            Name</label>
-                                        <input type="text" class="form-control glass-input-pink rounded-pill px-3 py-2"
-                                            value="Pinkie Jewelry Store">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label text-muted fw-bold" style="font-size: 13px;">Support
-                                            Email</label>
-                                        <input type="email" class="form-control glass-input-pink rounded-pill px-3 py-2"
-                                            value="support@pinkiejewelry.com">
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label text-muted fw-bold" style="font-size: 13px;">Phone
-                                            Number</label>
-                                        <input type="text" class="form-control glass-input-pink rounded-pill px-3 py-2"
-                                            value="+94 11 234 5678">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label text-muted fw-bold"
-                                            style="font-size: 13px;">Currency</label>
-                                        <select class="form-select glass-input-pink rounded-pill px-3 py-2">
-                                            <option value="LKR" selected>LKR (Rs)</option>
-                                            <option value="USD">USD ($)</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="mb-4">
-                                    <label class="form-label text-muted fw-bold" style="font-size: 13px;">Store
-                                        Address</label>
-                                    <textarea class="form-control glass-input-pink rounded-4 px-3 py-2"
-                                        rows="2">No 45, High Level Road, Nugegoda, Sri Lanka.</textarea>
-                                </div>
-                                <button type="button" class="btn btn-pinkie rounded-pill px-4 fw-bold"
-                                    onclick="saveSettings('Store Information')">Save Changes</button>
-                            </form>
-                        </div>
-
                         <div class="card glass-panel rounded-4 p-4 border-0">
                             <h6 class="fw-bold text-dark mb-4"><i class="fas fa-bell text-pinkie me-2"></i>Notification
                                 Preferences</h6>
@@ -137,19 +92,6 @@
                             </div>
                             <button type="button" class="btn btn-outline-pinkie w-100 rounded-pill fw-bold"
                                 onclick="saveSettings('Admin Profile')">Update Profile</button>
-                        </div>
-
-                        <div class="card glass-panel rounded-4 p-4 border-0 mb-4 text-center">
-                            <h6 class="fw-bold text-dark mb-3 text-start"><i
-                                    class="fas fa-image text-pinkie me-2"></i>Store Logo</h6>
-                            <div class="bg-white rounded-4 shadow-sm mx-auto mb-3 d-flex align-items-center justify-content-center"
-                                style="width: 120px; height: 120px; overflow: hidden; border: 2px solid rgba(218,85,134,0.3);">
-                                <img src="assets/images/logo_without_bc.png" alt="Store Logo"
-                                    style="width: 80%; object-fit: contain;">
-                            </div>
-                            <button class="btn btn-outline-pinkie rounded-pill w-100 fw-bold btn-sm mb-2"
-                                onclick="document.getElementById('logoUpload').click()">Change Logo</button>
-                            <input type="file" id="logoUpload" class="d-none" accept="image/*">
                         </div>
 
                         <div class="card glass-panel rounded-4 p-4 border-0">
