@@ -4,14 +4,48 @@ let currentProfileImageBase64 = null; // පින්තූරය තියා�
 document.addEventListener("DOMContentLoaded", function () {
     loadAdminSettings();
 
-    // Image Upload Preview Logic
+    // (පරණ Image Upload Preview Logic එක මකලා මේක දාන්න)
     document.getElementById('adminImageUpload').addEventListener('change', function(e) {
         const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = function(event) {
-                document.getElementById('admin-profile-img').src = event.target.result;
-                currentProfileImageBase64 = event.target.result; // Data එක save කරගන්නවා
+                // Image එක Compress කිරීම සඳහා Canvas එකක් භාවිතා කිරීම
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    
+                    // උපරිම පළල සහ උස (250px)
+                    const MAX_WIDTH = 250;
+                    const MAX_HEIGHT = 250;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // Image එක JPEG format එකෙන් 70% quality එකට compress කිරීම
+                    const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+
+                    // Compress කරපු Image එක Preview එකට සහ Variable එකට සෙට් කිරීම
+                    document.getElementById('admin-profile-img').src = compressedBase64;
+                    currentProfileImageBase64 = compressedBase64; 
+                };
+                img.src = event.target.result;
             }
             reader.readAsDataURL(file);
         }
