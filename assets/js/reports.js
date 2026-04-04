@@ -1,19 +1,17 @@
 let salesBarChart;
 let categoryDoughnutChart;
-let currentReportData = null; // PDF එකට Data තියාගන්න
+let currentReportData = null;
 
 document.addEventListener("DOMContentLoaded", function () {
     setDefaultDates();
-    fetchReportData(); // Initial Load
+    fetchReportData();
 
-    // Generate Button Click Event
     const generateBtn = document.querySelector(".btn-outline-pinkie");
     if (generateBtn) {
         generateBtn.addEventListener("click", fetchReportData);
     }
 });
 
-// අද දවස සහ දවස් 7කට කලින් දවස Input වලට Set කිරීම
 function setDefaultDates() {
     const today = new Date();
     const lastWeek = new Date();
@@ -34,7 +32,6 @@ async function fetchReportData() {
         const startDate = dateInputs[0].value;
         const endDate = dateInputs[1].value;
 
-        // Loading පෙන්වීම
         Swal.fire({ title: 'Generating Report...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
 
         const response = await fetch(`http://localhost:8080/api/reports/generate?startDate=${startDate}&endDate=${endDate}`, {
@@ -107,7 +104,6 @@ function renderDoughnutChart(labels, data) {
     const ctxCategory = document.getElementById('categoryChart').getContext('2d');
     if (categoryDoughnutChart) categoryDoughnutChart.destroy();
 
-    // Default colors for categories
     const colors = ['#da5586', '#f29abf', '#ffcadf', '#6c757d', '#343a40', '#adb5bd'];
 
     categoryDoughnutChart = new Chart(ctxCategory, {
@@ -141,7 +137,7 @@ function renderTopProductsTable(products) {
     }
 
     products.forEach((prod, index) => {
-        const idStr = `100${index + 1}`; // Generating a simple display ID
+        const idStr = `100${index + 1}`;
         const row = `
             <tr style="border-radius: 10px;">
                 <td class="fw-bold text-muted ps-3">${idStr}</td>
@@ -162,7 +158,6 @@ function renderTopProductsTable(products) {
     });
 }
 
-// PDF Download Function (Uses real Data!)
 window.downloadReport = function() {
     if (!currentReportData) {
         Swal.fire("Warning", "Please generate the report first.", "warning");
@@ -176,7 +171,6 @@ window.downloadReport = function() {
     const startDate = dateInputs[0].value;
     const endDate = dateInputs[1].value;
 
-    // Report Header
     doc.setFontSize(18);
     doc.setTextColor(40, 40, 40);
     doc.text("Pinkie Store - Sales & Performance Report", 14, 22);
@@ -186,9 +180,8 @@ window.downloadReport = function() {
     doc.text(`Report Period: ${startDate} to ${endDate}`, 14, 30);
     doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 36);
 
-    // Summary Section
     doc.setFontSize(13);
-    doc.setTextColor(218, 85, 134); // Pinkie Color
+    doc.setTextColor(218, 85, 134);
     doc.text("Executive Summary", 14, 50);
 
     doc.setFontSize(11);
@@ -198,7 +191,6 @@ window.downloadReport = function() {
     doc.text(`Average Order Value: Rs. ${currentReportData.summary.avgOrderValue.toLocaleString(undefined, {maximumFractionDigits: 0})}`, 14, 76);
     doc.text(`Estimated Net Profit: Rs. ${currentReportData.summary.netProfit.toLocaleString()}`, 14, 84);
 
-    // Table Data
     const tableColumns = ["#", "Product Name", "Category", "Units Sold", "Total Revenue (Rs.)"];
     const tableRows = currentReportData.topProducts.map((prod, index) => [
         index + 1,
@@ -208,7 +200,6 @@ window.downloadReport = function() {
         prod.revenue.toLocaleString()
     ]);
 
-    // Generate Table
     doc.autoTable({
         startY: 95,
         head: [tableColumns],
@@ -218,12 +209,67 @@ window.downloadReport = function() {
         styles: { fontSize: 10, cellPadding: 3 }
     });
 
-    // Save File
     doc.save(`Pinkie_Report_${startDate}_to_${endDate}.pdf`);
 
     Swal.fire({
         icon: 'success',
         title: 'Report Downloaded!',
+        confirmButtonColor: '#da5586',
+        timer: 2000,
+        showConfirmButton: false
+    });
+}
+
+window.exportToCSV = function() {
+    if (!currentReportData) {
+        Swal.fire("Warning", "Please generate the report first.", "warning");
+        return;
+    }
+
+    const dateInputs = document.querySelectorAll("input[type='date']");
+    const startDate = dateInputs[0].value;
+    const endDate = dateInputs[1].value;
+
+    let csvContent = "";
+
+    csvContent += "Pinkie Store - Sales & Performance Report\n";
+    csvContent += `Report Period:,${startDate} to ${endDate}\n`;
+    csvContent += `Generated on:,${new Date().toLocaleDateString()}\n\n`;
+
+    csvContent += "Executive Summary\n";
+    csvContent += `Total Revenue (Rs.),${currentReportData.summary.totalRevenue}\n`;
+    csvContent += `Total Orders,${currentReportData.summary.totalOrders}\n`;
+    csvContent += `Average Order Value (Rs.),${currentReportData.summary.avgOrderValue.toFixed(2)}\n`;
+    csvContent += `Estimated Net Profit (Rs.),${currentReportData.summary.netProfit.toFixed(2)}\n\n`;
+
+    csvContent += "ID,Product Name,Category,Units Sold,Total Revenue (Rs.)\n";
+
+    if (currentReportData.topProducts && currentReportData.topProducts.length > 0) {
+        currentReportData.topProducts.forEach((prod, index) => {
+            let safeName = prod.name ? prod.name.replace(/"/g, '""') : "Unknown";
+            let row = `${index + 1},"${safeName}",${prod.category},${prod.qty},${prod.revenue}`;
+            csvContent += row + "\n";
+        });
+    } else {
+        csvContent += "No products sold in this period.\n";
+    }
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    
+    link.setAttribute("href", url);
+    link.setAttribute("download", `Pinkie_Report_${startDate}_to_${endDate}.csv`);
+    link.style.visibility = 'hidden';
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    Swal.fire({
+        icon: 'success',
+        title: 'CSV Exported!',
+        text: 'Report downloaded successfully.',
         confirmButtonColor: '#da5586',
         timer: 2000,
         showConfirmButton: false

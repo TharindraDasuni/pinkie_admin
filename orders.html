@@ -155,37 +155,7 @@
                   <th scope="col" class="text-center pe-3">ACTIONS</th>
                 </tr>
               </thead>
-              <tbody id="orders-table-body">
-                <tr style="border-radius: 10px">
-                  <td class="fw-bold text-dark ps-3">#ORD-5001</td>
-                  <td class="text-muted" style="font-size: 13px">
-                    Oct 24, 2024<br /><small>10:30 AM</small>
-                  </td>
-                  <td>
-                    <h6 class="mb-0 fw-bold text-dark" style="font-size: 14px">
-                      Sanduni Perera
-                    </h6>
-                    <small class="text-muted" style="font-size: 12px">+94 77 123 4567</small>
-                  </td>
-                  <td class="text-pinkie fw-bold">Rs. 85,000</td>
-                  <td class="text-center">
-                    <span
-                      class="badge bg-success bg-opacity-10 text-success border border-success rounded-pill px-3 py-1">Paid</span>
-                  </td>
-                  <td class="text-center">
-                    <span class="badge bg-warning text-dark bg-opacity-75 rounded-pill px-3 py-2">Processing</span>
-                  </td>
-                  <td class="text-center pe-3">
-                    <button class="btn btn-sm btn-light text-primary rounded-circle shadow-sm me-1" title="Manage Order"
-                      data-bs-toggle="modal" data-bs-target="#orderDetailsModal">
-                      <i class="fas fa-eye"></i>
-                    </button>
-                    <button class="btn btn-sm btn-light text-pinkie rounded-circle shadow-sm" title="Print Invoice">
-                      <i class="fas fa-file-invoice"></i>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
+              <tbody id="orders-table-body"></tbody>
             </table>
           </div>
         </div>
@@ -367,6 +337,9 @@
       </div>
     </div>
   </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 
   <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
