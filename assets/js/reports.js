@@ -229,3 +229,67 @@ window.downloadReport = function() {
         showConfirmButton: false
     });
 }
+
+// CSV Download Function (Excel වලින් Open කරන්න පුළුවන් විදිහට)
+window.exportToCSV = function() {
+    if (!currentReportData) {
+        Swal.fire("Warning", "Please generate the report first.", "warning");
+        return;
+    }
+
+    const dateInputs = document.querySelectorAll("input[type='date']");
+    const startDate = dateInputs[0].value;
+    const endDate = dateInputs[1].value;
+
+    // CSV එකේ අඩංගු විය යුතු දත්ත String එකක් විදිහට හදාගන්නවා
+    let csvContent = "";
+
+    // 1. Report Header
+    csvContent += "Pinkie Store - Sales & Performance Report\n";
+    csvContent += `Report Period:,${startDate} to ${endDate}\n`;
+    csvContent += `Generated on:,${new Date().toLocaleDateString()}\n\n`;
+
+    // 2. Summary Section
+    csvContent += "Executive Summary\n";
+    csvContent += `Total Revenue (Rs.),${currentReportData.summary.totalRevenue}\n`;
+    csvContent += `Total Orders,${currentReportData.summary.totalOrders}\n`;
+    csvContent += `Average Order Value (Rs.),${currentReportData.summary.avgOrderValue.toFixed(2)}\n`;
+    csvContent += `Estimated Net Profit (Rs.),${currentReportData.summary.netProfit.toFixed(2)}\n\n`;
+
+    // 3. Table Headers
+    csvContent += "ID,Product Name,Category,Units Sold,Total Revenue (Rs.)\n";
+
+    // 4. Table Rows (භාණ්ඩ වල නම් වල කොමා (,) තිබ්බොත් CSV එක කැඩෙන නිසා නම Quotes ("") ඇතුලට දානවා)
+    if (currentReportData.topProducts && currentReportData.topProducts.length > 0) {
+        currentReportData.topProducts.forEach((prod, index) => {
+            let safeName = prod.name ? prod.name.replace(/"/g, '""') : "Unknown"; // Quotes replace කරනවා
+            let row = `${index + 1},"${safeName}",${prod.category},${prod.qty},${prod.revenue}`;
+            csvContent += row + "\n";
+        });
+    } else {
+        csvContent += "No products sold in this period.\n";
+    }
+
+    // 5. Blob එකක් හරහා File එක Download කිරීම (Support for all modern browsers)
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    
+    link.setAttribute("href", url);
+    link.setAttribute("download", `Pinkie_Report_${startDate}_to_${endDate}.csv`);
+    link.style.visibility = 'hidden';
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // Success Alert
+    Swal.fire({
+        icon: 'success',
+        title: 'CSV Exported!',
+        text: 'Report downloaded successfully.',
+        confirmButtonColor: '#da5586',
+        timer: 2000,
+        showConfirmButton: false
+    });
+}
