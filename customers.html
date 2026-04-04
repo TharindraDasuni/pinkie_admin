@@ -26,9 +26,17 @@
 
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h5 class="fw-bold text-dark m-0">Customers</h5>
-                    <button class="btn btn-pinkie rounded-pill px-4 fw-bold" onclick="exportToPDF()">
-    <i class="fas fa-file-export me-2"></i> Export PDF
-</button>
+
+
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-danger rounded-pill px-4 fw-bold pdf" onclick="exportToPDF()">
+                            <i class="fas fa-file-pdf me-2"></i> Export PDF
+                        </button>
+
+                        <button class="btn btn-pinkie rounded-pill px-4 fw-bold" onclick="exportToCSV()">
+                            <i class="fas fa-file-csv me-2"></i> Export CSV
+                        </button>
+                    </div>
                 </div>
 
                 <div class="row g-4 mb-4">
