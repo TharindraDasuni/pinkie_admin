@@ -52,12 +52,13 @@ async function loadAdminSettings() {
     }
 }
 
-// 2. Profile Details Update කිරීම (Email & Image)
+// 2. Profile Details Update kireema (Image eka witharai)
 async function updateAdminProfile() {
-    const email = document.getElementById('admin-email').value.trim();
+    // Email eka ganna eka ain kala, mokada eka disable karala thiyenne
     
-    if (!email) {
-        Swal.fire("Error", "Email address cannot be empty.", "error");
+    // Image eka wenas wela nathnam update karanna deyak na
+    if (!currentProfileImageBase64) {
+        Swal.fire("Info", "Please select a new profile image to update.", "info");
         return;
     }
 
@@ -66,10 +67,10 @@ async function updateAdminProfile() {
     try {
         const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
         
-        const payload = { email: email };
-        if (currentProfileImageBase64) {
-            payload.profile_img = currentProfileImageBase64;
-        }
+        // Profile image eka witharak payload ekata daanawa
+        const payload = { 
+            profile_img: currentProfileImageBase64 
+        };
 
         const response = await fetch(`${SETTINGS_API_URL}/profile`, {
             method: "PUT",
@@ -86,7 +87,7 @@ async function updateAdminProfile() {
             Swal.fire({
                 icon: 'success',
                 title: 'Profile Updated!',
-                text: 'Your email and image have been updated.',
+                text: 'Your profile image has been updated.',
                 confirmButtonColor: '#da5586',
                 timer: 2000,
                 showConfirmButton: false
