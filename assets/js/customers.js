@@ -348,17 +348,14 @@ window.exportToPDF = function() {
     doc.save(`Pinkie_Customers_${dateStr.replace(/ /g, "_")}.pdf`);
 }
 
-// CSV Download Function
 window.exportToCSV = function() {
     if (allCustomers.length === 0) {
         Swal.fire('Info', 'No customers data available to export.', 'info');
         return;
     }
 
-    // CSV Header Row
     let csvContent = "ID,Full Name,Email,Phone,Joined Date,Total Orders,Total Spent (Rs.),Status\n";
 
-    // Data Rows
     allCustomers.forEach(cus => {
         const cusFName = cus.firstName || cus.fname || "";
         const cusLName = cus.lastName || cus.lname || "";
@@ -369,13 +366,11 @@ window.exportToCSV = function() {
         const joinedDate = cus.createdAt ? new Date(cus.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' }) : "N/A";
         const statusStr = (!cus.status || cus.status === "Active") ? "Active" : "Banned";
 
-        // කොමා (,) තියෙන්න පුළුවන් Data, Quotes ("") ඇතුලට දානවා අවුල් වෙන්නේ නැති වෙන්න
         const row = `"${cus.id.substring(0, 8)}","${fullName}","${email}","${phone}","${joinedDate}",${cus.totalOrders || 0},${cus.totalSpent || 0},"${statusStr}"`;
         
         csvContent += row + "\n";
     });
 
-    // Blob එකක් හරහා File එක හදලා Download කරනවා
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement("a");
     const url = URL.createObjectURL(blob);
@@ -390,7 +385,6 @@ window.exportToCSV = function() {
     link.click();
     document.body.removeChild(link);
 
-    // Success Message
     Swal.fire({
         icon: 'success',
         title: 'CSV Exported!',
