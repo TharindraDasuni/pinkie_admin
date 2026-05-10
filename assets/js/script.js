@@ -203,28 +203,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
-
-// Firestore සක්‍රීය කිරීමෙන් පසු මේ ෆන්ක්ශන් එක කෝල් කරන්න
-function listenForAdminNotifications() {
-    const db = firebase.firestore();
-    
-    // admin_notifications collection එකේ කියවලා නැති ඒව (isRead == false) ගන්නවා
-    db.collection("admin_notifications")
-      .where("isRead", "==", false)
-      .onSnapshot((snapshot) => {
-          let unreadCount = snapshot.docs.length;
-          const badge = document.getElementById("adminNotifBadge");
-          
-          if (unreadCount > 0) {
-              badge.innerText = unreadCount;
-              badge.classList.remove("d-none"); // Badge එක පෙන්නනවා
-          } else {
-              badge.classList.add("d-none"); // බිංදුව නම් Badge එක හංගනවා
-          }
-      });
-}
-
-// පිටුව ලෝඩ් වුණාම Listener එක දුවන්න දාන්න
-document.addEventListener("DOMContentLoaded", () => {
-    listenForAdminNotifications();
-});
