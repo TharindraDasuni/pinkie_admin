@@ -377,6 +377,21 @@ function listenForAdminNotifications() {
       });
 }
 
+// Navbar එක load වෙනකම් බලන් ඉඳලා Listener එක start කරන Function එක
+function initNotificationsWhenReady() {
+    console.log("Navbar එක ලෝඩ් වෙනකම් බලන් ඉන්නවා...");
+    
+    // තත්පර බාගෙන් බාගෙට බලනවා adminNotifBadge කියන ID එක HTML එකට ඇවිල්ලද කියලා
+    const checkExist = setInterval(function() {
+        if (document.getElementById("adminNotifBadge")) {
+            console.log("Navbar එක හොයාගත්තා! Notification Listener එක On කරනවා.");
+            clearInterval(checkExist); // හොයාගත්තට පස්සේ Check කරන එක නවත්තනවා
+            listenForAdminNotifications(); // Notification අල්ලන්න පටන් ගන්නවා
+        }
+    }, 500); 
+}
+
+// පිටුව ලෝඩ් වුණාම මේක දුවන්න දාන්න
 document.addEventListener("DOMContentLoaded", () => {
-    listenForAdminNotifications();
+    initNotificationsWhenReady();
 });
