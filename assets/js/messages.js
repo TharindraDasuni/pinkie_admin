@@ -347,3 +347,121 @@ window.sendMessage = function(event) {
 document.addEventListener("DOMContentLoaded", () => {
     loadChatUsers();
 });
+
+// =========================================================
+// Global Admin Notification Listener & Popup UI
+// =========================================================
+
+function listenForGlobalAdminNotifications() {
+    if (typeof firebase === 'undefined' || !firebase.firestore) return;
+    
+    const db = firebase.firestore();
+    
+    // ඔක්කොම Notifications ගන්නවා, අලුත්ම එක උඩින් එන්න (desc)
+    db.collection("admin_notifications")
+      .orderBy("timestamp", "desc")
+      .onSnapshot((snapshot) => {
+          let unreadCount = 0;
+          let listHtml = '';
+          const listBody = document.getElementById("notificationListBody");
+          const badge = document.getElementById("adminNotifBadge");
+          
+          if (snapshot.empty) {
+              if(listBody) listBody.innerHTML = '<div class="text-center p-4 text-muted"><small>No notifications yet</small></div>';
+              if(badge) { badge.classList.add("d-none"); badge.style.display = "none"; }
+              return;
+          }
+
+          snapshot.forEach((doc) => {
+              const data = doc.data();
+              const notifId = doc.id;
+              
+              if (!data.isRead) unreadCount++; // කියවපු නැති ඒවා ගණන් කරනවා
+              
+              // වෙලාව හදනවා
+              const timeStr = data.timestamp ? new Date(data.timestamp).toLocaleString() : '';
+              
+              // කියවලා නැත්නම් Background එක වෙනස් කරනවා
+              const bgClass = data.isRead ? 'bg-white' : 'bg-light';
+              const fwClass = data.isRead ? 'text-muted' : 'text-dark fw-bold';
+              const dotHtml = data.isRead ? '' : '<span class="badge rounded-circle p-1 ms-2" style="background-color: #da5586;"></span>';
+              
+              listHtml += `
+                  <a href="#" onclick="handleNotificationClick(event, '${notifId}', '${data.orderId}')" class="dropdown-item border-bottom px-4 py-3 ${bgClass}" style="white-space: normal; transition: 0.3s;">
+                      <div class="d-flex align-items-center">
+                          <div class="flex-grow-1">
+                              <h6 class="mb-1 ${fwClass}" style="font-size: 14px;">${data.title}</h6>
+                              <p class="mb-1 text-muted" style="font-size: 13px;">${data.message}</p>
+                              <small class="text-muted" style="font-size: 11px;"><i class="far fa-clock me-1"></i>${timeStr}</small>
+                          </div>
+                          ${dotHtml}
+                      </div>
+                  </a>
+              `;
+          });
+          
+          if(listBody) listBody.innerHTML = listHtml;
+
+          // Badge එක අප්ඩේට් කරනවා
+          if (badge) {
+              if (unreadCount > 0) {
+                  badge.innerText = unreadCount;
+                  badge.classList.remove("d-none");
+                  badge.style.display = "inline-block";
+              } else {
+                  badge.classList.add("d-none");
+                  badge.style.display = "none";
+              }
+          }
+      }, (error) => {
+          console.error("Global Notification Error: ", error);
+      });
+}
+
+// Notification එකක් Click කළාම වෙන දේ
+window.handleNotificationClick = function(event, notifId, orderId) {
+    event.preventDefault(); // පිටුව Reload වෙන එක නවත්තනවා
+    
+    if (typeof firebase === 'undefined' || !firebase.firestore) return;
+    const db = firebase.firestore();
+    
+    // Firestore එකේ isRead: true කරනවා
+    db.collection("admin_notifications").doc(notifId).update({ isRead: true })
+      .then(() => {
+          // Orders පිටුවට අදාළ Order ID එකත් අරගෙන යනවා (Search එකට)
+          if(orderId) {
+              window.location.href = `orders.html?search=${orderId}`;
+          }
+      }).catch(err => console.error("Error marking as read", err));
+};
+
+// "Mark all read" බොත්තම එබුවම
+window.markAllNotificationsAsRead = function() {
+    if (typeof firebase === 'undefined' || !firebase.firestore) return;
+    const db = firebase.firestore();
+    
+    db.collection("admin_notifications").where("isRead", "==", false).get().then(snapshot => {
+        if(snapshot.empty) return;
+        
+        const batch = db.batch();
+        snapshot.forEach(doc => {
+            batch.update(doc.ref, { isRead: true });
+        });
+        return batch.commit();
+    }).then(() => {
+        console.log("All marked as read");
+    }).catch(err => console.error("Error batch updating", err));
+};
+
+function initGlobalNotificationsWhenReady() {
+    const checkExist = setInterval(function() {
+        if (document.getElementById("adminNotifBadge") && typeof firebase !== 'undefined' && firebase.firestore) {
+            clearInterval(checkExist); 
+            listenForGlobalAdminNotifications(); 
+        }
+    }, 500); 
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    initGlobalNotificationsWhenReady();
+});
