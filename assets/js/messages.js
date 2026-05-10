@@ -348,27 +348,35 @@ document.addEventListener("DOMContentLoaded", () => {
     loadChatUsers();
 });
 
-// Firestore සක්‍රීය කිරීමෙන් පසු මේ ෆන්ක්ශන් එක කෝල් කරන්න
 function listenForAdminNotifications() {
+    console.log("Notification listener started..."); // 1. මේක Console එකේ වැටෙනවද බලන්න
+    
     const db = firebase.firestore();
     
-    // admin_notifications collection එකේ කියවලා නැති ඒව (isRead == false) ගන්නවා
     db.collection("admin_notifications")
       .where("isRead", "==", false)
       .onSnapshot((snapshot) => {
+          console.log("Firebase එකෙන් Data ආවා! Unread ගාණ: ", snapshot.docs.length); // 2. මේක වැටෙනවද බලන්න
+          
           let unreadCount = snapshot.docs.length;
           const badge = document.getElementById("adminNotifBadge");
           
-          if (unreadCount > 0) {
-              badge.innerText = unreadCount;
-              badge.classList.remove("d-none"); // Badge එක පෙන්නනවා
+          if (badge) {
+              if (unreadCount > 0) {
+                  badge.innerText = unreadCount;
+                  badge.classList.remove("d-none"); // Badge එක පෙන්නනවා
+                  badge.style.display = "inline-block"; // සමහර වෙලාවට Bootstrap පරණ නම් මේක ඕන වෙනවා
+              } else {
+                  badge.classList.add("d-none"); // බිංදුව නම් Badge එක හංගනවා
+              }
           } else {
-              badge.classList.add("d-none"); // බිංදුව නම් Badge එක හංගනවා
+              console.error("අවුලක්! adminNotifBadge කියන ID එක HTML එකේ හොයාගන්න බෑ."); // 3. HTML ID අවුලක් නම් මේක වැටෙයි
           }
+      }, (error) => {
+          console.error("Firebase Error එකක් ආවා: ", error);
       });
 }
 
-// පිටුව ලෝඩ් වුණාම Listener එක දුවන්න දාන්න
 document.addEventListener("DOMContentLoaded", () => {
     listenForAdminNotifications();
 });
