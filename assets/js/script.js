@@ -243,3 +243,48 @@ function initNotificationsWhenReady() {
 document.addEventListener("DOMContentLoaded", () => {
     initNotificationsWhenReady();
 });
+
+// =========================================================
+// Global Admin Notification Listener (හැම පිටුවකම වැඩ කරන්න)
+// =========================================================
+
+function listenForGlobalAdminNotifications() {
+    // Firebase Load වෙලා නැත්නම් වැඩේ නවත්තනවා (Error එන එක වළක්වන්න)
+    if (typeof firebase === 'undefined' || !firebase.firestore) return;
+    
+    const db = firebase.firestore();
+    
+    db.collection("admin_notifications")
+      .where("isRead", "==", false)
+      .onSnapshot((snapshot) => {
+          let unreadCount = snapshot.docs.length;
+          const badge = document.getElementById("adminNotifBadge");
+          
+          if (badge) {
+              if (unreadCount > 0) {
+                  badge.innerText = unreadCount;
+                  badge.classList.remove("d-none"); // Badge එක පෙන්නනවා
+                  badge.style.display = "inline-block"; 
+              } else {
+                  badge.classList.add("d-none"); // බිංදුව නම් Badge එක හංගනවා
+              }
+          }
+      }, (error) => {
+          console.error("Global Notification Error: ", error);
+      });
+}
+
+function initGlobalNotificationsWhenReady() {
+    // Navbar එකේ Badge එකයි, Firebase එකයි දෙකම ලෝඩ් වෙනකම් බලන් ඉන්නවා
+    const checkExist = setInterval(function() {
+        if (document.getElementById("adminNotifBadge") && typeof firebase !== 'undefined' && firebase.firestore) {
+            clearInterval(checkExist); 
+            listenForGlobalAdminNotifications(); 
+        }
+    }, 500); 
+}
+
+// පිටුව ලෝඩ් වුණාම මේක දුවන්න දාන්න
+document.addEventListener("DOMContentLoaded", () => {
+    initGlobalNotificationsWhenReady();
+});
