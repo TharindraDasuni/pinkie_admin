@@ -27,11 +27,24 @@
                 </span>
             </a>
 
-            <div class="position-relative me-4" id="adminNotificationsBtn" style="cursor: pointer;" title="Notifications">
-    <i class="fas fa-bell fs-5 text-muted"></i>
-    <span id="adminNotifBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill d-none" style="background-color: #da5586; font-size: 0.6rem; padding: 0.3em 0.5em;">
-        0
-    </span>
+            <div class="position-relative me-4 dropdown" style="cursor: pointer;" title="Notifications">
+    
+    <div id="adminNotificationsBtn" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-bell fs-5 text-muted"></i>
+        <span id="adminNotifBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill d-none" style="background-color: #da5586; font-size: 0.6rem; padding: 0.3em 0.5em;">
+            0
+        </span>
+    </div>
+    
+    <div class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-4 mt-3" style="width: 350px; padding: 0;" aria-labelledby="adminNotificationsBtn">
+        <div class="d-flex justify-content-between align-items-center px-4 py-3 border-bottom bg-light rounded-top-4">
+            <h6 class="m-0 fw-bold text-dark">Notifications</h6>
+            <small style="color: #da5586; cursor: pointer; font-weight: bold;" onclick="markAllNotificationsAsRead()">Mark all read</small>
+        </div>
+        <div id="notificationListBody" style="max-height: 350px; overflow-y: auto;">
+            <div class="text-center p-4 text-muted"><small>Loading...</small></div>
+        </div>
+    </div>
 </div>
             
             <span id="adminNameDisplay" class="me-3 fw-bold text-dark d-none d-sm-block">Loading...</span>
