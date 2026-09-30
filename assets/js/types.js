@@ -11,13 +11,10 @@ function removeTypeImage(event) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-    // මුලින්ම Dropdowns වලට Categories ටික පුරවනවා
     await loadCategoryDropdowns();
-    // ඊටපස්සේ Table එකට Types ටික පුරවනවා
     loadTypes();
 });
 
-// --- 1. Load Categories into Dropdowns ---
 async function loadCategoryDropdowns() {
     const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
     try {
@@ -32,7 +29,6 @@ async function loadCategoryDropdowns() {
             
             let optionsHtml = `<option value="" disabled selected>Choose a category...</option>`;
             result.data.forEach(cat => {
-                // Active Categories විතරක් පෙන්වමු
                 if(cat.status === 'Active') {
                     optionsHtml += `<option value="${cat.id}">${cat.name}</option>`;
                 }
@@ -46,7 +42,6 @@ async function loadCategoryDropdowns() {
     }
 }
 
-// --- 2. Load Product Types Table ---
 async function loadTypes() {
     const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
     const tableBody = document.getElementById("typeTableBody");
@@ -93,7 +88,6 @@ async function loadTypes() {
     }
 }
 
-// --- 3. Image Remove Logic (Add Form) ---
 function removeTypeImage(event) {
     event.stopPropagation();
     document.getElementById('typeImage').value = "";
@@ -103,7 +97,6 @@ function removeTypeImage(event) {
     document.getElementById('uploadPlaceholder').classList.remove('d-none');
 }
 
-// --- 4. Add New Product Type ---
 async function saveType() {
     const name = document.getElementById("typeName").value.trim();
     const categorySelect = document.getElementById("typeCategory");
@@ -150,7 +143,6 @@ async function saveType() {
     }
 }
 
-// --- 5. Edit & Update Type ---
 async function openEditTypeModal(id) {
     const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
     try {
