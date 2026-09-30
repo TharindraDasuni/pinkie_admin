@@ -10,35 +10,28 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('filter-status').addEventListener('change', applyFilters);
     document.getElementById('filter-date').addEventListener('change', applyFilters);
 
-    // ================= අලුතින් දැම්ම කෑල්ල =================
-    // Location එක Type කරලා ඉවර වුණාම ඉබේම Coordinates හොයනවා
     const locInput = document.getElementById('modal-input-location');
     if(locInput) {
         locInput.addEventListener('change', autoFetchCoordinates);
     }
-    // ======================================================
 });
 
-// Location එකෙන් Latitude/Longitude හොයන Function එක
 async function autoFetchCoordinates() {
     const locName = document.getElementById('modal-input-location').value.trim();
     const latInput = document.getElementById('modal-input-lat');
     const lngInput = document.getElementById('modal-input-lng');
 
     if(locName.length > 2) {
-        // හොයනකල් Placeholder එක මාරු කරනවා
         latInput.value = "";
         lngInput.value = "";
         latInput.placeholder = "Searching...";
         lngInput.placeholder = "Searching...";
 
         try {
-            // ලංකාව ඇතුළේ තැන් වඩාත් නිවැරදිව හොයන්න ', Sri Lanka' කියලා එකතු කරනවා
             const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locName + ', Sri Lanka')}`);
             const data = await response.json();
 
             if(data && data.length > 0) {
-                // හොයාගත්තොත් කොටු දෙකට අගයන් දානවා (දශමස්ථාන 4කට)
                 latInput.value = parseFloat(data[0].lat).toFixed(4);
                 lngInput.value = parseFloat(data[0].lon).toFixed(4);
             } else {
@@ -334,7 +327,6 @@ function exportToCSV() {
     document.body.removeChild(link);
 }
 
-// PDF Download Function for Orders
 window.exportToPDF = function() {
     if (currentFilteredOrders.length === 0) {
         Swal.fire('Info', 'No orders available to export.', 'info');
@@ -342,9 +334,8 @@ window.exportToPDF = function() {
     }
 
     const { jsPDF } = window.jspdf;
-    const doc = new jsPDF('landscape'); // Landscape mode for wider table
+    const doc = new jsPDF('landscape'); 
 
-    // Report Header
     doc.setFontSize(18);
     doc.setTextColor(40, 40, 40);
     doc.text("Pinkie Store - Orders Report", 14, 22);
@@ -354,7 +345,6 @@ window.exportToPDF = function() {
     const dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
     doc.text(`Generated on: ${dateStr}`, 14, 30);
     
-    // Add active filters info
     const statusFilter = document.getElementById('filter-status').value;
     const dateFilter = document.getElementById('filter-date').value;
     let filterText = "Filters applied: ";
@@ -365,10 +355,8 @@ window.exportToPDF = function() {
     doc.setTextColor(150);
     doc.text(filterText, 14, 36);
 
-    // Table Columns
     const tableColumns = ["Order ID", "Date & Time", "Customer Name", "Phone", "Location", "Items", "Total (Rs.)", "Payment", "Status"];
     
-    // Table Rows
     const tableRows = currentFilteredOrders.map(order => {
         const dateObj = new Date(order.orderDate);
         const dateStr = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -393,14 +381,13 @@ window.exportToPDF = function() {
         ];
     });
 
-    // Generate Table using AutoTable
     doc.autoTable({
         startY: 42,
         head: [tableColumns],
         body: tableRows,
         theme: 'grid',
         headStyles: { 
-            fillColor: [218, 85, 134], // Pinkie theme color
+            fillColor: [218, 85, 134], 
             textColor: 255,
             fontStyle: 'bold',
             halign: 'center'
@@ -421,7 +408,6 @@ window.exportToPDF = function() {
         }
     });
 
-    // Save File
     const fileName = `Pinkie_Orders_${dateStr.replace(/ /g, "_")}.pdf`;
     doc.save(fileName);
 
