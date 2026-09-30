@@ -1,21 +1,18 @@
 const SETTINGS_API_URL = "http://localhost:8080/api/settings";
-let currentProfileImageBase64 = null; // පින්තූරය තියාගන්න Variable එක
+let currentProfileImageBase64 = null; 
 
 document.addEventListener("DOMContentLoaded", function () {
     loadAdminSettings();
 
-    // (පරණ Image Upload Preview Logic එක මකලා මේක දාන්න)
     document.getElementById('adminImageUpload').addEventListener('change', function(e) {
         const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = function(event) {
-                // Image එක Compress කිරීම සඳහා Canvas එකක් භාවිතා කිරීම
                 const img = new Image();
                 img.onload = function() {
                     const canvas = document.createElement('canvas');
                     
-                    // උපරිම පළල සහ උස (250px)
                     const MAX_WIDTH = 250;
                     const MAX_HEIGHT = 250;
                     let width = img.width;
@@ -38,10 +35,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, width, height);
 
-                    // Image එක JPEG format එකෙන් 70% quality එකට compress කිරීම
                     const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
 
-                    // Compress කරපු Image එක Preview එකට සහ Variable එකට සෙට් කිරීම
                     document.getElementById('admin-profile-img').src = compressedBase64;
                     currentProfileImageBase64 = compressedBase64; 
                 };
@@ -51,12 +46,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Notification Switch Auto-Save Events
     document.getElementById('toggle-order-alerts').addEventListener('change', updateNotificationSettings);
     document.getElementById('toggle-stock-alerts').addEventListener('change', updateNotificationSettings);
 });
 
-// 1. Data Database එකෙන් අරන් පෙන්නීම
 async function loadAdminSettings() {
     try {
         const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
@@ -70,14 +63,12 @@ async function loadAdminSettings() {
         if (response.ok && result.success) {
             const data = result.data;
             
-            // Email and Image
             document.getElementById('admin-email').value = data.email || "";
             if (data.profile_img) {
                 document.getElementById('admin-profile-img').src = data.profile_img;
                 currentProfileImageBase64 = data.profile_img;
             }
 
-            // Notification Toggles
             document.getElementById('toggle-order-alerts').checked = data.newOrderAlerts !== false; 
             document.getElementById('toggle-stock-alerts').checked = data.lowStockAlerts !== false;
         }
@@ -86,11 +77,7 @@ async function loadAdminSettings() {
     }
 }
 
-// 2. Profile Details Update kireema (Image eka witharai)
 async function updateAdminProfile() {
-    // Email eka ganna eka ain kala, mokada eka disable karala thiyenne
-    
-    // Image eka wenas wela nathnam update karanna deyak na
     if (!currentProfileImageBase64) {
         Swal.fire("Info", "Please select a new profile image to update.", "info");
         return;
@@ -101,7 +88,6 @@ async function updateAdminProfile() {
     try {
         const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken");
         
-        // Profile image eka witharak payload ekata daanawa
         const payload = { 
             profile_img: currentProfileImageBase64 
         };
@@ -135,7 +121,6 @@ async function updateAdminProfile() {
     }
 }
 
-// 3. Password Update කිරීම
 async function updatePassword() {
     const currentPassword = document.getElementById('current-password').value;
     const newPassword = document.getElementById('new-password').value;
@@ -185,7 +170,6 @@ async function updatePassword() {
                 showConfirmButton: false
             });
 
-            // Clear inputs after success
             document.getElementById('current-password').value = "";
             document.getElementById('new-password').value = "";
             document.getElementById('confirm-password').value = "";
@@ -198,7 +182,6 @@ async function updatePassword() {
     }
 }
 
-// 4. Notification Preferences Auto-Update කිරීම
 async function updateNotificationSettings() {
     const newOrderAlerts = document.getElementById('toggle-order-alerts').checked;
     const lowStockAlerts = document.getElementById('toggle-stock-alerts').checked;
@@ -219,7 +202,6 @@ async function updateNotificationSettings() {
         });
 
         if (response.ok) {
-            // Optional: You can show a small toast notification here
             const Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',
