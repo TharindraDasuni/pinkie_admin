@@ -1,6 +1,3 @@
-// =========================================================
-// Firebase Initialization (ඔයාගේ Firebase Config එක මෙතනට දාන්න)
-// =========================================================
 const firebaseConfig = {
     apiKey: "AIzaSyCeqraRKe9dRx0xYA-SK7Sxhy6j-dp7UKg",
     authDomain: "pinkie-ca292.firebaseapp.com",
@@ -11,27 +8,21 @@ const firebaseConfig = {
     measurementId: "G-6TEZ28KKV7"
 };
 
-// Firebase Initialize වී නොමැති නම් පමණක් Initialize කරන්න
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 
 const db = firebase.firestore();
 
-// =========================================================
-// Global Variables
-// =========================================================
 let currentChatUserId = null;
 let currentChatUserName = "";
 let currentChatUserPhoto = "";
 let unsubscribeMessages = null;
 let userMessageListeners = {}; 
-let globalUnreadCount = 0; // මුළු Unread ගාණ තියාගන්න
+let globalUnreadCount = 0; 
 
-// Default Avatar URL
 const defaultAvatar = "https://ui-avatars.com/api/?background=DA5586&color=fff&name=";
 
-// DOM Elements
 const chatListContainer = document.getElementById('chatListContainer');
 const chatBody = document.getElementById('chatBody');
 const messageInput = document.getElementById('messageInput');
@@ -39,9 +30,6 @@ const noChatSelected = document.getElementById('noChatSelected');
 const activeChatArea = document.getElementById('activeChatArea');
 
 
-// =========================================================
-// 1. Load Chat List & Calculate Unread Counts
-// =========================================================
 function loadChatUsers() {
     db.collection("users").where("role", "==", "customer").onSnapshot(snapshot => {
         snapshot.forEach(doc => {
@@ -52,7 +40,6 @@ function loadChatUsers() {
 
             if (userMessageListeners[userId]) return;
 
-            // මේ User ගේ මැසේජ් අල්ලනවා (Unread ගාණත් එක්කම)
             userMessageListeners[userId] = db.collection("chats").doc(userId).collection("messages")
                 .orderBy("timestamp", "asc").onSnapshot(msgSnapshot => {
                     
@@ -63,13 +50,11 @@ function loadChatUsers() {
                         const msgData = msgDoc.data();
                         lastMsg = msgData; 
 
-                        // Admin නොවන, සහ Admin තාම කියවපු නැති ඒවා
                         if (msgData.senderId !== 'admin' && !msgData.readByAdmin) {
                             unreadCountForUser++;
                         }
                     });
 
-                    // දැනටමත් මේ User ව Open කරගෙන ඉන්නවා නම් ඉබේම Read වෙනවා
                     if (currentChatUserId === userId && unreadCountForUser > 0) {
                         markMessagesAsRead(userId, msgSnapshot);
                         unreadCountForUser = 0;
@@ -82,7 +67,6 @@ function loadChatUsers() {
                         existingContact.remove();
                     }
 
-                    // මැසේජ් එකක් තියෙනවා නම් UI එකට දානවා
                     if (lastMsg) {
                         const time = new Date(lastMsg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                         
@@ -131,9 +115,6 @@ function loadChatUsers() {
     });
 }
 
-// =========================================================
-// Global Badge එක හදන එක (Navbar Load වුණාට පස්සේ ආරක්ෂිතව අල්ලනවා)
-// =========================================================
 function updateGlobalUnreadCount() {
     globalUnreadCount = 0;
     
@@ -143,7 +124,6 @@ function updateGlobalUnreadCount() {
         globalUnreadCount += count;
     });
 
-    // Navbar එක Dynamic නිසා මේක හැමතිස්සෙම හොයලා බලනවා (Error එන්නේ නෑ)
     const commentIcon = document.querySelector('.fa-comment-dots');
     if (commentIcon) {
         const navbarBadge = commentIcon.nextElementSibling;
@@ -188,9 +168,6 @@ function sortChatList() {
     updateGlobalUnreadCount(); 
 }
 
-// =========================================================
-// 2. Open Selected Chat
-// =========================================================
 window.openChat = function(userId, userName, photoUrl) {
     currentChatUserId = userId;
     currentChatUserName = userName;
@@ -238,9 +215,6 @@ window.openChat = function(userId, userName, photoUrl) {
         });
 }
 
-// =========================================================
-// 3. Render Messages
-// =========================================================
 function renderMessage(msg) {
     const time = new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     let msgHtml = '';
@@ -299,9 +273,6 @@ function renderMessage(msg) {
     chatBody.innerHTML += msgHtml;
 }
 
-// =========================================================
-// 4. Send Message
-// =========================================================
 window.sendMessage = function(event) {
     event.preventDefault(); 
 
@@ -341,23 +312,16 @@ window.sendMessage = function(event) {
         });
 }
 
-// =========================================================
-// Initialize
-// =========================================================
 document.addEventListener("DOMContentLoaded", () => {
     loadChatUsers();
 });
 
-// =========================================================
-// Global Admin Notification Listener & Popup UI
-// =========================================================
 
 function listenForGlobalAdminNotifications() {
     if (typeof firebase === 'undefined' || !firebase.firestore) return;
     
     const db = firebase.firestore();
     
-    // ඔක්කොම Notifications ගන්නවා, අලුත්ම එක උඩින් එන්න (desc)
     db.collection("admin_notifications")
       .orderBy("timestamp", "desc")
       .onSnapshot((snapshot) => {
@@ -376,12 +340,10 @@ function listenForGlobalAdminNotifications() {
               const data = doc.data();
               const notifId = doc.id;
               
-              if (!data.isRead) unreadCount++; // කියවපු නැති ඒවා ගණන් කරනවා
+              if (!data.isRead) unreadCount++; 
               
-              // වෙලාව හදනවා
               const timeStr = data.timestamp ? new Date(data.timestamp).toLocaleString() : '';
               
-              // කියවලා නැත්නම් Background එක වෙනස් කරනවා
               const bgClass = data.isRead ? 'bg-white' : 'bg-light';
               const fwClass = data.isRead ? 'text-muted' : 'text-dark fw-bold';
               const dotHtml = data.isRead ? '' : '<span class="badge rounded-circle p-1 ms-2" style="background-color: #da5586;"></span>';
@@ -402,7 +364,6 @@ function listenForGlobalAdminNotifications() {
           
           if(listBody) listBody.innerHTML = listHtml;
 
-          // Badge එක අප්ඩේට් කරනවා
           if (badge) {
               if (unreadCount > 0) {
                   badge.innerText = unreadCount;
@@ -418,24 +379,20 @@ function listenForGlobalAdminNotifications() {
       });
 }
 
-// Notification එකක් Click කළාම වෙන දේ
 window.handleNotificationClick = function(event, notifId, orderId) {
-    event.preventDefault(); // පිටුව Reload වෙන එක නවත්තනවා
+    event.preventDefault(); 
     
     if (typeof firebase === 'undefined' || !firebase.firestore) return;
     const db = firebase.firestore();
     
-    // Firestore එකේ isRead: true කරනවා
     db.collection("admin_notifications").doc(notifId).update({ isRead: true })
       .then(() => {
-          // Orders පිටුවට අදාළ Order ID එකත් අරගෙන යනවා (Search එකට)
           if(orderId) {
               window.location.href = `orders.html?search=${orderId}`;
           }
       }).catch(err => console.error("Error marking as read", err));
 };
 
-// "Mark all read" බොත්තම එබුවම
 window.markAllNotificationsAsRead = function() {
     if (typeof firebase === 'undefined' || !firebase.firestore) return;
     const db = firebase.firestore();
